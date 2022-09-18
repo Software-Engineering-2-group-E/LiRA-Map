@@ -4,7 +4,6 @@ import { CursorOptions } from "react-gradient-hook/lib/types";
 import { useMap } from "react-leaflet";
 import { Palette } from "react-leaflet-hotline";
 
-import '../../css/palette.css'
 
 interface IPaletteEditor {
     width: number | undefined;

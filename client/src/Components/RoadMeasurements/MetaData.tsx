@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 
 import { RideMeta } from '../../models/models'
 
-import '../../css/ridedetails.css'
 
 
 type Props = {

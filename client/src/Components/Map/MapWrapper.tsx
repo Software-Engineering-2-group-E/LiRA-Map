@@ -3,8 +3,7 @@ import { MapContainer, TileLayer, ScaleControl } from 'react-leaflet'
 
 import Zoom from './Zoom';
 
-import '../../css/map.css'
-import { MAP_OPTIONS } from './constants';
+import {MAP_OPTIONS} from "./constants";
 
 const MapWrapper = ( props : any ) => { 
 

@@ -7,7 +7,6 @@ import { PointData } from "../../models/path";
 
 import { Segment } from "../../models/segment";
 
-import '../../css/rides.css'
 import { useSegment } from "../../context/SegmentContext";
 import { PathProperties } from "../../models/properties";
 

@@ -3,14 +3,13 @@ import { useState } from "react";
 import { Palette } from "react-leaflet-hotline";
 import { ChartData } from "chart.js";
 
-import ConditionsMap from "../Components/RoadConditions/ConditionsMap";
-import ConditionsGraph from "../Components/RoadConditions/ConditionsGraph";
+import ConditionsMap from "../components/RoadConditions/ConditionsMap";
+import ConditionsGraph from "../components/RoadConditions/ConditionsGraph";
 
 import { ConditionType } from "../models/graph";
 
 import { GraphProvider } from "../context/GraphContext";
 
-import "../css/road_conditions.css";
 
 
 const RoadConditions = () => {

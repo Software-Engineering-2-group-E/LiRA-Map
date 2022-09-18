@@ -4,8 +4,6 @@ import { SegTypes } from "../../../pages/CarData";
 
 import { Segment } from "../../../models/segment";
 
-import '../../../css/popupsegment.css'
-import '../../../css/rides.css'
 
 
 export interface ISegmentPopup {

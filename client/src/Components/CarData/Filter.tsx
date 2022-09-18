@@ -4,7 +4,6 @@ import { FaFilter } from "react-icons/fa";
 import { SegTypes } from "../../pages/CarData";
 import useSegPopup from "./SegPopup";
 
-import '../../css/filter.css'
 
 
 export interface IFilter {

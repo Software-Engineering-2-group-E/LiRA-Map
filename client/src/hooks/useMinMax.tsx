@@ -31,7 +31,7 @@ const useMinMax = ( defaultInterval: MinMax ) => {
         , resetMinMax )
 
         setBounds(newMinMax)
-    }, [history] )
+    }, [defaultInterval, history] )
 
     return { bounds, addInterval, remInterval }
 }

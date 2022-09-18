@@ -1,13 +1,12 @@
-import { FC, ReactElement, ReactNode } from "react";
-import { Hotline, Palette } from "react-leaflet-hotline";
-import { LeafletEvent, LeafletEventHandlerFnMap } from 'leaflet';
-import { LatLng } from "./models";
-import { Path, Bounds } from "./path";
-import { PathProperties, RendererOptions } from "./properties";
-import { HEATMAP_OPTIONS, RENDERER_PALETTE } from "../Components/Map/constants";
+import {FC} from "react";
+import {Palette} from "react-leaflet-hotline";
+import {LeafletEvent, LeafletEventHandlerFnMap} from 'leaflet';
+import {Bounds, Path} from "./path";
+import {PathProperties, RendererOptions} from "./properties";
+import {HEATMAP_OPTIONS, RENDERER_PALETTE} from "../components/Map/constants";
 
 export enum RendererName {
-    circles = 'circles', 
+    circles = 'circles',
     rectangles = 'rectangles',
     line = 'line',
     hotline = 'hotline',
@@ -21,12 +20,12 @@ export interface RendererType {
 }
 
 export const rendererTypes: { [key in RendererName]: RendererType } = {
-    'circles': { usePalette: false },
-    'rectangles': { usePalette: false },
-    'line': { usePalette: false },
-    'hotline': { usePalette: true, defaultPalette: RENDERER_PALETTE },
-    'hotcircles': { usePalette: true, defaultPalette: RENDERER_PALETTE },
-    'heatmap': { usePalette: true, defaultPalette: HEATMAP_OPTIONS.palette },
+    'circles': {usePalette: false},
+    'rectangles': {usePalette: false},
+    'line': {usePalette: false},
+    'hotline': {usePalette: true, defaultPalette: RENDERER_PALETTE},
+    'hotcircles': {usePalette: true, defaultPalette: RENDERER_PALETTE},
+    'heatmap': {usePalette: true, defaultPalette: HEATMAP_OPTIONS.palette},
 }
 
 export type PathEventHandler = (i: number) => (e: LeafletEvent) => void;

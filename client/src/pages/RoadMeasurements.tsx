@@ -1,11 +1,9 @@
-import { FC } from "react";
-
 import { MeasurementsProvider } from "../context/MeasurementsContext";
 import { MetasProvider } from "../context/MetasContext";
 
-import RideDetails from "../Components/RoadMeasurements/RideDetails";
-import RideCards from "../Components/RoadMeasurements/RideCards";
-import Rides from "../Components/RoadMeasurements/Rides";
+import RideDetails from "../components/RoadMeasurements/RideDetails";
+import RideCards from "../components/RoadMeasurements/RideCards";
+import Rides from "../components/RoadMeasurements/Rides";
 
 
 const RoadMeasurements = () => {

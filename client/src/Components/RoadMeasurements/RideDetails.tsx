@@ -15,7 +15,6 @@ import { RENDERER_MEAS_PROPERTIES } from "../Map/constants";
 
 import MeasCheckbox from "./MeasCheckbox";
 
-import '../../css/ridedetails.css'
 
 const RideDetails: FC = () => {
 

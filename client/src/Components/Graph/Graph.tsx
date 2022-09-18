@@ -16,7 +16,6 @@ import Labels from "./Labels";
 import Line from "./Line";
 import useAxis from "./Hooks/useAxis";
 
-import '../../css/graph.css'
 import Zoom from "./Zoom";
 
 interface IGraph {

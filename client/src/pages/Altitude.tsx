@@ -1,16 +1,15 @@
 import  { useEffect, useState } from "react";
 
-import Panel from "../Components/Altitude/Panel";
-import MapWrapper from "../Components/Map/MapWrapper";
-import Heatmap from "../Components/Map/Renderers/Heatmap";
-import DistHotline from "../Components/Map/Renderers/DistHotline";
+import Panel from "../components/Altitude/Panel";
+import MapWrapper from "../components/Map/MapWrapper";
+import Heatmap from "../components/Map/Renderers/Heatmap";
+import DistHotline from "../components/Map/Renderers/DistHotline";
 
 import { Node, WaysConditions } from "../models/path";
 
 import { getAltitudes } from "../queries/altitude";
 
-import "../css/altitude.css";
-import { HEATMAP_OPTIONS, RENDERER_OPTIONS } from "../Components/Map/constants";
+import { HEATMAP_OPTIONS, RENDERER_OPTIONS } from "../components/Map/constants";
 
 
 const Altitude = () => {

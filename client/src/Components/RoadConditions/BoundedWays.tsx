@@ -29,7 +29,6 @@ import { WaysConditions } from '../../models/path';
 import { getBoundedWaysConditions } from '../../queries/conditions';
 
 import DistHotline from '../Map/Renderers/DistHotline';
-import WithBounds from '../Map/WithBounds';
 import { toMapBounds } from '../Map/utils';
 import useZoom from '../Map/Hooks/useZoom';
 
@@ -61,17 +60,17 @@ const BoundedWays: FC<IWays> = ( { palette, type, onClick } ) => {
             setTimeout( onClick(data.way_ids[0], data.way_lengths[0]), 100 )
     }
 
-    return (
-        <WithBounds onChange={request} padding={0.1}>
-            { ways 
-                ? <DistHotline 
-                    way_ids={ways.way_ids}
-                    geometry={ways.geometry}
-                    conditions={ways.conditions} 
-                    options={options} /> 
-                : null 
-            }
-        </WithBounds>
+    return (null
+        // <WithBounds onChange={request} padding={0.1}>
+        //     { ways
+        //         ? <DistHotline
+        //             way_ids={ways.way_ids}
+        //             geometry={ways.geometry}
+        //             conditions={ways.conditions}
+        //             options={options} />
+        //         : null
+        //     }
+        // </WithBounds>
     )
 }
 

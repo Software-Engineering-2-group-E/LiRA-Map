@@ -7,7 +7,6 @@ import { Segment } from "../../models/segment";
 
 import { GetSegmentsAndAverageValuesInAPolygon } from "../../queries/DataRequests";
 
-import '../../css/rides.css'
 
 interface ISegments {
     boundaries: LatLng[]

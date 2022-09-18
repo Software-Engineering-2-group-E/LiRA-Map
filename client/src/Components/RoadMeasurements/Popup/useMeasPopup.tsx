@@ -5,7 +5,6 @@ import { ActiveMeasProperties } from "../../../models/properties";
 import PopupWrapper from "./PopupWrapper";
 import createPopup from "../../createPopup";
 
-import '../../../css/popup.css'
 import { useState } from "react";
 
 

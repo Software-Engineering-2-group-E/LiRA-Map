@@ -24,7 +24,7 @@ export const GetDataTypes = async (): Promise<string[]> => {
 }
 
 export const GetAggregationTypes = async (dataType: string): Promise<string[]> => {
-    const path = '/types/aggregatedValues/aggregation' + '?type=' + dataType;
+    const path = `/types/aggregatedValues/aggregation?type=${dataType}`;
     const res = await fetch(path);
     const data = await res.json();
     return data.map( (elt: any) => elt.Aggregation );
