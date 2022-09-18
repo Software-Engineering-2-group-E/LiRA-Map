@@ -1,13 +1,22 @@
 name: "PullAndRun"
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - test-runner
 
 jobs:
   pullandrun:
     name: PullAndRun
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - run: echo "PullAndRun ran by runner" > /home/lira-map/LiRA-Map/runlog
+  pullandrun-selfhosted:
+    name: PullAndRunSelfHosted
     runs-on: self-hosted
 
     steps:
