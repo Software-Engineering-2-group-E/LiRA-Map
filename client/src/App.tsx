@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { BrowserRouter as Router, Route, Switch  } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import Navbar from './Components/Navbar'
 import RoadMeasurements from "./pages/RoadMeasurements";
@@ -12,25 +12,18 @@ import "./App.css";
 
 const App: FC = () => {
     return (
-        <div className="App">
+        <div>
             <Router>
-                <Navbar />
                 <Switch>
-                    <Route 
-                        exact path="/cardata" 
-                        component={CarData} />
-                    <Route 
-                        exact path="/rides" 
-                        component={RoadMeasurements} />
-                    <Route 
-                        exact path="/road_conditions"    
-                        component={RoadConditions} />
-                    <Route 
-                        exact path="/altitude"    
-                        component={Altitude}  />
-                    <Route 
-                        exact path="/login" 
-                        component={Login} />
+                    <Route exact path="/" component={Login}/>
+                    <Route exact path="/login" component={Login}/>
+                    <div>
+                        <Navbar/>
+                        <Route exact path="/cardata" component={CarData} />
+                        <Route path="/road_measurements" component={RoadMeasurements} />
+                        <Route path="/road_conditions" component={RoadConditions} />
+                        <Route path="/altitude" component={Altitude} />
+                    </div>
                 </Switch>
             </Router>
         </div>
