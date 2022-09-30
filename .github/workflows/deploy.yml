@@ -21,5 +21,8 @@ jobs:
         run: ./kill-containers.sh
         shell: bash
 
+      - name: What is my current dir?
+        run: echo $(pwd)
+
       - name: Spin up docker containers
         run: docker compose up --detach --build
