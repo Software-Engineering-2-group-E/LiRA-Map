@@ -24,8 +24,12 @@ jobs:
         run: ./kill-containers.sh
         shell: bash
 
-      - name: What is my current dir?
-        run: echo $(pwd)
+      - name: Copy over env file to server-nest folder of cloned repo
+        run: cp ~/home/lira/actions-runner/persist/.env $(pwd)/server-nest
+        shell: bash
+
+      - name: Confirm that copying .env file worked (should output 'it-worked')
+        run: cat server-nest/.env | grep "TEST_VAR.*" | cut -d "=" -f2
         shell: bash
 
       - name: Spin up docker containers
