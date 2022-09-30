@@ -25,7 +25,7 @@ jobs:
         shell: bash
 
       - name: Copy over env file to server-nest folder of cloned repo
-        run: cp ~/home/lira/actions-runner/persist/.env $(pwd)/server-nest
+        run: cp ~/actions-runner/persist/.env $(pwd)/server-nest
         shell: bash
 
       - name: Confirm that copying .env file worked (should output 'it-worked')
