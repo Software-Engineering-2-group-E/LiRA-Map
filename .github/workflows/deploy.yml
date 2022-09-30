@@ -23,6 +23,7 @@ jobs:
 
       - name: What is my current dir?
         run: echo $(pwd)
+        shell: bash
 
       - name: Spin up docker containers
         run: docker compose up --detach --build
