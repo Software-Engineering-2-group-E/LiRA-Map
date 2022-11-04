@@ -1,85 +1,50 @@
-import React, { FC, useState } from "react";
+import {FormControl, InputLabel, MenuItem, OutlinedInput, Select} from "@mui/material";
 
-import useMeasPopup from "./Popup/useMeasPopup";
-import Checkbox from "../Checkbox";
-import MetaData from "./MetaData";
+export default function RideDetails() {
 
-import { useMeasurementsCtx } from "../../context/MeasurementsContext";
-import { useMetasCtx } from "../../context/MetasContext";
+	const [personName, setPersonName] = React.useState<string[]>([]);
 
-import { addMeasurement } from "../../queries/measurements";
-import { MeasProperties, ActiveMeasProperties } from "../../models/properties";
-import { RideMeta } from "../../models/models";
+	const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+		const {
+			target: { value },
+		} = event;
+		setPersonName(
+			// On autofill we get a stringified value.
+			typeof value === 'string' ? value.split(',') : value,
+		);
+	};
 
-import { RENDERER_MEAS_PROPERTIES } from "../Map/constants";
-
-import MeasCheckbox from "./MeasCheckbox";
-
-
-const RideDetails: FC = () => {
-
-	const { selectedMetas } = useMetasCtx()
-
-	const { measurements, setMeasurements } = useMeasurementsCtx()
-	const [ addChecked, setAddChecked ] = useState<boolean>(false)
-	
-	const popup = useMeasPopup()
-
-	const editMeasurement = (meas: ActiveMeasProperties, i: number) => (e: React.MouseEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-
-		popup( 
-			(newMeas: ActiveMeasProperties) => {
-				const temp = [...measurements]
-				temp[i] = newMeas;
-				setMeasurements( temp )
-			}, 
-			{ ...RENDERER_MEAS_PROPERTIES, ...meas } 
-		)
-	}
-
-	const showAddMeasurement = () => {
-		setAddChecked(true) 
-		popup( 
-			(newMeasurement: ActiveMeasProperties ) => {
-				setAddChecked(false) 
-				// update the state in RideDetails
-				setMeasurements( prev => [...prev, newMeasurement])
-				// and add the measurement to the measurements.json file
-				addMeasurement(newMeasurement);
-			},
-			RENDERER_MEAS_PROPERTIES 
-		)
-	}
-
-    const selectMeasurement = (i: number) => (isChecked: boolean) => {        
-        const temp = [...measurements]
-        temp[i].isActive = isChecked
-        setMeasurements(temp)
-    }
-
-    return (
-		<div className="meta-data">
-			{ measurements.map( (m: ActiveMeasProperties, i: number) =>
-				<MeasCheckbox 
-					key={`meas-checkbox-${i}`}
-					meas={m}
-					selectMeasurement={selectMeasurement(i)}
-					editMeasurement={editMeasurement(m, i)} />
-			) }
-
-			<Checkbox 
-				className='ride-metadata-checkbox md-checkbox-add'
-				html={<div>+</div>}
-				forceState={addChecked}
-				onClick={showAddMeasurement} />
-			
-			{ selectedMetas.map( (meta: RideMeta, i: number) =>
-				<MetaData md={meta} key={`md-${Math.random()}`} />
-			) }
-        </div>
-  )
+	return (
+		<div>
+			<FormControl sx={{ m: 1, width: 300 }}>
+				<InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+				<Select
+					labelId="demo-multiple-chip-label"
+					id="demo-multiple-chip"
+					multiple
+					value={personName}
+					onChange={handleChange}
+					input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+					renderValue={(selected) => (
+						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+							{selected.map((value) => (
+								<Chip key={value} label={value} />
+							))}
+						</Box>
+					)}
+					MenuProps={MenuProps}
+				>
+					{names.map((name) => (
+						<MenuItem
+							key={name}
+							value={name}
+							style={getStyles(name, personName, theme)}
+						>
+							{name}
+						</MenuItem>
+					))}
+				</Select>
+			</FormControl>
+		</div>
+	);
 }
-
-export default RideDetails;
