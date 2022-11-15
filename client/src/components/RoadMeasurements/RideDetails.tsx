@@ -1,50 +1,73 @@
-import {FormControl, InputLabel, MenuItem, OutlinedInput, Select} from "@mui/material";
+import React, {useEffect} from "react";
+import dayjs, {Dayjs} from "dayjs";
+import {Autocomplete, FormControl, Stack, TextField} from "@mui/material";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {Ride} from "../../models/ride";
+import {useDispatch, useSelector} from "react-redux";
+import {Dispatch, RootState} from "../../store";
 
-export default function RideDetails() {
+export default function RideDetails(this: any) {
+    const filters = ["Track position", "Interpolation", "Engine RPM"];
+    const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(dayjs(Date.now()));
+    const [dateTo, setDateTo] = React.useState<Dayjs | null>(dayjs(Date.now()));
+    const dispatch = useDispatch<Dispatch>()
 
-	const [personName, setPersonName] = React.useState<string[]>([]);
+    const {rides} = useSelector(
+        (state: RootState) => state.rides
+    )
 
-	const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-		const {
-			target: { value },
-		} = event;
-		setPersonName(
-			// On autofill we get a stringified value.
-			typeof value === 'string' ? value.split(',') : value,
-		);
-	};
+    useEffect(() => {
+        //dispatch.rides.fetchRides();
+    })
 
-	return (
-		<div>
-			<FormControl sx={{ m: 1, width: 300 }}>
-				<InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
-				<Select
-					labelId="demo-multiple-chip-label"
-					id="demo-multiple-chip"
-					multiple
-					value={personName}
-					onChange={handleChange}
-					input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-					renderValue={(selected) => (
-						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-							{selected.map((value) => (
-								<Chip key={value} label={value} />
-							))}
-						</Box>
-					)}
-					MenuProps={MenuProps}
-				>
-					{names.map((name) => (
-						<MenuItem
-							key={name}
-							value={name}
-							style={getStyles(name, personName, theme)}
-						>
-							{name}
-						</MenuItem>
-					))}
-				</Select>
-			</FormControl>
-		</div>
-	);
+    const handleChangeFrom = (newDate: Dayjs | null) => {
+        setDateFrom(newDate)
+    }
+    const handleChangeTo = (newDate: Dayjs | null) => {
+        setDateTo(newDate)
+    }
+
+    return (
+        <Stack sx={{width: 300}} spacing={2}>
+            <FormControl variant="standard">
+                <Autocomplete
+                    multiple
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            variant="standard"
+                            label="Measurement types"
+                        />
+                    )} options={filters}
+                />
+            </FormControl>
+            <Stack justifyContent="space-between" direction="row">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                        label="From"
+                        inputFormat="DD/MM/YYYY"
+                        value={dateFrom}
+                        onChange={handleChangeFrom}
+                        renderInput={(params: any) => <TextField variant="standard" sx={{maxWidth: 125}}{...params} />}
+                    />
+                    <DesktopDatePicker
+                        label="To"
+                        inputFormat="DD/MM/YYYY"
+                        value={dateTo}
+                        onChange={handleChangeTo}
+                        renderInput={(params: any) => <TextField variant="standard" sx={{maxWidth: 125}}{...params} />}
+                    />
+                </LocalizationProvider>
+            </Stack>
+            {
+                rides?.map((ride: Ride) => (
+                    <div>
+                        {ride.TripId}
+                    </div>
+                ))
+            }
+        </Stack>
+    );
 }
