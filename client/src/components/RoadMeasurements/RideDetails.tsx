@@ -4,7 +4,6 @@ import {Autocomplete, FormControl, Stack, TextField} from "@mui/material";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {Ride} from "../../models/ride";
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch, RootState} from "../../store";
 
@@ -19,8 +18,10 @@ export default function RideDetails(this: any) {
     )
 
     useEffect(() => {
-        //dispatch.rides.fetchRides();
-    })
+        (async () => {
+            await dispatch.rides.fetchRides()
+        })();
+    }, [dispatch.rides])
 
     const handleChangeFrom = (newDate: Dayjs | null) => {
         setDateFrom(newDate)
@@ -61,13 +62,9 @@ export default function RideDetails(this: any) {
                     />
                 </LocalizationProvider>
             </Stack>
-            {
-                rides?.map((ride: Ride) => (
-                    <div>
-                        {ride.TripId}
-                    </div>
-                ))
-            }
+            <div>
+                {rides?.length}
+            </div>
         </Stack>
     );
 }
