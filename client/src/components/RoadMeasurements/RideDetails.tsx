@@ -1,27 +1,31 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import dayjs, {Dayjs} from "dayjs";
-import {Autocomplete, FormControl, Stack, TextField} from "@mui/material";
+import {Autocomplete, Box, FormControl, List, ListItem, Stack, TextField} from "@mui/material";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch, RootState} from "../../store";
+import RideListComponent from "./RideListComponent";
+import RideListComponentDetails from "./RideListComponentDetails";
+import {Ride} from "../../models/ride";
 
-export default function RideDetails(this: any) {
+
+export default function RideDetails() {
     const filters = ["Track position", "Interpolation", "Engine RPM"];
     const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(dayjs(Date.now()));
     const [dateTo, setDateTo] = React.useState<Dayjs | null>(dayjs(Date.now()));
-    const dispatch = useDispatch<Dispatch>()
+    const dispatch = useDispatch<Dispatch>();
 
-    const {rides} = useSelector(
+    const [selectedRide, setSelectedRide] = useState<Ride>({});
+
+    let rides = useSelector(
         (state: RootState) => state.rides
     )
 
     useEffect(() => {
-        (async () => {
-            await dispatch.rides.fetchRides()
-        })();
-    }, [dispatch.rides])
+        dispatch.rides.fetchRides();
+    }, [dispatch.rides]);
 
     const handleChangeFrom = (newDate: Dayjs | null) => {
         setDateFrom(newDate)
@@ -31,7 +35,7 @@ export default function RideDetails(this: any) {
     }
 
     return (
-        <Stack sx={{width: 300}} spacing={2}>
+        <Stack sx={{width: 350}} spacing={2}>
             <FormControl variant="standard">
                 <Autocomplete
                     multiple
@@ -62,9 +66,20 @@ export default function RideDetails(this: any) {
                     />
                 </LocalizationProvider>
             </Stack>
-            <div>
-                {rides?.length}
-            </div>
+            <Stack direction="row">
+                <Box>
+                    {
+                        rides?.map((ride) => {
+                            return <ListItem onClick={() => {setSelectedRide(ride)}}>
+                                <RideListComponent ride={ride}/>
+                            </ListItem>
+                        })
+                    }
+                </Box>
+                {
+                    selectedRide.TripId && <RideListComponentDetails ride={selectedRide} />
+                }
+            </Stack>
         </Stack>
     );
 }

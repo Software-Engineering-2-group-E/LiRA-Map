@@ -1,18 +1,18 @@
 import {Stack, TextField} from "@mui/material";
+import {Ride} from "../../models/ride";
 
-export default function RideListComponent() {
+interface rideProps {
+    ride: Ride
+}
+
+
+export default function RideListComponent({ride}: rideProps) {
+    const createdDate = ride.Created_Date ? new Date(ride.Created_Date) : null;
+    const createdDateFormatted = createdDate?.getDay() + "." + createdDate?.getMonth() + "." + createdDate?.getFullYear();
     return (
         <Stack direction="column">
-            <TextField
-                label="hej1"
-                inputProps={{
-                readOnly: true,
-            }}/>
-            <TextField
-                label="hej2"
-                inputProps={{
-                readOnly: true,
-            }}/>
+            <div>{ride.TaskId}</div>
+            <div>{createdDateFormatted}</div>
         </Stack>
     );
 }
