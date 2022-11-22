@@ -5,6 +5,17 @@ import { Marker, Popup } from "react-leaflet";
 import { PathProps } from "../../models/path";
 import Path from "./Path";
 
+import L from 'leaflet';
+import iconMarker from 'leaflet/dist/images/marker-icon.png'
+import iconRetina from 'leaflet/dist/images/marker-icon-2x.png'
+import iconShadow from 'leaflet/dist/images/marker-shadow.png'
+
+let icon = L.icon ({
+    iconAnchor: [12, 41],
+    iconRetinaUrl: iconRetina,
+    iconUrl: iconMarker,
+    shadowUrl: iconShadow
+});
 
 const parseMD = (mds: any) => {
     
@@ -50,7 +61,7 @@ const MetadataPath: FC<PathProps> = ( { path, properties, metadata } ) => {
         <Path path={path} properties={properties} onClick={onClick}></Path>
         
         { selected !== undefined && 
-            <Marker position={markerPos}>
+            <Marker position={markerPos} icon={icon}>
                 <Popup>
                     { getPopupLine('Properties', properties) }
                     { getPopupLine('Value', point.value) }
