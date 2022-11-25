@@ -1,20 +1,19 @@
 import React, {useEffect, useState} from "react";
-import dayjs, {Dayjs} from "dayjs";
 import {Autocomplete, Box, FormControl, List, ListItem, Stack, TextField} from "@mui/material";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch, RootState} from "../../store";
 import RideListComponent from "./RideListComponent";
 import RideListComponentDetails from "./RideListComponentDetails";
 import {Ride} from "../../models/ride";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 
 
 export default function RideDetails() {
     const filters = ["Track position", "Interpolation", "Engine RPM"];
-    const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(dayjs(Date.now()));
-    const [dateTo, setDateTo] = React.useState<Dayjs | null>(dayjs(Date.now()));
+    const [dateFrom, setDateFrom] = React.useState<Date | null>(() => new Date(Date.now()));
+    const [dateTo, setDateTo] = React.useState<Date | null>(() => new Date(Date.now()));
     const dispatch = useDispatch<Dispatch>();
 
     const [selectedRide, setSelectedRide] = useState<Ride>({});
@@ -27,15 +26,12 @@ export default function RideDetails() {
         dispatch.rides.fetchRides();
     }, [dispatch.rides]);
 
-    const handleChangeFrom = (newDate: Dayjs | null) => {
-        setDateFrom(newDate)
-    }
-    const handleChangeTo = (newDate: Dayjs | null) => {
+    const handleChangeTo = (newDate: Date) => {
         setDateTo(newDate)
     }
 
     return (
-        <Stack sx={{width: 350}} spacing={2}>
+        <Stack sx={{width: 350, height: 700}} spacing={2}>
             <FormControl variant="standard">
                 <Autocomplete
                     multiple
@@ -49,24 +45,26 @@ export default function RideDetails() {
                 />
             </FormControl>
             <Stack justifyContent="space-between" direction="row">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
                         label="From"
-                        inputFormat="DD/MM/YYYY"
                         value={dateFrom}
-                        onChange={handleChangeFrom}
+                        onChange={(newDate) => {
+                            setDateFrom((newDate))
+                        }}
                         renderInput={(params: any) => <TextField variant="standard" sx={{maxWidth: 125}}{...params} />}
                     />
-                    <DesktopDatePicker
+                    <DatePicker
                         label="To"
-                        inputFormat="DD/MM/YYYY"
                         value={dateTo}
-                        onChange={handleChangeTo}
+                        onChange={(newDate) => {
+                            setDateTo(newDate)
+                        }}
                         renderInput={(params: any) => <TextField variant="standard" sx={{maxWidth: 125}}{...params} />}
                     />
                 </LocalizationProvider>
             </Stack>
-            <Stack direction="row">
+            <Stack direction="row" style={{maxHeight: '100%', overflow: 'auto'}}>
                 <Box>
                     {
                         rides?.map((ride) => {

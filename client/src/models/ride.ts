@@ -17,7 +17,7 @@ export interface Ride {
     Duration?:              Date;
     DistanceKm?:            number;
     FK_Device?:             string;
-    Created_Date?:          string;
+    Created_Date?:          Date;
     Updated_Date?:          Date;
     Fully_Imported?:        boolean;
 }
