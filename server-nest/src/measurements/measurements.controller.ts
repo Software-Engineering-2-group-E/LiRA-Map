@@ -1,6 +1,6 @@
 import { Controller, Get, Put, Query } from '@nestjs/common';
 
-import { MeasurementsService } from './measurements.service';
+import { MeasurementsService, MeasurementType } from './measurements.service';
 import {
     Measurement,
     MeasurementDTO,
@@ -28,5 +28,11 @@ export class MeasurementsController {
     editMeasurement(@Query() query: MeasurementEditDTO): Promise<any> {
         const { index, measurement } = query;
         return this.service.editMeasurement(index, measurement);
+    }
+
+    @Get('/types')
+    getMeasurementTypes(): Promise<MeasurementType[]> {
+        console.log("Hit /types endpoint")
+        return this.service.getMeasurementTypes();
     }
 }

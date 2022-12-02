@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { TwitterPicker } from "react-color";
 import { Gradient } from "react-gradient-hook";
 
@@ -6,6 +6,7 @@ import { RendererName, rendererTypes } from "../../../models/renderers";
 
 import Checkbox from "../../Checkbox";
 import { ActiveMeasProperties } from "../../../models/properties";
+import { getMeasurementTypes, MeasurementType } from "../../../queries/measurements";
 
 
 interface IPopupWrapper {
@@ -28,12 +29,31 @@ const PopupWrapper: FC<IPopupWrapper> = ( { defaultOptions, setOptions } ) => {
 
     const inputChange = (key: keyof ActiveMeasProperties) => ({target}: any) => update(key)(target.value)
 
+    const [ getMeasTypes, setMeasTypes ] = useState<MeasurementType[]>([])
+
+    useEffect( () => {
+		//getMeasurements(setMeasurements)
+		console.log("Getting measurement types from measurements/types")
+		getMeasurementTypes(setMeasTypes)
+	}, [] )
+
+	useEffect( () => {
+		console.log("Measurement types found in db:")
+		console.log( getMeasTypes )
+	}, [ getMeasTypes ])
+
     return (
         <div className="popup-wrapper">    
             <input className="sweetalert-input" placeholder="Name.." type='text' defaultValue={name} onChange={inputChange('name')}/>
             
-            <input className="sweetalert-input" placeholder="Tag.." type='text' defaultValue={dbName} onChange={inputChange('dbName')}/>
-            
+            <select name="tags" id="tags">
+            <option value="" disabled selected>Tag..</option>
+            {getMeasTypes.map((value, index) => {
+                return ( <option value={value.type}>{value.type}</option> ) 
+                            })
+            }
+            </select>
+
             <div className="sweetalert-checkboxes">
                 { Object.keys(RendererName).map( (rName: string, i: number) => 
                     <Checkbox 

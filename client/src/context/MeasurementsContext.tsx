@@ -8,7 +8,7 @@ import {
 } from "react";
 
 import { ActiveMeasProperties } from "../models/properties";
-import { getMeasurements } from "../queries/measurements";
+import { getMeasurements, getMeasurementTypes, MeasurementType } from "../queries/measurements";
 
 interface ContextProps {
 	measurements: ActiveMeasProperties[];
@@ -27,7 +27,20 @@ export const MeasurementsProvider = ({ children }: any) => {
 
 	useEffect( () => setSelectedMeasurements( measurements.filter(m => m.isActive)), [measurements] )
 
-	useEffect( () => getMeasurements(setMeasurements), [] )
+	const [ getMeasTypes, setMeasTypes ] = useState<MeasurementType[]>([])
+
+	useEffect( () => {
+		//getMeasurements(setMeasurements)
+		console.log("Getting measurement types from measurements/types")
+		getMeasurementTypes(setMeasTypes)
+	}, [] )
+
+	useEffect( () => {
+		console.log("Measurement types found in db:")
+		console.log( getMeasTypes )
+	}, [ getMeasTypes ])
+
+
 
 	return (
 		<MeasurementsContext.Provider
