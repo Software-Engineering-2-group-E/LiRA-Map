@@ -9,6 +9,9 @@ const {
     DB_PASSWORD_VIS,
     DB_USER_POSTGIS,
     DB_PWD_POSTGIS,
+    OUR_DB_NAME,
+    OUR_DB_USER,
+    OUR_DB_PASSWORD,
     FB_API_KEY,
     FB_AUTH_DOMAIN,
     FB_PROJECT_ID,
@@ -72,9 +75,9 @@ export const OUR_LIRA_DB_CONFIG = {
     connection: {
         host: 'se2-e.compute.dtu.dk',
         port: 5432,
-        user: 'lira',
-        password: 'lira',
-        database: 'liradb',
+        user: OUR_DB_USER,
+        password: OUR_DB_PASSWORD,
+        database: OUR_DB_NAME,
     },
 }
 
