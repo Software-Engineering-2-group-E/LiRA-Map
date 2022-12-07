@@ -23,9 +23,9 @@ const MainStyle = styled('main', {
 })<MainStyleProps>(({ collapseClick, theme }) => ({
 	flexGrow: 1,
 
-	transition: theme.transitions.create(['margin-left'], {
-		duration: theme.transitions.duration.shorter
-	}),
+	// transition: theme.transitions.create(['margin-left'], {
+	// 	duration: theme.transitions.duration.shorter
+	// }),
 
 	...(collapseClick && {
 		marginLeft: NAVBAR.DASHBOARD_COLLAPSE_WIDTH,
