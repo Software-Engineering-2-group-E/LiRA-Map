@@ -56,10 +56,11 @@ const PopupWrapper: FC<IPopupWrapper> = ({ defaultOptions, setOptions }) => {
 			<Select
 				labelId=''
 				id='select-tag-dropdown-menu'
-				value={getSelectedMeasType}
+				value={getSelectedMeasType ? getSelectedMeasType : 'tag'}
 				label='Tags'
 				onChange={(handleChange)}
 			>
+				<MenuItem value={'tag'} disabled={true}>Tag..</MenuItem>
 				{getMeasTypes.map((value, index) => {
 					return (<MenuItem key={index} value={value.type}>{value.type}</MenuItem>);
 				})
