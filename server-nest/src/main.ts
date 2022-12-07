@@ -3,17 +3,28 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { knex } from 'knex';
 import { AppModule } from './app.module';
 
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+const {
+    OUR_DB_NAME,
+    OUR_DB_USER,
+    OUR_DB_PASSWORD,
+} = process.env;
+
 const pg = knex({
     client: 'pg',
     connection: {
         host: 'se2-e.compute.dtu.dk',
         port: 5432,
-        user: 'lira',
-        password: 'lira',
-        database: 'liradb',
+        user: OUR_DB_USER,
+        password: OUR_DB_PASSWORD,
+        database: OUR_DB_NAME,
     },
     searchPath: ['knex', 'public', 'lira'],
 });
+
 
 pg.raw('SELECT 1')
     .then(() => {
