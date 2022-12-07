@@ -72,6 +72,7 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
 
     return (
         (datasets.length > 0) ? (
+            // TODO: Laura: Style on this card is weird when changing window size
             <Card sx={{ width: 'calc(100vw - 605px)', position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
                 <CardContent>
                     <Chart
