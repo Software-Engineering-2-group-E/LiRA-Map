@@ -3,6 +3,8 @@ import {useEffect, useState} from "react";
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import SaveIcon from '@mui/icons-material/Save';
 
 import 'date-fns';
 import 'chartjs-adapter-date-fns';
@@ -70,11 +72,39 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
         setDatasets(datasets)
     }, [selectedMeasurements, paths]);
 
+    function datasetsToCSV() {
+        let contents = ''
+        datasets.forEach(dataset => {
+            contents += dataset.label + '\n';
+            contents += 'Timestamp, Value\n';
+            dataset.data.forEach((o: any) => {
+                contents += o.x + ',' + o.y + '\n'
+            })
+            contents += '\n'
+        })
+
+        return contents
+    }
+
     return (
         (datasets.length > 0) ? (
             // TODO: Laura: Style on this card is weird when changing window size
             <Card sx={{ width: 'calc(100vw - 605px)', position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
                 <CardContent>
+                    <Button
+                        startIcon={<SaveIcon/>}
+                        onClick={() => {
+                            const csv = datasetsToCSV()
+                            const blob = new Blob([csv])
+                            const URL_download = URL.createObjectURL(blob)
+                            const link = document.createElement('a')
+                            link.download = 'trip-data.csv'
+                            link.href = URL_download
+                            link.click()
+                        }}
+                    >
+                        Export Data
+                    </Button>
                     <Chart
                         type='line'
                         data={{
