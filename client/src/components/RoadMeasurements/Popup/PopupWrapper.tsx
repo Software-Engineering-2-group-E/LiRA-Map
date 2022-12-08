@@ -29,14 +29,13 @@ const PopupWrapper: FC<IPopupWrapper> = ({ defaultOptions, setOptions }) => {
 	};
 
 	const inputChange = (key: keyof ActiveMeasProperties) => (target: any) => {
-		update(key)(target.value);
+		console.log(target)
+		update(key)(target);
 	};
 
 	const [getMeasTypes, setMeasTypes] = useState<MeasurementType[]>([]);
 
 	useEffect(() => {
-		//getMeasurements(setMeasurements)
-		console.log('Getting measurement types from measurements/types');
 		getMeasurementTypes(setMeasTypes);
 	}, []);
 
@@ -51,7 +50,7 @@ const PopupWrapper: FC<IPopupWrapper> = ({ defaultOptions, setOptions }) => {
 	return (
 		<div className='popup-wrapper'>
 			<input className='sweetalert-input' placeholder='Name..' type='text' defaultValue={name}
-				   onChange={inputChange('name')} />
+				   onChange={(enteredName) => {inputChange('name')(enteredName.target.value)}} />
 
 			<Select
 				labelId=''
