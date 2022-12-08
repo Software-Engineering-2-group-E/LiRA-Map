@@ -4,8 +4,6 @@ import {useEffect, useState} from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from "@mui/material/IconButton";
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import OpenInFull from "@mui/icons-material/OpenInFull";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
