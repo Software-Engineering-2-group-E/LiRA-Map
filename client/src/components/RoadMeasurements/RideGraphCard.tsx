@@ -3,6 +3,11 @@ import {useEffect, useState} from "react";
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import IconButton from "@mui/material/IconButton";
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import OpenInFull from "@mui/icons-material/OpenInFull";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import 'date-fns';
 import 'chartjs-adapter-date-fns';
@@ -35,6 +40,8 @@ ChartJS.register(
 );
 
 const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: ActiveMeasProperties[];}> = ({paths, selectedMeasurements}): JSX.Element | null => {
+
+    const [ open, setOpen ] = useState<boolean>(true)
 
     const [ datasets, setDatasets ] = useState<ChartDataset<'line', Object[]>[]>([]);
 
@@ -73,16 +80,19 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
     return (
         (datasets.length > 0) ? (
             // TODO: Laura: Style on this card is weird when changing window size
-            <Card sx={{ width: 'calc(100vw - 605px)', position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
+            <Card sx={{ width: open ? 'calc(100vw - 605px)' : 'auto', position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
                 <CardContent>
-                    <Chart
-                        type='line'
-                        data={{
-                            datasets: datasets
-                        }}
-                        options={options}
-                        height={'45vh'}
-                    />
+                    <IconButton onClick={() => setOpen(!open)}>{ open ? <ExpandMoreIcon/> : <ExpandLessIcon/> }</IconButton>
+                    {open ? (
+                        <Chart
+                            type='line'
+                            data={{
+                                datasets: datasets
+                            }}
+                            options={options}
+                            height={'45vh'}
+                        />
+                    ) : null}
                 </CardContent>
             </Card>
         ) : null
