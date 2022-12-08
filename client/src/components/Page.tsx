@@ -6,22 +6,23 @@ import { Box, BoxProps } from '@mui/material';
 // ----------------------------------------------------------------------
 
 interface Props extends BoxProps {
-  children: ReactNode;
-  meta?: ReactNode;
-  title: string;
+	children: ReactNode;
+	meta?: ReactNode;
+	title: string;
 }
 
 const Page = forwardRef<HTMLDivElement, Props>(({ children, title = '', meta, ...other }, ref) => (
-  <>
-    <Helmet>
-      <title>{`${title} | Lira-map`}</title>
-      {meta}
-    </Helmet>
+	<>
+		<Helmet>
+			<title>{`${title} | Lira-map`}</title>
+			{meta}
+		</Helmet>
 
-    <Box ref={ref} {...other}>
-      {children}
-    </Box>
-  </>
+		<Box
+			ref={ref} {...other}>
+			{children}
+		</Box>
+	</>
 ));
 
 export default Page;
