@@ -1,78 +1,69 @@
-import { ReactNode, createContext, useState, useEffect } from 'react';
+import { createContext, ReactNode, useState } from 'react';
 // hooks
-import useResponsive from '../hooks/useResponsive';
 
 // ----------------------------------------------------------------------
 
 export type CollapseDrawerContextProps = {
-  isCollapsed: boolean;
-  collapseClick: boolean;
-  collapseHover: boolean;
-  onToggleCollapse: VoidFunction;
-  onHoverEnter: VoidFunction;
-  onHoverLeave: VoidFunction;
+	isCollapsed: boolean;
+	collapseClick: boolean;
+	collapseHover: boolean;
+	onToggleCollapse: VoidFunction;
+	onHoverEnter: VoidFunction;
+	onHoverLeave: VoidFunction;
 };
 
 const initialState: CollapseDrawerContextProps = {
-  isCollapsed: false,
-  collapseClick: false,
-  collapseHover: false,
-  onToggleCollapse: () => {},
-  onHoverEnter: () => {},
-  onHoverLeave: () => {},
+	isCollapsed: false,
+	collapseClick: true,
+	collapseHover: false,
+	onToggleCollapse: () => {
+	},
+	onHoverEnter: () => {
+	},
+	onHoverLeave: () => {
+	},
 };
 
 const CollapseDrawerContext = createContext(initialState);
 
 type CollapseDrawerProviderProps = {
-  children: ReactNode;
+	children: ReactNode;
 };
 
 function CollapseDrawerProvider({ children }: CollapseDrawerProviderProps) {
-  const isDesktop = useResponsive('up', 'lg');
+	const [collapse, setCollapse] = useState({
+		click: true,
+		hover: false,
+	});
 
-  const [collapse, setCollapse] = useState({
-    click: true,
-    hover: false,
-  });
+	const handleToggleCollapse = () => {
+		setCollapse({ ...collapse, click: !collapse.click });
+	};
 
-  useEffect(() => {
-    if (!isDesktop) {
-      setCollapse({
-        click: false,
-        hover: false,
-      });
-    }
-  }, [isDesktop]);
+	const handleHoverEnter = () => {
+		if (collapse.click) {
+			setCollapse({ ...collapse, hover: true });
+		}
+	};
 
-  const handleToggleCollapse = () => {
-    setCollapse({ ...collapse, click: !collapse.click });
-  };
+	const handleHoverLeave = () => {
+		setCollapse({ ...collapse, hover: false });
+	};
 
-  const handleHoverEnter = () => {
-    if (collapse.click) {
-      setCollapse({ ...collapse, hover: true });
-    }
-  };
-
-  const handleHoverLeave = () => {
-    setCollapse({ ...collapse, hover: false });
-  };
-
-  return (
-    <CollapseDrawerContext.Provider
-      value={{
-        isCollapsed: collapse.click && !collapse.hover,
-        collapseClick: collapse.click,
-        collapseHover: collapse.hover,
-        onToggleCollapse: handleToggleCollapse,
-        onHoverEnter: handleHoverEnter,
-        onHoverLeave: handleHoverLeave,
-      }}
-    >
-      {children}
-    </CollapseDrawerContext.Provider>
-  );
+	return (
+		<CollapseDrawerContext.Provider
+			value={{
+				isCollapsed: collapse.click && !collapse.hover,
+				collapseClick: collapse.click,
+				collapseHover: collapse.hover,
+				onToggleCollapse: handleToggleCollapse,
+				onHoverEnter: handleHoverEnter,
+				onHoverLeave: handleHoverLeave,
+			}}
+		>
+			{children}
+		</CollapseDrawerContext.Provider>
+	);
 }
 
 export { CollapseDrawerProvider, CollapseDrawerContext };

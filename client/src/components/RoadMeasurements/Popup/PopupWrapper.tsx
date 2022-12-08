@@ -29,7 +29,6 @@ const PopupWrapper: FC<IPopupWrapper> = ({ defaultOptions, setOptions }) => {
 	};
 
 	const inputChange = (key: keyof ActiveMeasProperties) => (target: any) => {
-		console.log(target)
 		update(key)(target);
 	};
 
