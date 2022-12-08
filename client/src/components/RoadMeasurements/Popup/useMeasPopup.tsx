@@ -6,7 +6,7 @@ import createPopup from '../../createPopup';
 
 const useMeasPopup = () => {
 
-	const popup = createPopup<ActiveMeasProperties>();
+	const [swal, popup] = createPopup<ActiveMeasProperties>();
 	// const [options, setOptions] = useState<ActiveMeasProperties>()
 
 	return (callback: (measurement: ActiveMeasProperties) => void, defaultOptions: Required<ActiveMeasProperties>) => {
@@ -24,6 +24,12 @@ const useMeasPopup = () => {
 				setOptions={opts => {
 					options = opts;
 				}} />,
+			preConfirm() {
+				const nameInputElm = document.querySelector('#sweetalert-input') as HTMLInputElement
+				if (!nameInputElm.value) {
+					swal.showValidationMessage("Please provide a name for your tag.")
+				}
+			},
 		})
 			.then((result: any) => {
 				if (!result.isConfirmed || options === undefined)

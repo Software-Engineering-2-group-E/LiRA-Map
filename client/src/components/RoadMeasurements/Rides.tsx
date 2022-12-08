@@ -23,7 +23,7 @@ const Rides: FC = () => {
 
     const [ paths, setPaths ] = useState<MeasMetaPath>({})
 
-    const popup = usePopup()
+    const [ swal, popup ] = usePopup()
 
     useEffect( () => {
         const updatePaths = async () => {
