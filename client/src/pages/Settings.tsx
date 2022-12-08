@@ -41,7 +41,7 @@ const Settings = () => {
     const { userData, userCredentials } = useSelector((state: RootState) => state.access)
 
     return (
-        <Box sx={{ width: '100%', margin: '5px', typography: 'body1' }}>
+        <Box>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={(event: SyntheticEvent, value: string) => setValue(value)}>

@@ -73,9 +73,8 @@ export default function AccountPopover() {
 
             { !isCollapsed && (
                 <Box sx={{ marginLeft: '10px'}}>
-                    <Typography sx={{ fontWeight: 'bold', fontSize: '0.60vw' }}>{userData?.firstName} {userData?.lastName}</Typography>
-                    <Typography></Typography>
-                    <Typography color="gray" sx={{ fontSize: '0.60vw' }}>{userCredentials?.user?.email}</Typography>
+                    <Typography fontSize={21} fontWeight={'bold'} >{userData?.firstName} {userData?.lastName}</Typography>
+                    <Typography fontSize={14} sx={{ opacity: 0.5 }}>{userCredentials?.user?.email}</Typography>
                 </Box>)
             }
 
