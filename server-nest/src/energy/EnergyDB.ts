@@ -1,5 +1,15 @@
 import { knex } from 'knex'
 
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+const {
+    OUR_DB_NAME,
+    OUR_DB_USER,
+    OUR_DB_PASSWORD,
+} = process.env;
+
 export interface MeasurementRow {
     MeasurementId: string
     TS_or_Distance: string
@@ -20,9 +30,9 @@ export class EnergyDB {
         connection: {
             host: 'se2-e.compute.dtu.dk',
             port: 5432,
-            user: 'lira',
-            password: 'lira',
-            database: 'liradb',
+            user: OUR_DB_USER,
+            password: OUR_DB_PASSWORD,
+            database: OUR_DB_NAME,
         },
         searchPath: ['knex', 'public', 'lira'],
     });
