@@ -3,9 +3,12 @@ import {useEffect, useState} from "react";
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
 import IconButton from "@mui/material/IconButton";
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import SaveIcon from '@mui/icons-material/Save';
 
 import 'date-fns';
 import 'chartjs-adapter-date-fns';
@@ -50,7 +53,25 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
     useEffect(() => {
         const datasets: ChartDataset<'line', Object[]>[] = selectedMeasurements
             .filter(({hasValue, name}) => {
-                return hasValue && paths[name] && Object.keys(paths[name]).length > 0
+                // Make sure hasValue is defined and true
+                if(!hasValue) return false
+
+                // Make sure that there exists an object for the measurement type
+                if(!paths[name]) return false
+
+                // Make sure 1 or more trips have been selected
+                if(!(Object.keys(paths[name]).length > 0)) return false
+
+                // Make sure the trip has data (path property)
+                if(!Object.hasOwn(Object.values(paths[name])[0], 'path')) return false
+
+                // Make sure that each data point has a value (value property)
+                if(!Object.hasOwn(Object.values(paths[name])[0].path[0], 'value')) return false
+
+                //console.log(name)
+                //console.log(Object.values(paths[name])[0].path)
+
+                return true
             })
             .map(({name}) => {
             // Take the first trip
@@ -75,22 +96,50 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
         setDatasets(datasets)
     }, [selectedMeasurements, paths]);
 
+    function datasetsToCSV() {
+        let contents = ''
+        datasets.forEach(dataset => {
+            contents += dataset.label + '\n';
+            contents += 'Timestamp, Value\n';
+            dataset.data.forEach((o: any) => {
+                contents += o.x + ',' + o.y + '\n'
+            })
+            contents += '\n'
+        })
+
+        return contents
+    }
+
     return (
         (datasets.length > 0) ? (
             // TODO: Laura: Style on this card is weird when changing window size
-            <Card sx={{ width: open ? 'calc(100vw - 605px)' : 'auto', position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
+            <Card sx={{ position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
                 <CardContent>
                     <IconButton onClick={() => setOpen(!open)}>{ open ? <ExpandMoreIcon/> : <ExpandLessIcon/> }</IconButton>
+                    <Button
+                        startIcon={<SaveIcon/>}
+                        onClick={() => {
+                            const csv = datasetsToCSV()
+                            const blob = new Blob([csv])
+                            const URL_download = URL.createObjectURL(blob)
+                            const link = document.createElement('a')
+                            link.download = 'trip-data.csv'
+                            link.href = URL_download
+                            link.click()
+                        }}
+                    >
+                        Export Data
+                    </Button>
                     {open ? (
+                    <div style={{ position: 'relative', width: 'calc(100vw - 605px)', minWidth: '150px' }}>
                         <Chart
                             type='line'
                             data={{
                                 datasets: datasets
                             }}
                             options={options}
-                            height={'45vh'}
                         />
-                    ) : null}
+                    </div>) : null}
                 </CardContent>
             </Card>
         ) : null
@@ -125,7 +174,8 @@ const options: ChartOptions<'line'> = {
         line: {
             tension : 0.4
         }
-    }
+    },
+    maintainAspectRatio: false
 }
 
 function randomColor() {
