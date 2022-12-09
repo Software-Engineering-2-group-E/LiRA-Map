@@ -4,6 +4,10 @@ import {useEffect, useState} from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
+import IconButton from "@mui/material/IconButton";
+
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import SaveIcon from '@mui/icons-material/Save';
 
 import 'date-fns';
@@ -36,7 +40,9 @@ ChartJS.register(
     LineController,
 );
 
-const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: ActiveMeasProperties[];}> = ({paths, selectedMeasurements}): JSX.Element | null => {
+const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: ActiveMeasProperties[];}> = ({paths, selectedMeasurements}): JSX.Element => {
+
+    const [ open, setOpen ] = useState<boolean>(true)
 
     const [ datasets, setDatasets ] = useState<ChartDataset<'line', Object[]>[]>([]);
 
@@ -105,37 +111,43 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
     }
 
     return (
-        (datasets.length > 0) ? (
-            // TODO: Laura: Style on this card is weird when changing window size
+        <>
+            {datasets.length > 0 && (
             <Card sx={{ position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
                 <CardContent>
-                    <Button
-                        startIcon={<SaveIcon/>}
-                        onClick={() => {
-                            const csv = datasetsToCSV()
-                            const blob = new Blob([csv])
-                            const URL_download = URL.createObjectURL(blob)
-                            const link = document.createElement('a')
-                            link.download = 'trip-data.csv'
-                            link.href = URL_download
-                            link.click()
-                        }}
-                    >
-                        Export Data
-                    </Button>
-                    <div style={{ position: 'relative', width: 'calc(100vw - 605px)', minWidth: '150px' }}>
-                        <Chart
-                            type='line'
-                            data={{
-                                datasets: datasets
-                            }}
-                            options={options}
-                        />
-                    </div>
+                    <IconButton onClick={() => setOpen(!open)}>{ open ? <ExpandMoreIcon/> : <ExpandLessIcon/> }</IconButton>
+                    {open && (
+                        <>
+                            <Button
+                                startIcon={<SaveIcon/>}
+                                onClick={() => {
+                                    const csv = datasetsToCSV()
+                                    const blob = new Blob([csv])
+                                    const URL_download = URL.createObjectURL(blob)
+                                    const link = document.createElement('a')
+                                    link.download = 'trip-data.csv'
+                                    link.href = URL_download
+                                    link.click()
+                                }}
+                            >
+                                Export Data
+                            </Button>
+                            <div style={{ position: 'relative', width: 'calc(100vw - 605px)', minWidth: '150px' }}>
+                                <Chart
+                                    type='line'
+                                    data={{
+                                        datasets: datasets
+                                    }}
+                                    options={options}
+                                />
+                            </div>
+                        </>)
+                    }
                 </CardContent>
-            </Card>
-        ) : null
-    );
+            </Card>)
+            }
+        </>
+    )
 }
 
 const options: ChartOptions<'line'> = {
