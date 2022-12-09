@@ -40,7 +40,7 @@ ChartJS.register(
     LineController,
 );
 
-const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: ActiveMeasProperties[];}> = ({paths, selectedMeasurements}): JSX.Element | null => {
+const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: ActiveMeasProperties[];}> = ({paths, selectedMeasurements}): JSX.Element => {
 
     const [ open, setOpen ] = useState<boolean>(true)
 
@@ -111,39 +111,43 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
     }
 
     return (
-        (datasets.length > 0) ? (
-            // TODO: Laura: Style on this card is weird when changing window size
+        <>
+            {datasets.length > 0 && (
             <Card sx={{ position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
                 <CardContent>
                     <IconButton onClick={() => setOpen(!open)}>{ open ? <ExpandMoreIcon/> : <ExpandLessIcon/> }</IconButton>
-                    <Button
-                        startIcon={<SaveIcon/>}
-                        onClick={() => {
-                            const csv = datasetsToCSV()
-                            const blob = new Blob([csv])
-                            const URL_download = URL.createObjectURL(blob)
-                            const link = document.createElement('a')
-                            link.download = 'trip-data.csv'
-                            link.href = URL_download
-                            link.click()
-                        }}
-                    >
-                        Export Data
-                    </Button>
-                    {open ? (
-                    <div style={{ position: 'relative', width: 'calc(100vw - 605px)', minWidth: '150px' }}>
-                        <Chart
-                            type='line'
-                            data={{
-                                datasets: datasets
-                            }}
-                            options={options}
-                        />
-                    </div>) : null}
+                    {open && (
+                        <>
+                            <Button
+                                startIcon={<SaveIcon/>}
+                                onClick={() => {
+                                    const csv = datasetsToCSV()
+                                    const blob = new Blob([csv])
+                                    const URL_download = URL.createObjectURL(blob)
+                                    const link = document.createElement('a')
+                                    link.download = 'trip-data.csv'
+                                    link.href = URL_download
+                                    link.click()
+                                }}
+                            >
+                                Export Data
+                            </Button>
+                            <div style={{ position: 'relative', width: 'calc(100vw - 605px)', minWidth: '150px' }}>
+                                <Chart
+                                    type='line'
+                                    data={{
+                                        datasets: datasets
+                                    }}
+                                    options={options}
+                                />
+                            </div>
+                        </>)
+                    }
                 </CardContent>
-            </Card>
-        ) : null
-    );
+            </Card>)
+            }
+        </>
+    )
 }
 
 const options: ChartOptions<'line'> = {
