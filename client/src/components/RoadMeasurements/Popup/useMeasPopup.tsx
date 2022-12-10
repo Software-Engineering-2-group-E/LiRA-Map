@@ -26,9 +26,26 @@ const useMeasPopup = () => {
 				}} />,
 			preConfirm() {
 				const nameInputElm = document.querySelector('#sweetalert-input') as HTMLInputElement
+				const tagSelector = document.querySelector('#select-tag-dropdown-menu') as HTMLInputElement
+				var errMsgArray : string[] = []
 				if (!nameInputElm.value) {
-					swal.showValidationMessage("Please provide a name for your tag.")
+					errMsgArray.push("provide a name for your tag")
 				}
+				if (tagSelector.outerText == "Tag..") {
+					errMsgArray.push("select a tag")
+				}
+				var errMsg : string = "Please "
+				if (errMsgArray.length == 1) {
+					errMsg += errMsgArray.pop()
+				} else if (errMsgArray.length > 1) {
+					errMsg += errMsgArray.pop()
+					for (var err of errMsgArray) {
+						errMsg += " and "
+						errMsg += err
+					}
+					errMsg += "."
+				}
+				swal.showValidationMessage(errMsg)
 			},
 		})
 			.then((result: any) => {
