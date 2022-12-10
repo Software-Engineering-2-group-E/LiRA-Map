@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -16,6 +16,8 @@ import 'chartjs-adapter-date-fns';
 import {MeasMetaPath} from "../../models/path";
 import {ActiveMeasProperties} from "../../models/properties";
 
+import {useMarkerContext} from "../../context/MarkerContext";
+
 import {
     Chart as ChartJS,
     LinearScale,
@@ -28,7 +30,7 @@ import {
     ChartDataset,
     ChartOptions
 } from 'chart.js';
-import { Chart } from 'react-chartjs-2';
+import {Chart, getElementAtEvent} from 'react-chartjs-2';
 
 ChartJS.register(
     LinearScale,
@@ -43,6 +45,10 @@ ChartJS.register(
 const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: ActiveMeasProperties[];}> = ({paths, selectedMeasurements}): JSX.Element => {
 
     const [ open, setOpen ] = useState<boolean>(true)
+
+    const { setPosition } = useMarkerContext();
+
+    const chartRef = useRef(null);
 
     const [ datasets, setDatasets ] = useState<ChartDataset<'line', Object[]>[]>([]);
 
@@ -77,7 +83,7 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
             // Take the first trip
             const trip = Object.values(paths[name])[0];
 
-            const data = trip.path.map(o => ({x: o.metadata.timestamp, y: o.value ? o.value : 0}))
+            const data = trip.path.map(o => ({x: o.metadata.timestamp, y: o.value ? o.value : 0, lat: o.lat, lng: o.lng}))
 
             const dataset: ChartDataset<'line', Object[]> = {
                 label: name,
@@ -110,6 +116,20 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
         return contents
     }
 
+    const onClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+        if(!chartRef.current) return;
+
+        const element = getElementAtEvent(chartRef.current, event);
+
+        if(!element.length) return;
+
+        const { datasetIndex, index } = element[0];
+
+        const o: any = datasets[datasetIndex].data[index]
+
+        setPosition([o.lat, o.lng])
+    };
+
     return (
         <>
             {datasets.length > 0 && (
@@ -134,11 +154,13 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
                             </Button>
                             <div style={{ position: 'relative', width: 'calc(100vw - 605px)', minWidth: '150px' }}>
                                 <Chart
+                                    ref={chartRef}
                                     type='line'
                                     data={{
                                         datasets: datasets
                                     }}
                                     options={options}
+                                    onClick={onClick}
                                 />
                             </div>
                         </>)
