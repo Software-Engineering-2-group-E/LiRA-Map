@@ -35,17 +35,21 @@ const useMeasPopup = () => {
 					errMsgArray.push("select a tag")
 				}
 				var errMsg : string = "Please "
+				var numErrs : number = 0
 				if (errMsgArray.length == 1) {
 					errMsg += errMsgArray.pop()
+					numErrs += 1
 				} else if (errMsgArray.length > 1) {
 					errMsg += errMsgArray.pop()
+					numErrs += 1
 					for (var err of errMsgArray) {
 						errMsg += " and "
 						errMsg += err
+						numErrs += 1
 					}
 					errMsg += "."
 				}
-				swal.showValidationMessage(errMsg)
+				numErrs > 0 && (swal.showValidationMessage(errMsg)) 
 			},
 		})
 			.then((result: any) => {
