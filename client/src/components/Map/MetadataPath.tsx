@@ -9,13 +9,11 @@ import Path from "./Path";
 import L from 'leaflet';
 import iconMarker from 'leaflet/dist/images/marker-icon.png'
 import iconRetina from 'leaflet/dist/images/marker-icon-2x.png'
-import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
 let icon = L.icon ({
     iconAnchor: [12, 41],
     iconRetinaUrl: iconRetina,
-    iconUrl: iconMarker,
-    shadowUrl: iconShadow
+    iconUrl: iconMarker
 });
 
 const parseMD = (mds: any) => {
