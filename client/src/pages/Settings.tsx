@@ -41,7 +41,7 @@ const Settings = () => {
     const { userData, userCredentials } = useSelector((state: RootState) => state.access)
 
     return (
-        <Box>
+        <Box sx={{ml: 2, mt: 1}}>
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={(event: SyntheticEvent, value: string) => setValue(value)}>
@@ -52,7 +52,7 @@ const Settings = () => {
                 </Box>
                 <TabPanel value="1">
                     <Stack spacing={2} alignItems="start">
-                        <Typography variant="h5">General Info</Typography>
+                        <Typography variant="h5" sx={{mt: 2}}>General Info</Typography>
 
                         <Typography variant="overline">First Name</Typography>
                         <TextField id="outlined-basic" placeholder="First Name" defaultValue={userData?.firstName} variant="outlined" />
@@ -68,7 +68,7 @@ const Settings = () => {
                 </TabPanel>
                 <TabPanel value="2">
                     <Stack spacing={2} alignItems="start">
-                        <Typography variant="h5">Password</Typography>
+                        <Typography variant="h5" sx={{mt: 2}}>Password</Typography>
 
                         <Typography variant="overline">Old Password</Typography>
                         <TextField id="outlined-basic" placeholder="Old Password" variant="outlined" />
@@ -89,7 +89,7 @@ const Settings = () => {
                 </TabPanel>
                 <TabPanel value="3">
                     <Stack spacing={2} alignItems="start">
-                        <Typography variant="h5">Preferences</Typography>
+                        <Typography variant="h5" sx={{mt: 2}}>Preferences</Typography>
 
                         <Typography variant="overline">Role</Typography>
                         <Autocomplete
