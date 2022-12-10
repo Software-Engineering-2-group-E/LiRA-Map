@@ -61,7 +61,15 @@ const MetadataPath: FC<PathProps> = ( { path, properties, metadata } ) => {
         <>
             <Path path={path} properties={properties} onClick={onClick}></Path>
 
-            <Marker position={position} icon={icon} />
+            {position &&
+                <Marker
+                    position={position}
+                    icon={icon}
+                    eventHandlers={{
+                        click: () => setPosition(null)
+                    }}
+                />
+            }
 
             {/*{ selected !== undefined &&
                 <Marker position={position} icon={icon}>

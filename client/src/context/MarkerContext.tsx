@@ -6,15 +6,15 @@ import {
 
 
 interface ContextProps {
-    position: [number, number],
-    setPosition: Dispatch<SetStateAction<[number, number]>>;
+    position: [number, number] | null,
+    setPosition: Dispatch<SetStateAction<[number, number] | null>>;
 }
 
 const MarkerContext = createContext({} as ContextProps);
 
 export const MarkerProvider = ({ children }: any) => {
 
-    const [ position, setPosition ] = useState<[number, number]>([0, 0])
+    const [ position, setPosition ] = useState<[number, number] | null>(null)
 
     return (
         <MarkerContext.Provider
