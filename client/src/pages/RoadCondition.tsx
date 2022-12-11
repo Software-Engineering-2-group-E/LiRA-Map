@@ -8,6 +8,8 @@ import Page from '../components/Page';
 import {useState} from "react";
 import {Palette} from "react-leaflet-hotline";
 import {ChartData} from "chart.js";
+import { FAKEROAD_DATA, RENDERER_PALETTE } from "../components/Map/constants";
+
 
 import ConditionsMap from "../components/RoadConditions/ConditionsMap";
 import ConditionsGraph from "../components/RoadConditions/ConditionsGraph";
@@ -27,41 +29,6 @@ import * as React from "react";
 
 // ----------------------------------------------------------------------
 
-////---------------------------------------------------------------------
-//Fake roadProfile
-
-function generate(min: number, max: number) {
-    return Math.random() * (max - min + 1) + min;
-}
-
-const fakeRoad: RoadData = {
-    roadId: 797,
-    roadName: "Åkandevej",
-    segmentList: [{
-        segmentId: 0,
-        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
-    }, {
-        segmentId: 1,
-        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
-    }, {
-        segmentId: 2,
-        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
-    }, {
-        segmentId: 3,
-        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
-    }, {
-        segmentId: 4,
-        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
-    }, {
-        segmentId: 5,
-        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
-    }]
-
-}
-
-////---------------------------------------------------------------------
-
-
 export interface Segment {
     segmentId: number
     data: number[]
@@ -77,7 +44,7 @@ export interface RoadData {
 export default function RoadCondition() {
     const {themeStretch} = useSettings();
 
-    const [palette, setPalette] = useState<Palette>([])
+    const [palette, setPalette] = useState<Palette>(RENDERER_PALETTE)
     const [wayData, setWayData] = useState<ChartData<"line", number[], number>>()
     const [openRoadProfile, setOpenRoadProfile] = useState(false);
 
@@ -104,7 +71,7 @@ export default function RoadCondition() {
             >
                 Open Road Profile
             </Button>
-            {openRoadProfile ? <RoadProfile roadData={fakeRoad}/>
+            {openRoadProfile ? <RoadProfile roadData={FAKEROAD_DATA}/>
                 : <p></p>}
         </Page>
     );

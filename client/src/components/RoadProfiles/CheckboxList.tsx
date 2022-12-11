@@ -7,6 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import {index} from "d3";
 import {boolean} from "../../_mock/boolean";
+import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 
 export interface CheckboxListProps {
     checked : boolean[],
@@ -19,41 +20,18 @@ export default function CheckboxList({checked, setChecked} : CheckboxListProps
     };
 
     return (
-        <List
-            sx={{
-                width: '100%',
-                maxWidth: 360,
-                bgcolor: 'background.paper',
-                position: 'relative',
-                overflow: 'auto',
-                maxHeight: 200,
-                '& ul': { padding: 0 },
-            }}
-            subheader={<li />}>
+        <ToggleButtonGroup
+            sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', position: 'relative', overflow: 'auto', maxHeight: 150, '& ul': { padding: 0 } }}
+            aria-multiselectable={'true'}
+            orientation={'vertical'}
+        >
             {checked.map((check,value) => {
-                const labelId = `checkbox-list-label-${value}`;
-
                 return (
-                    <ListItem
-                        key={value}
-                        disablePadding
-                    >
-                        <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
-                            <ListItemText id={labelId} primary={`Seg ${value + 1}`} />
-                            <ListItemIcon >
-                                <Checkbox
-                                    edge="start"
-                                    checked={check}
-                                    tabIndex={-1}
-                                    disableRipple
-                                    inputProps={{ 'aria-labelledby': labelId }}
-
-                                />
-                            </ListItemIcon>
-                        </ListItemButton>
-                    </ListItem>
+                    <ToggleButton key={`Seg ${value + 1}`} value={value} onClick={handleToggle(value)}>
+                        {`Seg ${value + 1}`}
+                    </ToggleButton>
                 );
             })}
-        </List>
+        </ToggleButtonGroup>
     );
 }

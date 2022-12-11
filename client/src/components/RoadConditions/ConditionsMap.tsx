@@ -3,9 +3,10 @@ import { ChartData } from "chart.js";
 import { Palette } from "react-leaflet-hotline";
 
 import MapWrapper from "../Map/MapWrapper";
-import { RENDERER_PALETTE } from "../Map/constants";
 import PaletteEditor from "../Palette/PaletteEditor";
 import Ways from "./Ways";
+import RoadProfile from "../RoadProfiles/RoadProfile";
+import { FAKEROAD_DATA } from "../Map/constants";
 
 import useSize from "../../hooks/useSize";
 
@@ -48,14 +49,9 @@ const ConditionsMap: FC<Props> = ( { type, palette, setPalette, setWayData } ) =
         } )
     }, [] )
 
-    return (
-        <div style={{ marginTop: '20px' }} ref={ref}>
-            <PaletteEditor
-                defaultPalette={RENDERER_PALETTE}
-                width={width}
-                cursorOptions={ { scale: max, grid, samples } }
-                onChange={setPalette} />
 
+    return (
+        <div ref={ref}>
             <MapWrapper>
                 <Ways palette={palette} type={name} onClick={onClick}/>
             </MapWrapper>
