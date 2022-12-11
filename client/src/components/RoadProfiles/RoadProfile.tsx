@@ -23,55 +23,54 @@ export interface RoadProfileProps {
     roadData: RoadData
 }
 
-export default function RoadProfile({roadData} : RoadProfileProps) {
+export default function RoadProfile({roadData}: RoadProfileProps) {
 
     const [checked, setChecked] = useState<boolean[]>(new Array(roadData.segmentList.length).fill(true));
+    const [value, setValue] = useState("1");
 
-
-    const [value, setValue] = useState('1');
     const handleChange = (event: SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
 
+    const taps = [
+        {name: 'Condition', color: 'rgba(83, 136, 216, 0.6)'},
+        {name: 'Energy', color: 'rgba(83, 216, 136, 0.6)'},
+        {name: 'Friction', color: 'rgba(216, 83, 83, 0.6)'},
+        {name: 'Altitude', color: 'rgba(136, 136, 136, 0.6)'},
+    ];
 
     return (
-        <Card sx={{minWidth: 275}}>
+        <Card sx={{width: 750}}>
             <CardContent>
                 <Typography variant="h5">{roadData.roadName}</Typography>
-                <Grid container spacing={2}>
-                    <Grid item xs={2}>
+                <Grid container spacing={1} columns={16}>
+                    <Grid item xs={3}>
                         <Button variant="outlined">ADD TO LIST</Button>
 
                         <CheckboxList checked={checked}
                                       setChecked={setChecked}/>
 
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={13}>
                         <TabContext value={value}>
                             <TabList onChange={handleChange}>
-                                <Tab label="Condition" value="1"/>
-                                <Tab label="Energy" value="2"/>
-                                <Tab label="Friction" value="3"/>
-                                <Tab label="Altitude" value="4"/>
+                                {taps.map((t,value) => {
+                                    return (
+                                        <Tab label={t.name} value={(value+1).toString()}/>
+                                    );
+                                })}
                             </TabList>
-                            <TabPanel value="1">
-                                <div></div>
-                                <Graph segments={roadData.segmentList.filter((segment,index) => checked[index])}
-                                       type={0}/>
-                            </TabPanel>
-                            <TabPanel value="2">
-                                <Graph segments={roadData.segmentList.filter((segment,index) => checked[index])}
-                                       type={1}/>
-                            </TabPanel>
-                            <TabPanel value="3">
-                                <div></div>
-                                <Graph segments={roadData.segmentList.filter((segment,index) => checked[index])}
-                                       type={2}/>
-                            </TabPanel>
-                            <TabPanel value="4">
-                                <Graph segments={roadData.segmentList.filter((segment,index) => checked[index])}
-                                       type={3}/>
-                            </TabPanel>
+                            {taps.map((t,value) => {
+                                return(
+                                    <TabPanel value={(value+1).toString()}>
+                                        <Graph
+                                            segments={roadData.segmentList.filter((segment, index) => checked[index])}
+                                            name = {t.name}
+                                            color = {t.color}
+                                            value = {value}/>
+                                    </TabPanel>
+                                );
+                            })}
                         </TabContext>
                     </Grid>
                 </Grid>
