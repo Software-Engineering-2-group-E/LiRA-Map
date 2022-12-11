@@ -13,7 +13,7 @@ const Dashboard = () => {
     const { userData } = useSelector((state: RootState) => state.access)
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{ width: '100%' }}>
             <Grid item xs={4}>
                 <Box sx={{ height: '100%', p: 2, border: '1px grey', borderRadius: '5px', boxShadow: 2 }}>
                     <Typography variant="h5">Welcome, {userData?.firstName}!</Typography>
