@@ -18,9 +18,9 @@ const Rides: FC = () => {
 	const { selectedMetas } = useMetasCtx();
 	const { selectedMeasurements } = useMeasurementsCtx();
 
-	const [paths, setPaths] = useState<MeasMetaPath>({});
-
-	const popup = usePopup();
+    const [ swal, popup ] = usePopup()
+	
+    const [ paths, setPaths ] = useState<MeasMetaPath>({});
 
 	useEffect(() => {
 		const updatePaths = async () => {

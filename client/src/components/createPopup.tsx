@@ -7,15 +7,19 @@ import '@sweetalert2/theme-dark';
 const swal = withReactContent(Swal)
 
 const createPopup = <T,>() => {
-    return ( options: SweetAlertOptions<any, any> ): Promise<SweetAlertResult<T>> => {
-        return swal.fire( { 
-            ...options, 
-            customClass: { 
-                popup: 'sweetalert-popup', 
-                title: 'sweetalert-title'
-            } 
-        } )
-    }
+    return [ 
+        swal, 
+        ( options: SweetAlertOptions<any, any> ): Promise<SweetAlertResult<T>> => 
+        {
+            return swal.fire({ 
+                ...options, 
+                customClass: { 
+                    popup: 'sweetalert-popup', 
+                    title: 'sweetalert-title'
+                } 
+            })
+        } 
+    ] as const
 }
 
 export default createPopup
