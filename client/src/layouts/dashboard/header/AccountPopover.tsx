@@ -116,7 +116,7 @@ export default function AccountPopover() {
 
                 <MenuItem
                     component={Link}
-                    to="/user/settings"
+                    to="/settings"
                     sx={{m: 1}}
                 >Settings</MenuItem>
                 <MenuItem sx={{m: 1}} onClick={() => dispatch.access.logout()}>Logout</MenuItem>
