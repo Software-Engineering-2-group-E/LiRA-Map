@@ -58,13 +58,13 @@ export default function Router() {
       element: <Signup />,
     },
     {
-      path: "/user",
+      path: "/",
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/settings" replace />, index: true },
-        { path: "settings", element: <Settings /> },
         { element: <Navigate to="/dashboard" replace />, index: true },
         { path: "dashboard", element: <Dashboard /> },
+        { element: <Navigate to="/settings" replace />, index: true },
+        { path: "settings", element: <Settings /> },
       ],
     },
     {
@@ -84,10 +84,6 @@ export default function Router() {
         { path: "condition", element: <RoadCondition /> },
         { path: "altitude", element: <RoadAltitude /> },
       ],
-    },
-    {
-      path: "/",
-      element: <Navigate to="/road/measurement" replace />,
     },
     {
       path: "*",
