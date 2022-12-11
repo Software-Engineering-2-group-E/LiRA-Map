@@ -3,6 +3,7 @@ import { LatLng } from 'leaflet'
 import { Palette } from 'react-leaflet-hotline';
 import { ActiveMeasProperties, RendererOptions } from '../../models/properties';
 import { RendererName } from '../../models/renderers';
+import {RoadData} from "../../pages/RoadCondition";
 
 // Map
 export const MAP_OPTIONS = {
@@ -55,4 +56,33 @@ export const HEATMAP_OPTIONS = {
     max: 10,
     radius: 10,
     palette: HEATMAP_PALETTE
+}
+
+function generate(min: number, max: number) {
+    return Math.random() * (max - min + 1) + min;
+}
+
+export const FAKEROAD_DATA: RoadData = {
+    roadId: 797,
+    roadName: "Åkandevej",
+    segmentList: [{
+        segmentId: 0,
+        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
+    }, {
+        segmentId: 1,
+        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
+    }, {
+        segmentId: 2,
+        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
+    }, {
+        segmentId: 3,
+        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
+    }, {
+        segmentId: 4,
+        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
+    }, {
+        segmentId: 5,
+        data: [generate(5, 100),generate(5, 100),generate(5, 100),generate(5, 100)]
+    }]
+
 }
