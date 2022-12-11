@@ -1,8 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { useMeasurementsCtx } from '../../context/MeasurementsContext';
 import { GraphProvider } from '../../context/GraphContext';
 import { useMetasCtx } from '../../context/MetasContext';
+import { MarkerProvider } from "../../context/MarkerContext";
 
 import { MeasMetaPath } from '../../models/path';
 
@@ -17,9 +18,9 @@ const Rides: FC = () => {
 	const { selectedMetas } = useMetasCtx();
 	const { selectedMeasurements } = useMeasurementsCtx();
 
-	const [paths, setPaths] = useState<MeasMetaPath>({});
-
-	const popup = usePopup();
+    const [ swal, popup ] = usePopup()
+	
+    const [ paths, setPaths ] = useState<MeasMetaPath>({});
 
 	useEffect(() => {
 		const updatePaths = async () => {
@@ -50,11 +51,13 @@ const Rides: FC = () => {
 
 	return (
 		<GraphProvider>
-			<RidesMap
-				paths={paths}
-				selectedMetas={selectedMetas}
-				selectedMeasurements={selectedMeasurements} />
-			<RideGraphCard paths={paths} selectedMeasurements={selectedMeasurements} />
+			<MarkerProvider>
+				<RidesMap
+					paths={paths}
+					selectedMetas={selectedMetas}
+					selectedMeasurements={selectedMeasurements} />
+				<RideGraphCard paths={paths} selectedMeasurements={selectedMeasurements} />
+			</MarkerProvider>
 		</GraphProvider>
 	);
 };
