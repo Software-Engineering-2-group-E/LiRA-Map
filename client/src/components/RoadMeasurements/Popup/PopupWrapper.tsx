@@ -54,7 +54,7 @@ const PopupWrapper: FC<IPopupWrapper> = ({ defaultOptions, setOptions }) => {
 			<Select
 				labelId=''
 				id='select-tag-dropdown-menu'
-				value={getSelectedMeasType ? getSelectedMeasType : 'tag'}
+				value={dbName ? dbName : (getSelectedMeasType ? getSelectedMeasType : 'tag')}
 				label='Tags'
 				onChange={(handleChange)}
 			>

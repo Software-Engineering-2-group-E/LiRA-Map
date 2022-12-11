@@ -35,11 +35,17 @@ const MeasurementTypes: FC = () => {
 		e.stopPropagation();
 
 		popup(
-			(newMeas: ActiveMeasProperties) => {
+			(newMeas: ActiveMeasProperties, shouldDelete: boolean) => {
 				const temp = [...measurements];
-				temp[i] = newMeas;
-				setMeasurements(temp);
+				if (shouldDelete) {
+					temp.splice(i, 1)
+					setMeasurements(temp);
+				} else {
+					temp[i] = newMeas;
+					setMeasurements(temp);
+				}
 			},
+			true,
 			{ ...RENDERER_MEAS_PROPERTIES, ...meas },
 		);
 	};
@@ -48,8 +54,6 @@ const MeasurementTypes: FC = () => {
 		setAddChecked(true);
 		popup(
 			(newMeasurement: ActiveMeasProperties) => {
-				console.log(newMeasurement.name)
-				console.log(newMeasurement.dbName)
 
 				setAddChecked(false); // TODO fjern behovet for det her weirdness
 				// update the state in RideDetails
@@ -57,6 +61,7 @@ const MeasurementTypes: FC = () => {
 				// and add the measurement to the measurements.json file
 				// addMeasurement(newMeasurement); // TODO laura: i disabled this because it creates "null" entries
 			},
+			false,
 			RENDERER_MEAS_PROPERTIES,
 		);
 	};
