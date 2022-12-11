@@ -9,7 +9,7 @@ const useMeasPopup = () => {
 	const [swal, popup] = createPopup<ActiveMeasProperties>();
 	// const [options, setOptions] = useState<ActiveMeasProperties>()
 
-	return (callback: (measurement: ActiveMeasProperties) => void, defaultOptions: Required<ActiveMeasProperties>) => {
+	return (callback: (measurement: ActiveMeasProperties, shouldDelete: boolean) => void, editMode: boolean, defaultOptions: Required<ActiveMeasProperties>) => {
 
 		// setOptions( defaultOptions )
 		let options = { ...defaultOptions };
@@ -18,7 +18,9 @@ const useMeasPopup = () => {
 			title: <p>Enter the name of your measurement and its tag<br />(ex: obd.rpm, acc.xyz)</p>,
 			showCancelButton: true,
 			cancelButtonColor: '#d33',
-			confirmButtonText: 'Add',
+			confirmButtonText: editMode ? 'Update' : 'Add',
+			showDenyButton: editMode,
+			denyButtonText: 'Delete tag',
 			html: <PopupWrapper
 				defaultOptions={defaultOptions}
 				setOptions={opts => {
@@ -53,13 +55,20 @@ const useMeasPopup = () => {
 			},
 		})
 			.then((result: any) => {
+				if (result.isDenied) {
+					callback(options, true);
+
+				}
+
 				if (!result.isConfirmed || options === undefined)
 					return;
 
-				callback(options);
+				callback(options, false);
+
+				const addOrMod = editMode ? 'updated' : 'added'
 
 				popup({
-					title: <p>Measurement <b>{options.name}</b> added / modified</p>,
+					title: <p>Measurement <b>{options.name}</b> {addOrMod}</p>,
 					footer: `Will be drawn as ${options.rendererName}`,
 					icon: 'success',
 					timer: 1500,
