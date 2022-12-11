@@ -11,16 +11,15 @@ export class RidesService {
     constructor(@InjectConnection('lira-main') private readonly knex: Knex) {}
 
     async getRides(): Promise<RideMeta[]> {
-        return await this.knex
+        return this.knex
             .select('*')
             .from({ public: 'Trips' })
             .whereNot('TaskId', 0)
+            .where('DistanceKm', '>', 0.1)
             .orderBy('TaskId');
     }
 
     async getRide(tripId: string, dbName: string): Promise<BoundedPath> {
-        // console.log(tripId, dbName);
-
         const res = await this.knex
             .select(['message', 'lat', 'lon', 'Created_Date'])
             .from({ public: 'Measurements' })
