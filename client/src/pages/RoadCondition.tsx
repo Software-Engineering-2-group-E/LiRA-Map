@@ -71,7 +71,7 @@ export default function RoadCondition() {
             >
                 Open Road Profile
             </Button>
-            {openRoadProfile ? <RoadProfile roadData={FAKEROAD_DATA}/>
+            {openRoadProfile ? <RoadProfile roadData={FAKEROAD_DATA} width={'750px'}/>
                 : <p></p>}
         </Page>
     );

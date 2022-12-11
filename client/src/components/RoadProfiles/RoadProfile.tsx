@@ -14,16 +14,21 @@ import TabPanel from "@mui/lab/TabPanel";
 
 import CheckboxList from "./CheckboxList";
 import Graph from "./Graph";
-import {useEffect, useState, SyntheticEvent} from "react";
+import {useEffect, useState, SyntheticEvent, useRef} from "react";
 import {RoadData, Segment} from "../../pages/RoadCondition";
 import segments from "../CarData/Segments";
 import {boolean} from "../../_mock/boolean";
+import useSize from "../../hooks/useSize";
 
 export interface RoadProfileProps {
-    roadData: RoadData
+    roadData: RoadData,
+    width: string
 }
 
-export default function RoadProfile({roadData}: RoadProfileProps) {
+export default function RoadProfile({roadData, width}: RoadProfileProps) {
+
+    const ref = useRef(null)
+    const [ _, height ] = useSize(ref)
 
     const [checked, setChecked] = useState<boolean[]>(new Array(roadData.segmentList.length).fill(true));
     const [value, setValue] = useState("1");
@@ -40,18 +45,16 @@ export default function RoadProfile({roadData}: RoadProfileProps) {
     ];
 
     return (
-        <Card sx={{width: 750}}>
+        <Card sx={{width: width}}>
             <CardContent>
                 <Typography variant="h5">{roadData.roadName}</Typography>
                 <Grid container spacing={1} columns={16}>
                     <Grid item xs={3}>
                         <Button variant="outlined">ADD TO LIST</Button>
 
-                        <CheckboxList checked={checked}
-                                      setChecked={setChecked}/>
-
+                        <CheckboxList checked={checked} setChecked={setChecked} maxHeight={height}/>
                     </Grid>
-                    <Grid item xs={13}>
+                    <Grid item xs={13} ref={ref}>
                         <TabContext value={value}>
                             <TabList onChange={handleChange}>
                                 {taps.map((t,value) => {
