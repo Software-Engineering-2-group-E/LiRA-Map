@@ -178,18 +178,6 @@ const palette = {
     text: { primary: '#fff', secondary: GREY[300], disabled: GREY[400] },
     background: { paper: GREY[800], default: GREY[900], neutral: GREY[500_16] },
     action: { active: GREY[500], ...COMMON.action },
-    /*components: {
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            "&.MuiButton-root": {
-              backgroundColor: "#000",
-              color: "#fff"
-            }
-          }
-        },
-      },
-    },*/
   },
 } as const;
 
