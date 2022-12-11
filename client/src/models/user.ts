@@ -68,6 +68,9 @@ export const access = createModel<RootModel>()({
         // handle state changes with pure functions
         setState(state, payload: Access) {
             return state = payload;
+        },
+        logout(state) {
+            return state = {}
         }
     },
     effects: (dispatch) => ({

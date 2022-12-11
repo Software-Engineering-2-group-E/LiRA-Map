@@ -5,8 +5,8 @@ import {Avatar, Box, Divider, MenuItem, Typography} from '@mui/material';
 // components
 import MenuPopover from '../../../components/MenuPopover';
 import {IconButtonAnimate} from '../../../components/animate';
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store";
+import {useDispatch, useSelector} from "react-redux";
+import {Dispatch, RootState} from "../../../store";
 import {Link} from "react-router-dom";
 import useCollapseDrawer from "../../../hooks/useCollapseDrawer";
 import Connection from "../../../components/Connection/Connection";
@@ -32,6 +32,7 @@ import Connection from "../../../components/Connection/Connection";
 
 export default function AccountPopover() {
     const [open, setOpen] = useState<HTMLElement | null>(null);
+    const dispatch = useDispatch<Dispatch>();
 
     const { userData, userCredentials } = useSelector(
         (state: RootState) => state.access
@@ -118,7 +119,7 @@ export default function AccountPopover() {
                     to="/user/settings"
                     sx={{m: 1}}
                 >Settings</MenuItem>
-                <MenuItem sx={{m: 1}}>Logout</MenuItem>
+                <MenuItem sx={{m: 1}} onClick={() => dispatch.access.logout()}>Logout</MenuItem>
             </MenuPopover>
         </>
     );
