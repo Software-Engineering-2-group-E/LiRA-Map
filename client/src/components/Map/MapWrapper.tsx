@@ -1,5 +1,6 @@
 import useSettings from "../../hooks/useSettings";
 import { MapContainer, ScaleControl, TileLayer } from "react-leaflet";
+
 import Zoom from "./Zoom";
 
 import { MAP_OPTIONS } from "./constants";

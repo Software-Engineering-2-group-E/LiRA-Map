@@ -7,8 +7,8 @@ import { Logger } from '@nestjs/common';
 const testCollectionRef = collection(firestore, 'test-collection');
 
 export const RetrieveTestData = async () => {
-  const querySnapshot = await getDocs(testCollectionRef);
-  querySnapshot.forEach((doc) => {
-    Logger.log(`Found document (${doc.id},${doc.data()})`);
-  });
+    const querySnapshot = await getDocs(testCollectionRef);
+    querySnapshot.forEach((doc) => {
+        Logger.log(`Found document (${doc.id},${doc.data()})`);
+    });
 };

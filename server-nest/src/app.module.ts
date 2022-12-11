@@ -28,27 +28,32 @@ import { SignupController } from './signup/SignupController';
 import { ConnectionController } from './connection/connection.controller';
 import { ConnectionService } from './connection/connection.service';
 
+import { EnergyController } from "./energy/EnergyController";
+import { EnergyService } from "./energy/EnergyService";
+
 import {
-  LIRA_DB_CONFIG,
-  POSTGIS_DB_CONFIG,
-  VISUAL_DB_CONFIG,
+    LIRA_DB_CONFIG,
+    OUR_LIRA_DB_CONFIG,
+    POSTGIS_DB_CONFIG,
+    VISUAL_DB_CONFIG,
 } from './database';
 import { LoginController } from './login/login.controller';
 
 const database = (config: any, name: string) => {
-  return KnexModule.forRootAsync(
-    {
-      useFactory: () => ({ config }),
-    },
-    name,
-  );
+    return KnexModule.forRootAsync(
+        {
+            useFactory: () => ({ config }),
+        },
+        name,
+    );
 };
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    database(LIRA_DB_CONFIG, 'lira-main'),
-    database(VISUAL_DB_CONFIG, 'lira-vis'),
-    database(POSTGIS_DB_CONFIG, 'postgis'),
+    database(LIRA_DB_CONFIG, "lira-main"),
+    database(OUR_LIRA_DB_CONFIG, "our-lira-db"),
+    database(VISUAL_DB_CONFIG, "lira-vis"),
+    database(POSTGIS_DB_CONFIG, "postgis"),
   ],
   controllers: [
     AppController,
@@ -61,6 +66,7 @@ const database = (config: any, name: string) => {
     LoginController,
     ConnectionController,
     SignupController,
+    EnergyController,
   ],
   providers: [
     AppService,
@@ -72,6 +78,7 @@ const database = (config: any, name: string) => {
     RCService,
     AltitudeService,
     ConnectionService,
+    EnergyService,
   ],
 })
 export class AppModule {}

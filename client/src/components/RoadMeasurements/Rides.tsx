@@ -1,92 +1,65 @@
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from 'react';
 
-import { useMeasurementsCtx } from "../../context/MeasurementsContext";
-import { GraphProvider } from "../../context/GraphContext";
-import { useMetasCtx } from "../../context/MetasContext";
+import { useMeasurementsCtx } from '../../context/MeasurementsContext';
+import { GraphProvider } from '../../context/GraphContext';
+import { useMetasCtx } from '../../context/MetasContext';
+import { MarkerProvider } from "../../context/MarkerContext";
 
-import { ActiveMeasProperties } from "../../models/properties";
-import { MeasMetaPath, PointData } from "../../models/path";
+import { MeasMetaPath } from '../../models/path';
 
-import { GraphData, GraphPoint } from "../../assets/graph/types";
+import { getRide } from '../../queries/rides';
 
-import { getRide } from "../../queries/rides";
-
-import Graph from "../Graph/Graph";
-import RidesMap from "./RidesMap";
-import usePopup from "../createPopup";
+import RidesMap from './RidesMap';
+import usePopup from '../createPopup';
+import RideGraphCard from './RideGraphCard';
 
 const Rides: FC = () => {
-    
-    const { selectedMetas } = useMetasCtx()
-    const { selectedMeasurements } = useMeasurementsCtx()
 
-    const [ paths, setPaths ] = useState<MeasMetaPath>({})
+	const { selectedMetas } = useMetasCtx();
+	const { selectedMeasurements } = useMeasurementsCtx();
 
-    const popup = usePopup()
+    const [ swal, popup ] = usePopup()
+	
+    const [ paths, setPaths ] = useState<MeasMetaPath>({});
 
-    useEffect( () => {
+	useEffect(() => {
+		const updatePaths = async () => {
+			const temp = {} as MeasMetaPath;
 
-        const updatePaths = async () => {
-            const temp = {} as MeasMetaPath;
+			for (let meas of selectedMeasurements) {
+				const { name } = meas;
+				temp[name] = {};
 
-            for ( let meas of selectedMeasurements )
-            {
-                const { name } = meas
-                temp[name] = {}
+				for (let meta of selectedMetas) {
+					const { TaskId } = meta;
 
-                for ( let meta of selectedMetas )
-                {
-                    const { TaskId } = meta;
-    
-                    if ( Object.hasOwn(paths, name) && Object.hasOwn(paths[name], TaskId) )
-                        temp[name][TaskId] = paths[name][TaskId]
-                    else {
-                        const bp = await getRide(meas, meta, popup)
-                        if ( bp !== undefined )
-                            temp[name][TaskId] = bp;
-                    }
-                } 
-            }
+					if (Object.hasOwn(paths, name) && Object.hasOwn(paths[name], TaskId))
+						temp[name][TaskId] = paths[name][TaskId];
+					else {
+						const bp = await getRide(meas, meta, popup);
+						if (bp !== undefined)
+							temp[name][TaskId] = bp;
+					}
+				}
+			}
+			return temp;
+		};
 
-            return temp;
-        }
-        
-        updatePaths().then( setPaths )
+		updatePaths().then(setPaths);
 
-    }, [selectedMetas, selectedMeasurements] )
+	}, [selectedMetas, selectedMeasurements]);
 
-    return (
-        <GraphProvider>
-            <div className="map-container">
-
-                <RidesMap
-                    paths={paths} 
-                    selectedMetas={selectedMetas} 
-                    selectedMeasurements={selectedMeasurements}  />
-
-                { selectedMeasurements.map( ({hasValue, name, palette}: ActiveMeasProperties, i: number) => hasValue && 
-                    <Graph 
-                        key={`graph-${i}`}
-                        labelX="Time (h:m:s)" 
-                        labelY={name}
-                        absolute={true}
-                        time={true}
-                        palette={palette}
-                        plots={ Object.entries(paths[name] || {})
-                            .map( ([TaskId, bp], j) => {
-                                const { path, bounds } = bp;
-                                const x = (p: PointData) => new Date(p.metadata.timestamp).getTime()
-                                const data: GraphData = path
-                                    .map( p => [x(p), p.value || 0] as GraphPoint )
-                                    .sort( ([x1, y1], [x2, y2]) => (x1 < x2) ? -1 : (x1 === x2) ? 0 : 1 )
-                                return { data, bounds, label: 'r-' + TaskId, j }
-                            } ) 
-                        }
-                    />
-                ) }
-            </div>
-        </GraphProvider>
-  )
-}
+	return (
+		<GraphProvider>
+			<MarkerProvider>
+				<RidesMap
+					paths={paths}
+					selectedMetas={selectedMetas}
+					selectedMeasurements={selectedMeasurements} />
+				<RideGraphCard paths={paths} selectedMeasurements={selectedMeasurements} />
+			</MarkerProvider>
+		</GraphProvider>
+	);
+};
 
 export default Rides;

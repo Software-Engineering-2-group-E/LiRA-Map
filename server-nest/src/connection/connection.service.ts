@@ -7,17 +7,19 @@ export class ConnectionService {
 
     async getConnection(): Promise<boolean> {
         return Promise.race([
-            (async (): Promise<boolean> =>  {
+            (async (): Promise<boolean> => {
                 try {
-                    await this.knex.raw('select 1+1 as result')
+                    await this.knex.raw('select 1+1 as result');
                 } catch (error) {
-                    console.error("Could not connect to DB: ", error)
+                    console.error('Could not connect to DB: ', error);
 
-                    return false
+                    return false;
                 }
-                return true
+                return true;
             })(),
-            new Promise((resolve: (value: boolean) => void) => setTimeout(() => resolve(false), 5000))
-        ])
+            new Promise((resolve: (value: boolean) => void) =>
+                setTimeout(() => resolve(false), 5000),
+            ),
+        ]);
     }
 }

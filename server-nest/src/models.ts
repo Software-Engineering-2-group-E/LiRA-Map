@@ -1,147 +1,103 @@
-export interface Login {
-  email: string;
-  password: string;
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Measurement } from './measurements/measurements.dto';
+import { LatLng, PointData } from './rides/rides.dto';
+
+export class Signup {
+    @ApiProperty()
+    email: string;
+    @ApiProperty()
+    password: string;
+    @ApiProperty()
+    firstName: string;
+    @ApiProperty()
+    lastName: string;
 }
 
-export interface Signup {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-}
-
-export interface LatLng {
-  lat: number;
-  lng: number;
-}
-
-export interface LatLon {
-  lat: number;
-  lon: number;
-}
-
-export interface PointData extends LatLng {
-  properties?: PointProperties;
-  value?: number;
-  metadata?: any;
+export class LatLon {
+    @ApiProperty()
+    lat: number;
+    @ApiProperty()
+    lon: number;
 }
 
 export type Path = PointData[];
 
-export interface Bounds {
-  minX: number;
-  maxX: number;
-  minY: number;
-  maxY: number;
-}
-
-export enum RendererName {
-  circle = 'circle',
-  circles = 'circles',
-  rectangles = 'rectangles',
-  line = 'line',
-  hotline = 'hotline',
-  hotpoints = 'hotpoints',
-}
-
-export interface PaletteColor {
-  offset: number;
-  color: string;
-  stopValue?: number;
-}
-export type Palette = PaletteColor[];
-
-// Rendering properties of a single point belonging to a Path
-// If an attribute is defined for a point, it overwrites the properties for the path
-export interface PointProperties {
-  // Color of a point or the entire path
-  color?: string;
-  // Radius or largeness of a point or the entire path
-  width?: number;
-  // Weight (boldness) of a point or the entire path
-  weight?: number;
-  // Opacity (between 0 and 1) of a point or the entire path
-  opacity?: number;
-}
-
-// Rendering properties of an entire Path
-export interface PathProperties extends PointProperties {
-  // The name of the renderer to use - see ./renderers for the list of names
-  rendererName: RendererName;
-  // Weight can be multiplied by the dilatationFactor
-  // 	< 1 -> shrinks ; > 1 -> grows ; == 1 -> stays the same
-  dilatationFactor?: number;
-  // Palette used for coloring the path and graph
-  palette?: Palette;
-}
-
-export interface Measurement extends PathProperties {
-  // measurement as it is in the database
-  dbName: string;
-  // human friendly name of the measurement
-  name: string;
-  // Needs to be specified if the points have a value attached to them
-  hasValue?: boolean;
+export class Bounds {
+    @ApiProperty()
+    minX: number;
+    @ApiProperty()
+    maxX: number;
+    @ApiProperty()
+    minY: number;
+    @ApiProperty()
+    maxY: number;
 }
 
 // used for queries
-export interface BoundedPath {
-  path: Path;
-  bounds?: Bounds;
+export class BoundedPath {
+    @ApiProperty()
+    path: Path;
+    @ApiPropertyOptional()
+    bounds?: Bounds;
 }
 
-// This interface is used as a type for server's response
+// This class is used as a type for server's response
 // for instance, JSON files follow this format
-export interface JSONProps extends BoundedPath {
-  properties: Measurement;
-  metadata?: { [key: string]: any };
+export class JSONProps extends BoundedPath {
+    @ApiProperty()
+    properties: Measurement;
+    @ApiPropertyOptional()
+    metadata?: { [key: string]: any };
 }
 
 export type Position3D = {
-  x: number;
-  y: number;
-  z: number;
+    x: number;
+    y: number;
+    z: number;
 };
 
-export interface LatLngDist extends LatLng {
-  way_dist: number;
+export class LatLngDist extends LatLng {
+    @ApiProperty()
+    way_dist: number;
 }
 
-export interface LatLonDist extends LatLon {
-  way_dist: number;
+export class LatLonDist extends LatLon {
+    @ApiProperty()
+    way_dist: number;
 }
 
-export interface ValueLatLng extends LatLng {
-  value: number;
+export class ValueLatLng extends LatLng {
+    @ApiProperty()
+    value: number;
 }
 
-export interface Condition {
-  way_dist: number;
-  value: number;
+export class Condition {
+    @ApiProperty()
+    way_dist: number;
+    @ApiProperty()
+    value: number;
 }
 
 export type WayId = string;
 
-export interface WaysConditions {
-  way_lengths: number[];
-  way_ids: WayId[];
-  geometry: LatLngDist[][];
-  conditions: Condition[][];
+export class WaysConditions {
+    @ApiProperty()
+    way_lengths: number[];
+    @ApiProperty()
+    way_ids: WayId[];
+    @ApiProperty()
+    geometry: LatLngDist[][];
+    @ApiProperty()
+    conditions: Condition[][];
 }
 
-export interface MapBounds {
-  minLat: number;
-  maxLat: number;
-  minLng: number;
-  maxLng: number;
-}
-
-// geometry: LatLng[][]
-// wayIds: WayId[]
-// conditions:
-
-export interface BoundedCondition {
-  conditions: { [condition_type: string]: Condition[] };
-  length: number;
-  coordinates: LatLonDist[];
+export class MapBounds {
+    @ApiProperty()
+    minLat: number;
+    @ApiProperty()
+    maxLat: number;
+    @ApiProperty()
+    minLng: number;
+    @ApiProperty()
+    maxLng: number;
 }

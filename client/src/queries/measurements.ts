@@ -1,21 +1,30 @@
-import { MeasProperties, ActiveMeasProperties } from "../models/properties";
-import { get, put } from "./fetch";
+import { ActiveMeasProperties, MeasProperties } from '../models/properties';
+import { get, put } from './fetch';
 
-
-export const getMeasurements = ( callback: React.Dispatch<React.SetStateAction<ActiveMeasProperties[]>> ) => {
-    get('/measurements', (data: MeasProperties[]) => {
-        // console.log("Data:\n");
-        // console.log(data); // DevURL
-        callback( data.map( meas => {
-            return { ...meas, isActive: false }
-        } ) )
-    })
+export interface MeasurementType {
+	MeasurementTypeId: string;
+	type: string;
+	Created_Date: Date;
 }
+
+export const getMeasurements = (callback: React.Dispatch<React.SetStateAction<ActiveMeasProperties[]>>) => {
+	get('/measurements', (data: MeasProperties[]) => {
+		callback(data.map(meas => {
+			return { ...meas, isActive: true };
+		}));
+	});
+};
 
 export const addMeasurement = (measurement: MeasProperties) => {
-	put('/measurements/add', measurement)	
-}
+	put('/measurements/add', measurement);
+};
 
 export const editMeasurement = (measurement: MeasProperties, index: number) => {
-	put('/measurements/edit', { measurement, index } )	
-}
+	put('/measurements/edit', { measurement, index });
+};
+
+export const getMeasurementTypes = (callback: React.Dispatch<React.SetStateAction<MeasurementType[]>>) => {
+	get('/measurements/types', (data: MeasurementType[]) => {
+		callback(data);
+	});
+};

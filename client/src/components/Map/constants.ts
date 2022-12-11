@@ -43,7 +43,7 @@ export const RENDERER_MEAS_PROPERTIES: Required<ActiveMeasProperties> = {
     dbName: '',
     name: '',
     hasValue: true,
-    isActive: false,
+    isActive: true,
 }
 
 // Heatmap
