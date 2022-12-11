@@ -11,7 +11,7 @@ export default function RidesPopup() {
 			zIndex: 1000,
 			position: 'absolute',
 			width: 450,
-			height: window.innerHeight - 40,
+			height: window.innerHeight - 37,
 			ml: 2,
 			mt: 2
 		}}>

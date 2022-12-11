@@ -133,7 +133,7 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
     return (
         <>
             {datasets.length > 0 && (
-            <Card sx={{ position: 'absolute', bottom: '10px', right: '10px', zIndex: 1000 }}>
+            <Card sx={{ position: 'absolute', bottom: '20px', right: '10px', zIndex: 1000 }}>
                 <CardContent>
                     <IconButton onClick={() => setOpen(!open)}>{ open ? <ExpandMoreIcon/> : <ExpandLessIcon/> }</IconButton>
                     {open && (
@@ -152,7 +152,7 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
                             >
                                 Export Data
                             </Button>
-                            <div style={{ position: 'relative', width: 'calc(100vw - 605px)', minWidth: '150px' }}>
+                            <div style={{ position: 'relative', width: 'calc(100vw - 625px)', minWidth: '150px' }}>
                                 <Chart
                                     ref={chartRef}
                                     type='line'
