@@ -1,36 +1,38 @@
 import { Card, CardContent, Grid } from '@mui/material';
 
-
-import RideCardsA from './RideCardsA';
-import RideDetailsA from './RideDetailsA';
+import RideCardsA from './RideCards';
+import RideDetailsA from './RideDetails';
 import MeasurementTypes from './MeasurementTypes';
 import OptionsSelector from './OptionsSelector';
+import useWindowSize from "../../hooks/useWindowSize";
 
 export default function RidesPopup() {
+	const [ _, height ] = useWindowSize();
+
 	return (
 		<Card sx={{
 			zIndex: 1000,
 			position: 'absolute',
 			width: 450,
-			height: 900,
+			height: height - 37,
+			ml: 2,
+			mt: 2
 		}}>
-			<CardContent>
+			<CardContent >
 				<Grid container spacing={2}>
-					<Grid item xs={12} sx={{ }}>
-						<MeasurementTypes/>
+					<Grid item xs={12}>
+						<MeasurementTypes />
 					</Grid>
-					<Grid item xs={12} sx={{  }}>
-						<OptionsSelector/>
+					<Grid item xs={12}>
+						<OptionsSelector />
 					</Grid>
-					<Grid item xs={6} sx={{  }}>
-						<RideCardsA />
+					<Grid item xs={6}>
+						<RideCardsA height={height}/>
 					</Grid>
-					<Grid item xs={6} sx={{  }}>
-						<RideDetailsA />
+					<Grid item xs={6}>
+						<RideDetailsA height={height}/>
 					</Grid>
 				</Grid>
-				{/*<RideCardsA />*/}
-				{/*<RideDetailsA />*/}
 			</CardContent>
 		</Card>
 	);
