@@ -1,10 +1,10 @@
 import { Card, CardContent, Grid } from '@mui/material';
 
-import RideCardsA from './RideCardsA';
-import RideDetailsA from './RideDetailsA';
+import RideCardsA from './RideCards';
+import RideDetailsA from './RideDetails';
 import MeasurementTypes from './MeasurementTypes';
 import OptionsSelector from './OptionsSelector';
-import useWindowSize from "../../hooks/UseWindowSize";
+import useWindowSize from "../../hooks/useWindowSize";
 
 export default function RidesPopup() {
 	const [ _, height ] = useWindowSize();
