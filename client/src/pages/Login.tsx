@@ -2,8 +2,6 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -14,8 +12,7 @@ import Logo from "../components/Logo";
 import Page from "../components/Page";
 import { Dispatch, RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useSnackbar } from "notistack";
+import {useMemo} from "react";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -35,9 +32,10 @@ export default function Login() {
     await dispatch.access.login(loginObject);
   };
 
-  useEffect(() => {
+  useMemo(() => {
+    console.log(success);
     if (success) {
-      navigate("/road/measurement");
+      navigate("/");
     }
   }, [success]);
 
