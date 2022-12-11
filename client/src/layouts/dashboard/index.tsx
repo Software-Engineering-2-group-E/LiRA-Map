@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import {Box} from '@mui/material';
 // hooks
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 // config
@@ -11,6 +11,7 @@ import NavbarVertical from './navbar/NavbarVertical';
 import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
 import { isValidToken } from '../../utils/jwt';
+import LoadingIcon from "../../components/LoadingIcon";
 
 // ----------------------------------------------------------------------
 
@@ -32,9 +33,13 @@ const MainStyle = styled('main', {
 	}),
 }));
 
+
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout() {
+	const { loading } = useSelector(
+		(rootState: RootState) => rootState.loading.global
+	);
 	const { userCredentials } = useSelector((state: RootState) => state.access);
 	const { collapseClick, isCollapsed } = useCollapseDrawer();
 	const [open, setOpen] = useState(true);
@@ -87,10 +92,11 @@ export default function DashboardLayout() {
 				// minHeight: { lg: 1 },
 			}}
 		>
-			<NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+			{loading && <LoadingIcon/>}
+			<NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)}/>
 
 			<MainStyle collapseClick={collapseClick}>
-				<Outlet />
+				<Outlet/>
 			</MainStyle>
 		</Box>
 	);
