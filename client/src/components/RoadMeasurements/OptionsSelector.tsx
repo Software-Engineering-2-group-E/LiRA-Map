@@ -9,6 +9,7 @@ import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
+import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 
 
 const defaultOptions: TripsOptions = {
@@ -112,6 +113,12 @@ export default function OptionsSelector() {
 
 					</Grid>
 
+					<IconButton onClick={() => {}
+						
+					}>
+					<BatteryChargingFullIcon></BatteryChargingFullIcon>
+					</IconButton>
+
 					<Grid item xs={6}>
 						<TextField
 							className='ride-search-input'
@@ -135,46 +142,4 @@ export default function OptionsSelector() {
 			</LocalizationProvider>
 		</div>
 	);
-}
-{/*<Stack justifyContent='space-between' direction='row'>*/
-}
-{/*	<LocalizationProvider dateAdapter={AdapterDateFns}>*/
-}
-{/*		<DatePicker*/
-}
-{/*			label='From'*/
-}
-{/*			value={startDate}*/
-}
-{/*			onChange={(x)=>_onChange(x)};*/
-}
-{/*			}}*/
-}
-{/*			renderInput={(params: any) => <TextField variant='standard'*/
-}
-{/*													 sx={{ maxWidth: 125 }}{...params} />}*/
-}
-{/*		/>*/
-}
-{/*		<DatePicker*/
-}
-{/*			label='To'*/
-}
-{/*			value={endDate}*/
-}
-{/*			onChange={(newDate) => {*/
-}
-{/*				setDateTo(newDate);*/
-}
-{/*			}}*/
-}
-{/*			renderInput={(params: any) => <TextField variant='standard'*/
-}
-{/*													 sx={{ maxWidth: 125 }}{...params} />}*/
-}
-{/*		/>*/
-}
-{/*	</LocalizationProvider>*/
-}
-{/*</Stack>*/
 }
