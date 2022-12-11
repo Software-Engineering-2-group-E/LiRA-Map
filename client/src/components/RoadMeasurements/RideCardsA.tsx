@@ -6,8 +6,6 @@ import Checkbox from '../Checkbox';
 import { RideMeta } from '../../models/models';
 
 import { useMetasCtx } from '../../context/MetasContext';
-import { ListItem, ListItemButton, ToggleButton } from '@mui/material';
-// import Checkbox from '@mui/material/Checkbox';
 
 
 interface CardsProps {
@@ -39,8 +37,8 @@ const Cards: FC<CardsProps> = ({ showMetas, onClick }) => {
 	// @ts-ignore
 	return <List
 		width={170}
-		height={2500}
-		rowHeight={61}
+		height={window.innerHeight - 230}
+		rowHeight={75}
 		rowRenderer={renderRow}
 		rowCount={showMetas.length} />;
 };

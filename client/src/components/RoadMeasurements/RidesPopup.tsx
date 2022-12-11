@@ -1,6 +1,5 @@
 import { Card, CardContent, Grid } from '@mui/material';
 
-
 import RideCardsA from './RideCardsA';
 import RideDetailsA from './RideDetailsA';
 import MeasurementTypes from './MeasurementTypes';
@@ -12,25 +11,25 @@ export default function RidesPopup() {
 			zIndex: 1000,
 			position: 'absolute',
 			width: 450,
-			height: 900,
+			height: window.innerHeight - 40,
+			ml: 2,
+			mt: 2
 		}}>
-			<CardContent>
+			<CardContent >
 				<Grid container spacing={2}>
-					<Grid item xs={12} sx={{ }}>
-						<MeasurementTypes/>
+					<Grid item xs={12}>
+						<MeasurementTypes />
 					</Grid>
-					<Grid item xs={12} sx={{  }}>
-						<OptionsSelector/>
+					<Grid item xs={12}>
+						<OptionsSelector />
 					</Grid>
-					<Grid item xs={6} sx={{  }}>
+					<Grid item xs={6}>
 						<RideCardsA />
 					</Grid>
-					<Grid item xs={6} sx={{  }}>
+					<Grid item xs={6}>
 						<RideDetailsA />
 					</Grid>
 				</Grid>
-				{/*<RideCardsA />*/}
-				{/*<RideDetailsA />*/}
 			</CardContent>
 		</Card>
 	);
