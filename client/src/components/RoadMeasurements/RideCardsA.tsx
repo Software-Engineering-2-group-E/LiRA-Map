@@ -11,9 +11,10 @@ import { useMetasCtx } from '../../context/MetasContext';
 interface CardsProps {
 	showMetas: SelectMeta[];
 	onClick: (meta: SelectMeta, i: number, isChecked: boolean) => void;
+	height: number;
 }
 
-const Cards: FC<CardsProps> = ({ showMetas, onClick }) => {
+const Cards: FC<CardsProps> = ({ showMetas, onClick, height }) => {
 	const renderRow: ListRowRenderer = ({ index, key, style }): ReactNode => {
 		const meta = showMetas[index];
 		return <div key={key} style={style}>
@@ -37,7 +38,7 @@ const Cards: FC<CardsProps> = ({ showMetas, onClick }) => {
 	// @ts-ignore
 	return <List
 		width={170}
-		height={window.innerHeight - 230}
+		height={height - 230}
 		rowHeight={75}
 		rowRenderer={renderRow}
 		rowCount={showMetas.length} />;
@@ -47,10 +48,8 @@ interface SelectMeta extends RideMeta {
 	selected: boolean;
 }
 
-const RideCards: FC = () => {
-
+const RideCards: FC<{height: number}> = ({height}) => {
 	const { metas, setSelectedMetas, showMetas, setShowMetas } = useMetasCtx();
-
 
 	useEffect(() => {
 		setShowMetas(metas.map(m => ({ ...m, selected: false })));
@@ -68,7 +67,7 @@ const RideCards: FC = () => {
 
 	return (
 		<div className='ride-list' style={{ position: 'absolute', height: '100vh', zIndex: 500 }}>
-			<Cards showMetas={showMetas} onClick={onClick} />
+			<Cards showMetas={showMetas} onClick={onClick} height={height} />
 		</div>
 	);
 };

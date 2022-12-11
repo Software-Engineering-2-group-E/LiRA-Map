@@ -4,14 +4,17 @@ import RideCardsA from './RideCardsA';
 import RideDetailsA from './RideDetailsA';
 import MeasurementTypes from './MeasurementTypes';
 import OptionsSelector from './OptionsSelector';
+import useWindowSize from "../../hooks/UseWindowSize";
 
 export default function RidesPopup() {
+	const [ _, height ] = useWindowSize();
+
 	return (
 		<Card sx={{
 			zIndex: 1000,
 			position: 'absolute',
 			width: 450,
-			height: window.innerHeight - 37,
+			height: height - 37,
 			ml: 2,
 			mt: 2
 		}}>
@@ -24,10 +27,10 @@ export default function RidesPopup() {
 						<OptionsSelector />
 					</Grid>
 					<Grid item xs={6}>
-						<RideCardsA />
+						<RideCardsA height={height}/>
 					</Grid>
 					<Grid item xs={6}>
-						<RideDetailsA />
+						<RideDetailsA height={height}/>
 					</Grid>
 				</Grid>
 			</CardContent>

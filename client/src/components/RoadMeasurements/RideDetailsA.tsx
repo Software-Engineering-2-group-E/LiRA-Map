@@ -5,19 +5,19 @@ import { useMetasCtx } from "../../context/MetasContext";
 import { RideMeta } from "../../models/models";
 import { Stack } from "@mui/material";
 
-const RideDetails: FC = () => {
+const RideDetails: FC<{height: number}> = ({height}) => {
   const { selectedMetas } = useMetasCtx();
 
   return (
     <Stack
       className="meta-data"
       style={{
-          height: window.innerHeight - 230,
+          height: height - 230,
           overflowX: 'hidden',
           zIndex: 500,
       }}
     >
-      {selectedMetas.map((meta: RideMeta, i: number) => (
+      {selectedMetas.map((meta: RideMeta, _: number) => (
         <MetaData md={meta} key={`md-${Math.random()}`} />
       ))}
     </Stack>
