@@ -26,6 +26,7 @@ import {
 import { GeolibInputCoordinates } from 'geolib/es/types';
 import { EnergyDB, MeasurementRow } from './EnergyDB';
 import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
 
 interface messageObject {
   err: string | null | undefined
@@ -111,6 +112,7 @@ export class EnergyService {
     // const sumOfPeriodsSeconds = sumOfPeriods / 1000;
     // const delta = sumOfPeriodsSeconds / assignments.length;
 
+    var containsNaN = false
     const data = af.map((a, index) => {
       const [i, before, after] = assignments[a];
       const pwr = relevantMeasurements[i];
@@ -149,6 +151,10 @@ export class EnergyService {
       const pwrNormalised =
         energyVal - energyWhlTrq - energySlope - energyInertia - energyAero;
 
+      if (isNaN(pwrNormalised)) {
+        containsNaN = true
+      }
+
       const msg = JSON.stringify({
         result: pwrNormalised,
         prev_power: energyVal,
@@ -175,14 +181,25 @@ export class EnergyService {
       return measurement;
     });
 
-    this.energyDB.persist(data)
+    if (containsNaN) {
+      //this.energyDB.persist(data)
 
-    const msgObj = {
-      err: null,
-      data: data
+      const msgObj = {
+        err: 'Calculations contain NaN values.',
+        data: data
+      }
+
+      return JSON.stringify(msgObj)
+    } else {
+      this.energyDB.persist(data)
+
+      const msgObj = {
+        err: null,
+        data: data
+      }
+
+      return JSON.stringify(msgObj)
     }
-
-    return JSON.stringify(msgObj)
   }
 
   private async getRelevantMeasurements(tripId: string) {
