@@ -16,8 +16,8 @@ const RideDetails: FC = () => {
       style={{
         position: "absolute",
         left: 188,
-        height: "100vh", //400 TODO
-        backgroundColor: "white",
+        height: "100vh", //400 TODO: someone wants to do something here but didn't write what
+        //backgroundColor: "white",
         zIndex: 500,
       }}
     >
