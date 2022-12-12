@@ -26,6 +26,12 @@ import {
 import { GeolibInputCoordinates } from 'geolib/es/types';
 import { EnergyDB, MeasurementRow } from './EnergyDB';
 import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
+
+interface messageObject {
+  err: string | null | undefined
+  data: MeasurementRow[]
+}
 
 @Injectable()
 export class EnergyService {
@@ -46,6 +52,17 @@ export class EnergyService {
     const relevantMeasurements: MeasEnt[] = await this.getRelevantMeasurements(
       tripId,
     );
+    if (relevantMeasurements.length == 0) {
+      const error = 'No relevant measurements found for that trip id!'
+      console.error(`[Error] ${error}`)
+      const msgObj = {
+        err: error,
+        data: null
+      }
+      
+      return JSON.stringify(msgObj)
+    }
+
     const assignments: Array<
       [number, Map<string, number>, Map<string, number>]
     > = await this.collectMeas(relevantMeasurements);
@@ -78,13 +95,25 @@ export class EnergyService {
       }
     });
 
+    if (af.length == 0) {
+      const error = 'Length of af is 0!'
+      console.error(`[Error] ${error}`)
+      const msgObj = {
+        err: error,
+        data: null
+      }
+      
+      return JSON.stringify(msgObj)
+    }
+
     // const startTime = relevantMeasurements[0].Created_Date.getTime();
     // const endTime = relevantMeasurements.at(-1).Created_Date.getTime();
     // const sumOfPeriods = endTime - startTime;
     // const sumOfPeriodsSeconds = sumOfPeriods / 1000;
     // const delta = sumOfPeriodsSeconds / assignments.length;
 
-    return af.map((a, index) => {
+    var containsNaN = false
+    const data = af.map((a, index) => {
       const [i, before, after] = assignments[a];
       const pwr = relevantMeasurements[i];
 
@@ -122,6 +151,10 @@ export class EnergyService {
       const pwrNormalised =
         energyVal - energyWhlTrq - energySlope - energyInertia - energyAero;
 
+      if (isNaN(pwrNormalised)) {
+        containsNaN = true
+      }
+
       const msg = JSON.stringify({
         result: pwrNormalised,
         prev_power: energyVal,
@@ -143,12 +176,30 @@ export class EnergyService {
         FK_MeasurementType: pwr.FK_MeasurementType,
         T: "gre.pwr",
         message: msg
-    }
+      }
       
-      this.energyDB.persist(measurement)
-
-      return msg;
+      return measurement;
     });
+
+    if (containsNaN) {
+      //this.energyDB.persist(data)
+
+      const msgObj = {
+        err: 'Calculations contain NaN values.',
+        data: data
+      }
+
+      return JSON.stringify(msgObj)
+    } else {
+      this.energyDB.persist(data)
+
+      const msgObj = {
+        err: null,
+        data: data
+      }
+
+      return JSON.stringify(msgObj)
+    }
   }
 
   private async getRelevantMeasurements(tripId: string) {
@@ -158,8 +209,6 @@ export class EnergyService {
       .where('FK_Trip', tripId)
       .whereIn('T', [this.consTag].concat(this.measTypes))
       .orderBy('Created_Date')
-      .limit(10000)
-      .offset(1000);
   }
 
   private async collectMeas(sortedMeasurements: MeasEnt[]): Promise<any[]> {

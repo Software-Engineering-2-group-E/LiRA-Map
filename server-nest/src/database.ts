@@ -22,7 +22,7 @@ const {
 
 const BASE_CONFIG = {
     client: 'pg',
-    debug: true,
+    debug: false,
     useNullAsDefault: true,
     pool: {
         min: 2,
