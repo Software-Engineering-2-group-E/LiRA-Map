@@ -1,7 +1,5 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -14,10 +12,10 @@ import TabPanel from "@mui/lab/TabPanel";
 
 import CheckboxList from "./CheckboxList";
 import Graph from "./Graph";
-import {useEffect, useState, SyntheticEvent} from "react";
-import {RoadData, Segment} from "../../pages/RoadCondition";
-import segments from "../CarData/Segments";
-import {boolean} from "../../_mock/boolean";
+import { useState, SyntheticEvent} from "react";
+import {RoadData} from "../../pages/RoadCondition";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import IconButton from "@mui/material/IconButton";
 
 export interface RoadProfileProps {
     roadData: RoadData
@@ -39,41 +37,56 @@ export default function RoadProfile({roadData}: RoadProfileProps) {
         {name: 'Altitude', color: 'rgba(136, 136, 136, 0.6)'},
     ];
 
+    const [ open, setOpen ] = useState<boolean>(true);
+
     return (
-        <Card sx={{width: 750}}>
+        <Card sx={{
+            zIndex: 1000,
+            position: "absolute",
+            width: open ? 750 : "auto",
+            height: open ? 'auto' : "auto",
+            ml: 2,
+            mb: 2,
+            bottom: 0
+        }}>
             <CardContent>
-                <Typography variant="h5">{roadData.roadName}</Typography>
-                <Grid container spacing={1} columns={16}>
+                {!open && <IconButton onClick={() => setOpen(true)}><ExpandMoreIcon style={{transform: "rotate(-90deg)"}}/></IconButton>}
+                {open && (
+                    <Grid container spacing={1} columns={16}>
+                        <Grid item xs={1}>
+                            <IconButton onClick={() => setOpen(false)}><ExpandMoreIcon style={{transform: "rotate(90deg)"}}/></IconButton>
+                        </Grid>
+                        <Grid item xs={15}>
+                            <Typography variant="h5" sx={{mt: 1, ml: 1}}>{roadData.roadName}</Typography>
+                        </Grid>
                     <Grid item xs={3}>
                         <Button variant="outlined">ADD TO LIST</Button>
-
-                        <CheckboxList checked={checked}
-                                      setChecked={setChecked}/>
-
+                        <CheckboxList checked={checked} setChecked={setChecked}/>
                     </Grid>
                     <Grid item xs={13}>
                         <TabContext value={value}>
                             <TabList onChange={handleChange}>
-                                {taps.map((t,value) => {
+                                {taps.map((t, value) => {
                                     return (
-                                        <Tab label={t.name} value={(value+1).toString()}/>
+                                        <Tab label={t.name} value={(value + 1).toString()}/>
                                     );
                                 })}
                             </TabList>
-                            {taps.map((t,value) => {
-                                return(
-                                    <TabPanel value={(value+1).toString()}>
+                            {taps.map((t, value) => {
+                                return (
+                                    <TabPanel value={(value + 1).toString()}>
                                         <Graph
                                             segments={roadData.segmentList.filter((segment, index) => checked[index])}
-                                            name = {t.name}
-                                            color = {t.color}
-                                            value = {value}/>
+                                            name={t.name}
+                                            color={t.color}
+                                            value={value}/>
                                     </TabPanel>
                                 );
                             })}
                         </TabContext>
                     </Grid>
                 </Grid>
+                )}
             </CardContent>
         </Card>
     );
