@@ -32,6 +32,7 @@ interface messageObject {
   err: string | null | undefined
   data: MeasurementRow[]
 }
+import { assert } from 'console';
 
 @Injectable()
 export class EnergyService {
@@ -49,6 +50,7 @@ export class EnergyService {
   private readonly measTypes = [this.accLongTag, this.spdTag, this.whlTrqTag];
 
   public async get(tripId: string): Promise<any> {
+    // Get all measurements related to this trip id, whose tag is either obd.whl_trq_est, obd.trac_cons, obd.acc_long or obd.spd_veh.
     const relevantMeasurements: MeasEnt[] = await this.getRelevantMeasurements(
       tripId,
     );
@@ -63,10 +65,14 @@ export class EnergyService {
       return JSON.stringify(msgObj)
     }
 
+    // Group them into triplings, consisting of index of a obd.trac_cons measurement, the relevant measurements found before it and their indexes,
+    // and the relevant measurements found after it and their indexes.
     const assignments: Array<
       [number, Map<string, number>, Map<string, number>]
     > = await this.collectMeas(relevantMeasurements);
-
+    
+    // Calculate accumulated distance between start point and all other measurements,
+    // using the geolib library to convert from latitude/longitude to distance. 
     const distancesGPS = new Array<number>(assignments.length);
     distancesGPS[0] = 0;
     for (let i = 1; i < assignments.length; i++) {
@@ -80,7 +86,7 @@ export class EnergyService {
         0.5,
       );
       distancesGPS[i] =
-        dist < 2 ? distancesGPS[i - 1] : distancesGPS[i - 1] + dist;
+        dist < 2 ? distancesGPS[i - 1] : distancesGPS[i - 1] + dist;  // why 2?
     }
 
     // let assignmentsFiltered = [];
@@ -92,6 +98,8 @@ export class EnergyService {
       const b = Math.ceil(d / window);
       if (b - a >= 1) {
         af.push(i);
+      } else {
+        console.log("Did NOT happen")
       }
     });
 
@@ -117,19 +125,22 @@ export class EnergyService {
       const [i, before, after] = assignments[a];
       const pwr = relevantMeasurements[i];
 
+      // Calculate the delta time that has passed between two power measurements.
       let delta: number;
       if (index == 0) {
         delta = 0;
       } else {
-        const [iPrev] = assignments[af[index - 1]];
+        const [iPrev] = assignments[af[index - 1]]; // the previous a-value is used as index into assignments.
         const prevPwr = relevantMeasurements[iPrev];
         delta =
           (pwr.Created_Date.getTime() - prevPwr.Created_Date.getTime()) / 1000;
       }
 
-      const pwrVal = calibratePower(pwr);
-      const energyVal = (pwrVal * delta) / 3600;
+      const pwrVal = calibratePower(pwr); // This call might return undefined, might as well skip/abort this iteration if so?
+      const energyVal = (pwrVal * delta) / 3600; // What does 3600 represent? An hour (60*60) or?
 
+      // Calculate an interpolated value for all the different measurement tags, 
+      // that we will tie to the same point in time as the power measurement.
       const spdBefore = relevantMeasurements[before.get(this.spdTag)];
       const spdAfter = relevantMeasurements[after.get(this.spdTag)];
       const spd = calcSpd(spdBefore, spdAfter, pwr);
@@ -202,6 +213,13 @@ export class EnergyService {
     }
   }
 
+  /**
+   * Returns all measurements related to the given trip id, whose "T" tag is either:
+   *  - obd.whl_trq_est
+   *  - obd.trac_cons
+   *  - obd.acc_long
+   *  - obd.spd_veh
+   */
   private async getRelevantMeasurements(tripId: string) {
     return this.knex
       .select('*')
@@ -209,9 +227,22 @@ export class EnergyService {
       .where('FK_Trip', tripId)
       .whereIn('T', [this.consTag].concat(this.measTypes))
       .orderBy('Created_Date')
+      .limit(10000)
+      .offset(1000); // FIXME: Why is this offset here? Should probably be removed.
   }
 
+  /**
+   * For every measurement with the obd.trac_cons tag relating to this trip, 
+   * find the nearest obd.acc_long, obd.spd_veh, obd.whl_trq_est measurements.
+   * 
+   * Returns a list of triples, being 
+   *  - the index of the obd.trac_cons being considered
+   *  - A mapping between the relevant tags found before this one (key) and their index (value)
+   *  - A mapping between the relevant tags found after this one (key) and their index (value)
+   */
   private async collectMeas(sortedMeasurements: MeasEnt[]): Promise<any[]> {
+
+    // Get index of first tag of interest. This will serve as starting point.
     const powerIndex = sortedMeasurements.findIndex((m) => m.T == this.consTag);
     if (powerIndex == -1) {
       return [];
@@ -234,6 +265,10 @@ export class EnergyService {
     return assigned;
   }
 
+  /**
+   * Look either forward or backward in the measurement array after measurements with tags
+   * obd.acc_long, obd.spd_veh or obd.whl_trq_est, until one of each has been found. Return these.
+   */
   private findMeas(
     meas: MeasEnt[],
     index: number,
@@ -253,7 +288,9 @@ export class EnergyService {
       foundAll = this.measTypes.every((key) => measMap.has(key));
     }
 
+    // FIXME: Should be inside for-loop, to quit as soon as all tags have been found. Other for loop just runs until end of array.
     if (foundAll) {
+      console.log(measMap)
       return measMap;
     }
 

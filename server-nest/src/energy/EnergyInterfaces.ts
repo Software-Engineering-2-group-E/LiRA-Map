@@ -1,3 +1,6 @@
+/**
+ * Represents a measurement entry in the database.
+ */
 export interface MeasEnt {
   MeasurementId: string;
   TS_or_Distance: string;
