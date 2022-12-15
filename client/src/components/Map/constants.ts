@@ -62,7 +62,7 @@ function generate(min: number, max: number) {
     return Math.random() * (max - min + 1) + min;
 }
 
-export const FAKEROAD_DATA: RoadData = {
+export const FAKE_ROAD_DATA: RoadData = {
     roadId: 797,
     roadName: "Åkandevej",
     segmentList: [{

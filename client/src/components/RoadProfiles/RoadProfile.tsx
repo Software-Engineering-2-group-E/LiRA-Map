@@ -1,24 +1,23 @@
 import * as React from 'react';
+import { useState, SyntheticEvent, useRef} from "react";
+import useSize from "../../hooks/useSize";
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-
 import TabContext from '@mui/lab/TabContext';
 import Tab from "@mui/material/Tab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import IconButton from "@mui/material/IconButton";
 
 import CheckboxList from "./CheckboxList";
 import Graph from "./Graph";
-import { useState, SyntheticEvent, useRef} from "react";
+
 import {RoadData} from "../../pages/RoadCondition";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import IconButton from "@mui/material/IconButton";
-import segments from "../CarData/Segments";
-import {boolean} from "../../_mock/boolean";
-import useSize from "../../hooks/useSize";
 
 export interface RoadProfileProps {
     roadData: RoadData,
@@ -47,15 +46,7 @@ export default function RoadProfile({roadData, width}: RoadProfileProps) {
     const [ open, setOpen ] = useState<boolean>(true);
 
     return (
-        <Card sx={{
-            zIndex: 1000,
-            position: "absolute",
-            width: open ? width : "auto",
-            height: open ? 'auto' : "auto",
-            ml: 2,
-            mb: 2,
-            bottom: 0
-        }}>
+        <Card sx={{ width: open ? width : 'auto' }}>
             <CardContent>
                 {!open && <IconButton onClick={() => setOpen(true)}><ExpandMoreIcon style={{transform: "rotate(-90deg)"}}/></IconButton>}
                 {open && (
@@ -68,7 +59,7 @@ export default function RoadProfile({roadData, width}: RoadProfileProps) {
                         </Grid>
                     <Grid item xs={3}>
                         <Button variant="outlined">ADD TO LIST</Button>
-                        <CheckboxList checked={checked} setChecked={setChecked}/>
+                        <CheckboxList checked={checked} setChecked={setChecked} maxHeight={height}/>
                     </Grid>
                     <Grid item xs={13} ref={ref}>
                         <TabContext value={value}>
@@ -92,8 +83,8 @@ export default function RoadProfile({roadData, width}: RoadProfileProps) {
                             })}
                         </TabContext>
                     </Grid>
-                </Grid>
-                )}
+                </Grid>)
+                }
             </CardContent>
         </Card>
     );
