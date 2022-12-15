@@ -37,14 +37,14 @@ export class EnergyDB {
         searchPath: ['knex', 'public', 'lira'],
     });
 
-    public async persist(data: MeasurementRow) {
-        console.log(`[${new Date().toLocaleString('da')}] Writing calculated power measurement ${data.MeasurementId} to database.`)
+    public async persist(data: MeasurementRow[]) {
+        //console.log(`[${new Date().toLocaleString('da')}] Writing calculated power measurement ${data.MeasurementId} to database.`)
         this.liradb.insert(data).into('measurements')
             .then(() => {
                 //console.log(`${new Date().toLocaleString('da')}: Succesfully wrote calculated power measurement to database.`);
             })
             .catch((e) => {
-                console.log(`[${new Date().toLocaleString('da')}] Something went wrong, most likely not connected to PostgreSQL.`);
+                //console.log(`[${new Date().toLocaleString('da')}] Something went wrong, most likely not connected to PostgreSQL.`);
                 console.error(e);
             });
     }
