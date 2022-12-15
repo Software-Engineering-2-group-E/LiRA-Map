@@ -8,7 +8,7 @@ import {
   Message,
   SpeedMessage,
   Test,
-} from './EnergyInterfaces';
+} from './energy.interfaces';
 //import { Measurement } from '../models';
 import * as Console from 'console';
 import {
@@ -22,9 +22,9 @@ import {
   calcEnergySlope,
   calcEnergyInertia,
   getMeasVal,
-} from './EnergyMath';
+} from './energy.math';
 import { GeolibInputCoordinates } from 'geolib/es/types';
-import { EnergyDB, MeasurementRow } from './EnergyDB';
+import { EnergyDB, MeasurementRow } from './energy.db';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 
@@ -156,12 +156,12 @@ export class EnergyService {
       }
 
       const msg = JSON.stringify({
-        result: pwrNormalised,
-        prev_power: energyVal,
-        whlTrq: energyWhlTrq,
-        slope: energySlope,
-        inertia: energyInertia,
-        aero: energyAero,
+        'gre.pwr.value': pwrNormalised,
+        'gre.pwr.total': energyVal,
+        'gre.pwr.whl_trq': energyWhlTrq,
+        'gre.pwr.slope': energySlope,
+        'gre.pwr.inertia': energyInertia,
+        'gre.pwr.aero': energyAero,
       });
 
       var measurement : MeasurementRow = {
