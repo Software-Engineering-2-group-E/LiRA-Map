@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { EnergyService } from './EnergyService';
+import { EnergyService } from './energy.service';
 
 @Controller('/energy-consumption')
 export class EnergyController {

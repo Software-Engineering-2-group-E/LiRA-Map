@@ -1,5 +1,5 @@
 import { knex } from 'knex'
-
+import { MeasurementRow } from './energy.dto';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
