@@ -5,7 +5,7 @@ import { getPreciseDistance } from 'geolib';
 import {
   MeasurementRow,
   PowerMessage,
-} from './energy.dto;
+} from './energy.dto';
 //import { Measurement } from '../models';
 import * as Console from 'console';
 import {
@@ -172,7 +172,7 @@ export class EnergyService {
         FK_Trip: pwr.FK_Trip,
         FK_MeasurementType: pwr.FK_MeasurementType,
         T: "gre.pwr",
-        message: msg
+        message: JSON.stringify(msg)
       }
       
       return measurement;
