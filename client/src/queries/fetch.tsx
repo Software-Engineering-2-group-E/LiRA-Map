@@ -32,7 +32,7 @@ export function post<T>(path: string, obj: object, callback: (data: T) => void):
 }
 /** @deprecated use a reducer instead, look in src/models/user.ts for inspiration */
 export function post_new(path: string, body: object): Promise<AxiosResponse> {
-    return axios.post(devURL + path, body)
+    return axios.post(getPath(path), body)
 }
 /** @deprecated use a reducer instead, look in src/models/user.ts for inspiration */
 export const put = ( path: string, obj: object ): void => {
