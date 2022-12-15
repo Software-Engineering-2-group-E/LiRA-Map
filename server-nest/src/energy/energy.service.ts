@@ -3,12 +3,9 @@ import { InjectConnection, Knex } from 'nestjs-knex';
 //import { RideMeta } from '../rides/models.rides';
 import { getPreciseDistance } from 'geolib';
 import {
-  AccLongMessage,
   MeasurementRow,
-  Message,
-  SpeedMessage,
-  Test,
-} from './energy.dto';
+  PowerMessage,
+} from './energy.dto;
 //import { Measurement } from '../models';
 import * as Console from 'console';
 import {
@@ -155,14 +152,14 @@ export class EnergyService {
         containsNaN = true
       }
 
-      const msg = JSON.stringify({
+      const msg: PowerMessage = {
         'gre.pwr.value': pwrNormalised,
         'gre.pwr.total': energyVal,
         'gre.pwr.whl_trq': energyWhlTrq,
         'gre.pwr.slope': energySlope,
         'gre.pwr.inertia': energyInertia,
         'gre.pwr.aero': energyAero,
-      });
+      };
 
       var measurement : MeasurementRow = {
         MeasurementId: uuidv4(),
