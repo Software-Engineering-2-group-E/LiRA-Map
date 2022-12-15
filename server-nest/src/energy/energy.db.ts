@@ -10,20 +10,6 @@ const {
     OUR_DB_PASSWORD,
 } = process.env;
 
-export interface MeasurementRow {
-    MeasurementId: string
-    TS_or_Distance: string
-    Created_Date: Date
-    Updated_Date: Date
-    lat: number
-    lon: number
-    isComputed: boolean
-    FK_Trip: string
-    FK_MeasurementType: string
-    T: string
-    message: string
-}
-
 export class EnergyDB {
     private readonly liradb = knex({
         client: 'pg',

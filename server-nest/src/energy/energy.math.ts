@@ -1,4 +1,4 @@
-import { MeasEnt } from './EnergyInterfaces';
+import { MeasurementRow } from './energy.dto';
 
 // https://en.wikipedia.org/wiki/Linear_interpolation#Linear_interpolation_between_two_known_points
 export function linInterp(
@@ -11,7 +11,7 @@ export function linInterp(
   return (y0 + y1) / 2;
 }
 
-export function getMeasVal(meas: MeasEnt): number {
+export function getMeasVal(meas: MeasurementRow): number {
   const valueTag: string = meas.T + '.value';
   const message = JSON.parse(meas.message);
   if (message.hasOwnProperty(valueTag)) {
@@ -19,7 +19,7 @@ export function getMeasVal(meas: MeasEnt): number {
   }
 }
 
-export function interpMeas(time: Date, meas1: MeasEnt, meas2: MeasEnt) {
+export function interpMeas(time: Date, meas1: MeasurementRow, meas2: MeasurementRow) {
   const x0 = meas1.Created_Date.getTime();
   const y0 = getMeasVal(meas1);
 
@@ -30,9 +30,9 @@ export function interpMeas(time: Date, meas1: MeasEnt, meas2: MeasEnt) {
 }
 
 export function calcWhlTrq(
-  whlTrqBefore: MeasEnt,
-  whlTrqAfter: MeasEnt,
-  curPower: MeasEnt,
+  whlTrqBefore: MeasurementRow,
+  whlTrqAfter: MeasurementRow,
+  curPower: MeasurementRow,
 ) {
   const dateBefore = whlTrqBefore.Created_Date.getTime();
   const whlTrqBeforeVal = getMeasVal(whlTrqBefore);
@@ -52,9 +52,9 @@ export function calcWhlTrq(
 }
 
 export function calcSpd(
-  spdBefore: MeasEnt,
-  spdAfter: MeasEnt,
-  curPower: MeasEnt,
+  spdBefore: MeasurementRow,
+  spdAfter: MeasurementRow,
+  curPower: MeasurementRow,
 ) {
   const dateBefore = spdBefore.Created_Date.getTime();
   const spdBeforeMPS = getMeasVal(spdBefore) / 3.6;
@@ -70,9 +70,9 @@ export function calcSpd(
 }
 
 export function calcAcc(
-  accBefore: MeasEnt,
-  accAfter: MeasEnt,
-  curPower: MeasEnt,
+  accBefore: MeasurementRow,
+  accAfter: MeasurementRow,
+  curPower: MeasurementRow,
 ) {
   const dateBefore = accBefore.Created_Date.getTime();
   const accBeforeVal = (getMeasVal(accBefore) - 2 * 198) * 0.05;
@@ -87,7 +87,7 @@ export function calcAcc(
   );
 }
 
-export function calibratePower(curPower: MeasEnt) {
+export function calibratePower(curPower: MeasurementRow) {
   return (getMeasVal(curPower) - 160) * 1000;
 }
 

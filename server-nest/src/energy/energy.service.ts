@@ -4,11 +4,11 @@ import { InjectConnection, Knex } from 'nestjs-knex';
 import { getPreciseDistance } from 'geolib';
 import {
   AccLongMessage,
-  MeasEnt,
+  MeasurementRow,
   Message,
   SpeedMessage,
   Test,
-} from './energy.interfaces';
+} from './energy.dto';
 //import { Measurement } from '../models';
 import * as Console from 'console';
 import {
@@ -24,7 +24,7 @@ import {
   getMeasVal,
 } from './energy.math';
 import { GeolibInputCoordinates } from 'geolib/es/types';
-import { EnergyDB, MeasurementRow } from './energy.db';
+import { EnergyDB } from './energy.db';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 
@@ -49,7 +49,7 @@ export class EnergyService {
   private readonly measTypes = [this.accLongTag, this.spdTag, this.whlTrqTag];
 
   public async get(tripId: string): Promise<any> {
-    const relevantMeasurements: MeasEnt[] = await this.getRelevantMeasurements(
+    const relevantMeasurements: MeasurementRow[] = await this.getRelevantMeasurements(
       tripId,
     );
     if (relevantMeasurements.length == 0) {
@@ -211,7 +211,7 @@ export class EnergyService {
       .orderBy('Created_Date')
   }
 
-  private async collectMeas(sortedMeasurements: MeasEnt[]): Promise<any[]> {
+  private async collectMeas(sortedMeasurements: MeasurementRow[]): Promise<any[]> {
     const powerIndex = sortedMeasurements.findIndex((m) => m.T == this.consTag);
     if (powerIndex == -1) {
       return [];
@@ -235,7 +235,7 @@ export class EnergyService {
   }
 
   private findMeas(
-    meas: MeasEnt[],
+    meas: MeasurementRow[],
     index: number,
     direction: 'before' | 'after',
   ) {

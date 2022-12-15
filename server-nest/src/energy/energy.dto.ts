@@ -1,4 +1,4 @@
-export interface MeasEnt {
+export class MeasurementRow {
   MeasurementId: string;
   TS_or_Distance: string;
   T: string;
