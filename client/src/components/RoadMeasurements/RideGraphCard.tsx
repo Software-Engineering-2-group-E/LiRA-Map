@@ -52,10 +52,6 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
 
     const [ datasets, setDatasets ] = useState<ChartDataset<'line', Object[]>[]>([]);
 
-    const colorMap = new Map<string, string>([
-        ['Engine RPM', 'rgba(253, 59, 59, 1)'],
-    ]);
-
     useEffect(() => {
         const datasets: ChartDataset<'line', Object[]>[] = selectedMeasurements
             .filter(({hasValue, name}) => {
@@ -68,11 +64,10 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
                 // Make sure 1 or more trips have been selected
                 if(!(Object.keys(paths[name]).length > 0)) return false
 
-                console.log(Object.values(Object.values(paths[name])[0])[0])
+                //console.log(Object.values(Object.values(paths[name])[0])[0])
 
-                let bp: BoundedPath = Object.values(Object.values(paths[name])[0])[0]
+                //let bps: BoundedPath[] = Object.values(Object.values(paths[name])[0])
 
-                Object.values(Object.values(paths[name])[0])
                 // Make sure the trip has data (path property)
                 // if(!Object.hasOwn(Object.values(paths[name])[0][0], 'path')) return false
 
@@ -89,11 +84,11 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
                     const data = trip.path.map((o: any) => ({x: o.metadata.timestamp, y: o.value ? o.value : 0, lat: o.lat, lng: o.lng}))
 
                     const dataset: ChartDataset<'line', Object[]> = {
-                        label: name + trip.type + Math.random() * 100,
+                        label: name + ' (' + trip.type + ')',
                         data: data,
                         showLine: true,
                         fill: false,
-                        borderColor: colorMap.get(name) ?? randomColor()
+                        borderColor: randomColor()
                     }
 
                     return dataset

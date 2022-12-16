@@ -32,24 +32,20 @@ const Rides: FC = () => {
 
 				for (let meta of selectedMetas) {
 					const { TaskId } = meta;
+					temp[name][TaskId] = {};
 
 					if (Object.hasOwn(paths, name) && Object.hasOwn(paths[name], TaskId)) {
-						//temp[name][TaskId] = paths[TaskId];
-
-						let keys = Object.keys(temp[name][TaskId]);
-						for (let key of keys)
+						for (let key of Object.keys(paths[name][TaskId])) {
 							temp[name][TaskId][key] = paths[name][TaskId][key];
+						}
 					} else {
 						const bps = await getRide(meas, meta, popup);
-						if(bps !== undefined) {
-							temp[name][TaskId] = {};
-							for (let bp of bps) {
-								if (bp !== undefined) {
+						if(!bps) break;
 
-									console.log(bp.type);
-									temp[name][TaskId][bp.type] = bp;
-								}
-							}
+						for (let bp of bps) {
+							if (!bp) break;
+
+							temp[name][TaskId][bp.type] = bp;
 						}
 					}
 				}

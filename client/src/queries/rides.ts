@@ -24,8 +24,7 @@ export const getRide = async (
     
     const { data } = await asyncPost<BoundedPath[]>( '/rides/ride', { tripId, dbName } )
 
-    const { path } = data[0];
-    if (path.length === 0) {
+    if (!data.length || data[0].path.length === 0) {
         popup( {
             icon: "warning",
             title: `This trip doesn't contain data for ${name}`,
