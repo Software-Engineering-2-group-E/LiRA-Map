@@ -253,11 +253,12 @@ export class EnergyService {
       if (!measMap.has(curMeasType) && this.measTypes.includes(curMeasType)) {
         measMap = measMap.set(curMeasType, i);
       }
+      
+      // Return early if all are found
       foundAll = this.measTypes.every((key) => measMap.has(key));
-    }
-
-    if (foundAll) {
-      return measMap;
+      if (foundAll) {
+        return measMap;
+      }
     }
 
     return null;
