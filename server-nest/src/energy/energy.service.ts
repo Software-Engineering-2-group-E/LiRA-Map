@@ -45,7 +45,8 @@ export class EnergyService {
 
   private readonly measTypes = [this.accLongTag, this.spdTag, this.whlTrqTag];
 
-  public async get(tripId: string): Promise<any> {
+  public async get(tripId: string): Promise<any> { // is it possible to promise an interface?
+    // Get all measurements related to this trip id, whose tag is either obd.whl_trq_est, obd.trac_cons, obd.acc_long or obd.spd_veh.
     const relevantMeasurements: MeasurementRow[] = await this.getRelevantMeasurements(
       tripId,
     );
@@ -60,10 +61,14 @@ export class EnergyService {
       return JSON.stringify(msgObj)
     }
 
+    // Group them into triplings, consisting of index of a obd.trac_cons measurement, the relevant measurements found before it and their indexes,
+    // and the relevant measurements found after it and their indexes.
     const assignments: Array<
       [number, Map<string, number>, Map<string, number>]
     > = await this.collectMeas(relevantMeasurements);
-
+    
+    // Calculate accumulated distance between start point and all other measurements,
+    // using the geolib library to convert from latitude/longitude to distance. 
     const distancesGPS = new Array<number>(assignments.length);
     distancesGPS[0] = 0;
     for (let i = 1; i < assignments.length; i++) {
@@ -77,10 +82,11 @@ export class EnergyService {
         0.5,
       );
       distancesGPS[i] =
-        dist < 2 ? distancesGPS[i - 1] : distancesGPS[i - 1] + dist;
+        dist < 2 ? distancesGPS[i - 1] : distancesGPS[i - 1] + dist; // filter away distances less than two, to get rid of GPS noise. TODO: Get rid of magic number.
     }
 
-    // let assignmentsFiltered = [];
+    // Force to energy, work over distance. Asmus does it in a slightly different way. Maybe we should refactor this.
+    // Using 10m windows, only jotting down a measurement if it has passed the 10m threshold.
     const window = 10;
     const af: number[] = [0];
     distancesGPS.forEach((d, i) => {
