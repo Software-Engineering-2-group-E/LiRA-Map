@@ -25,7 +25,7 @@ import { EnergyDB } from './energy.db';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 
-interface messageObject {
+class messageObject {
   err: string | null | undefined
   data: MeasurementRow[]
 }
@@ -45,7 +45,7 @@ export class EnergyService {
 
   private readonly measTypes = [this.accLongTag, this.spdTag, this.whlTrqTag];
 
-  public async get(tripId: string): Promise<any> { // is it possible to promise an interface?
+  public async get(tripId: string): Promise<string> {
     // Get all measurements related to this trip id, whose tag is either obd.whl_trq_est, obd.trac_cons, obd.acc_long or obd.spd_veh.
     const relevantMeasurements: MeasurementRow[] = await this.getRelevantMeasurements(
       tripId,
