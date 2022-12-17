@@ -20,7 +20,9 @@ export class RidesService {
     }
 
     async getRide(tripId: string, dbName: string): Promise<BoundedPath[]> {
-        const res = await this.knex
+        // Look for power calculations in our database; every other measurement in LiRA core.
+        const db = dbName == 'gre.pwr' ? this.ourDb : this.knex;
+        const res = await db
             .select(['message', 'lat', 'lon', 'Created_Date'])
             .from({ public: 'Measurements' })
             .where({ FK_Trip: tripId, T: dbName })
@@ -36,6 +38,8 @@ export class RidesService {
         const initialMessage = res[0].message;
         const valueRegex = '"(' + dbName + '[a-z.]+)":';
         const matches: string[] = initialMessage.matchAll(valueRegex);
+
+        if (matches.length == 0) return []
 
         const bps: BoundedPath[] = [];
         for (const match of matches) {
