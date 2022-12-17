@@ -23,10 +23,10 @@ import {RoadData} from "../../pages/RoadCondition";
 export interface RoadProfileProps {
     roadData: RoadData,
     width: string,
-    orientation: number
+    orientation?: number
 }
 
-export default function RoadProfile({roadData, width, orientation}: RoadProfileProps) {
+export default function RoadProfile({roadData, width, orientation = 0}: RoadProfileProps) {
 
     const ref = useRef(null)
     const [ _, height ] = useSize(ref)
