@@ -31,8 +31,10 @@ export class RidesService {
         let minY = Number.MAX_SAFE_INTEGER;
         let maxY = Number.MIN_SAFE_INTEGER;
 
+        if(!res.length || !res[0].hasOwnProperty('message')) return []
+
         const initialMessage = res[0].message;
-        const valueRegex = '"(' + dbName + '[a-z.]+)":'; //new RegExp('"(' + dbName + '[a-z.]+)":');
+        const valueRegex = '"(' + dbName + '[a-z.]+)":';
         const matches: string[] = initialMessage.matchAll(valueRegex);
 
         const bps: BoundedPath[] = [];
