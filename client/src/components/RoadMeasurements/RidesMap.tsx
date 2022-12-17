@@ -20,10 +20,11 @@ const RidesMap: FC<IRidesMap> = ({ paths, selectedMetas, selectedMeasurements })
 			const { name } = meas;
 			return selectedMetas.forEach(meta => {
 				const { TaskId } = meta;
-				if (Object.hasOwn(paths, name) && Object.hasOwn(paths[name], TaskId))
-					temp.push(
-						{ meas, meta, bp: paths[name][TaskId] },
-					);
+				if (Object.hasOwn(paths, name) && Object.hasOwn(paths[name], TaskId)) {
+					for (let key of Object.keys(paths[name][TaskId])) {
+						temp.push({ meas, meta, bp: paths[name][TaskId][key] });
+					}
+				}
 			});
 		});
 		return temp;
@@ -33,7 +34,7 @@ const RidesMap: FC<IRidesMap> = ({ paths, selectedMetas, selectedMeasurements })
 		<MapWrapper>
 			{memoPaths.map(({ bp, meas, meta }) => bp &&
 				<MetadataPath
-					key={`ride-mp-${meta.TaskId}-${meas.name}`}
+					key={`ride-mp-${meta.TaskId}-${meas.name}-${bp.type}`}
 					path={bp.path}
 					properties={meas}
 					metadata={meta} />,
