@@ -1,3 +1,5 @@
+import { IJSendResponse } from "src/app.dto";
+
 export class MeasurementRow {
   MeasurementId: string;
   TS_or_Distance: string;
@@ -10,6 +12,9 @@ export class MeasurementRow {
   FK_MeasurementType: string;
   Created_Date: Date;
   Updated_Date: Date;
+}
+
+export class EnergyResponse extends IJSendResponse {
 }
 
 export class PowerMessage {

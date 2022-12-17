@@ -3,6 +3,7 @@ import { InjectConnection, Knex } from 'nestjs-knex';
 //import { RideMeta } from '../rides/models.rides';
 import { getPreciseDistance } from 'geolib';
 import {
+  EnergyResponse,
   MeasurementRow,
   PowerMessage,
 } from './energy.dto';
@@ -25,14 +26,12 @@ import { EnergyDB } from './energy.db';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 
-class messageObject {
-  err: string | null | undefined
-  data: MeasurementRow[]
-}
-
 @Injectable()
 export class EnergyService {
-  constructor(@InjectConnection('lira-main') private readonly knex: Knex) {}
+  constructor(
+    @InjectConnection('our-lira-db') private readonly ourDb: Knex,
+    @InjectConnection('lira-main') private readonly knex: Knex
+    ) {}
 
   private readonly accLongTag = 'obd.acc_long';
   private readonly spdTag = 'obd.spd_veh';
@@ -46,6 +45,16 @@ export class EnergyService {
   private readonly measTypes = [this.accLongTag, this.spdTag, this.whlTrqTag];
 
   public async get(tripId: string): Promise<string> {
+
+     if (await this.checkIfCalcExists(tripId)) {
+      const msgObj : EnergyResponse = {
+        status: "fail",
+        data: {tripId: 'Calculation already exists for that trip id.'}
+      }
+
+      return JSON.stringify(msgObj)
+     }
+
     // Get all measurements related to this trip id, whose tag is either obd.whl_trq_est, obd.trac_cons, obd.acc_long or obd.spd_veh.
     const relevantMeasurements: MeasurementRow[] = await this.getRelevantMeasurements(
       tripId,
@@ -53,9 +62,9 @@ export class EnergyService {
     if (relevantMeasurements.length == 0) {
       const error = 'No relevant measurements found for that trip id!'
       console.error(`[Error] ${error}`)
-      const msgObj = {
-        err: error,
-        data: null
+      const msgObj : EnergyResponse = {
+        status: "fail", 
+        data: {tripId: error}
       }
       
       return JSON.stringify(msgObj)
@@ -101,9 +110,9 @@ export class EnergyService {
     if (af.length == 0) {
       const error = 'Length of af is 0!'
       console.error(`[Error] ${error}`)
-      const msgObj = {
-        err: error,
-        data: null
+      const msgObj: EnergyResponse = {
+        status: "error",
+        message: error
       }
       
       return JSON.stringify(msgObj)
@@ -187,22 +196,29 @@ export class EnergyService {
     if (containsNaN) {
       //this.energyDB.persist(data)
 
-      const msgObj = {
-        err: 'Calculations contain NaN values.',
-        data: data
+      const msgObj: EnergyResponse = {
+        status: "error",
+        message: 'Calculations contain NaN values.', 
       }
+
 
       return JSON.stringify(msgObj)
     } else {
       this.energyDB.persist(data)
 
-      const msgObj = {
-        err: null,
+      const msgObj: EnergyResponse = {
+        status: "success",
         data: data
       }
 
       return JSON.stringify(msgObj)
     }
+  }
+  
+  async checkIfCalcExists(tripId: string) {
+    const result = await this.ourDb.raw(`select exists(select 1 from "Measurements" m where "FK_Trip" = '${tripId}');`)
+    const exists : boolean = result.rows[0].exists
+    return exists
   }
 
   private async getRelevantMeasurements(tripId: string) {
