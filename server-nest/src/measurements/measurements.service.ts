@@ -22,12 +22,12 @@ export class MeasurementsService {
     */
 
     
-    constructor(@InjectConnection('lira-main') private readonly knex: Knex) {} // TODO: Change to use our db.
+    constructor(@InjectConnection('our-lira-db') private readonly knex: Knex) {} // TODO: Change to use our db.
 
     async getMeasurementTypes(): Promise<MeasurementType[]> {
         return await this.knex
             .select('*')
-            .from({ public: 'MeasurementTypes' }) // TODO: Change to  use our db table 'measurement_types'.
+            .from({ public: 'MeasurementTypes' })
             .orderBy('type');
     }
 

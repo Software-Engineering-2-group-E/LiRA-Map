@@ -8,7 +8,9 @@ import { ApiTags } from '@nestjs/swagger';
 
 @Injectable()
 export class RidesService {
-    constructor(@InjectConnection('lira-main') private readonly knex: Knex) {}
+    constructor(
+        @InjectConnection('our-lira-db') private readonly ourDb: Knex,
+        @InjectConnection('lira-main') private readonly knex: Knex) {}
 
     async getRides(): Promise<RideMeta[]> {
         return this.knex
