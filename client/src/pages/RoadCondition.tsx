@@ -53,7 +53,7 @@ export default function RoadCondition() {
                         marginBottom: 16,
                         bottom: 0
                     }}>
-                        <RoadProfile roadData={FAKE_ROAD_DATA} width={'750px'}/>
+                        <RoadProfile roadData={FAKE_ROAD_DATA} width={'750px'} orientation={90}/>
                     </div>
                     <ConditionsMap type={type} palette={palette} setPalette={setPalette} setWayData={setWayData}/>
                     <ConditionsGraph type={type} palette={palette} data={wayData}/>

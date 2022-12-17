@@ -34,7 +34,7 @@ const ManagedRoads = () => {
             {
                 [...new Array(5)].map(() => (
                     <ListItem>
-                        <RoadProfile roadData={generateRoad(Math.round((Math.random() * (20 - 10)) + 10))} width={'100%'}/>
+                        <RoadProfile roadData={generateRoad(Math.round((Math.random() * (20 - 10)) + 10))} width={'100%'} orientation={0}/>
                     </ListItem>
                     )
                 )

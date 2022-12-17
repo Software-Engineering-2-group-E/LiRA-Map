@@ -12,6 +12,7 @@ import Tab from "@mui/material/Tab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import IconButton from "@mui/material/IconButton";
 
 import CheckboxList from "./CheckboxList";
@@ -21,10 +22,11 @@ import {RoadData} from "../../pages/RoadCondition";
 
 export interface RoadProfileProps {
     roadData: RoadData,
-    width: string
+    width: string,
+    orientation: number
 }
 
-export default function RoadProfile({roadData, width}: RoadProfileProps) {
+export default function RoadProfile({roadData, width, orientation}: RoadProfileProps) {
 
     const ref = useRef(null)
     const [ _, height ] = useSize(ref)
@@ -46,13 +48,13 @@ export default function RoadProfile({roadData, width}: RoadProfileProps) {
     const [ open, setOpen ] = useState<boolean>(true);
 
     return (
-        <Card sx={{ width: open ? width : 'auto' }}>
+        <Card sx={{ width: open ? width : (width === '100%' ? width : 'auto') }}>
             <CardContent>
-                {!open && <IconButton onClick={() => setOpen(true)}><ExpandMoreIcon style={{transform: "rotate(-90deg)"}}/></IconButton>}
+                {!open && <IconButton onClick={() => setOpen(true)}><ExpandMoreIcon style={{ transform: `rotate(-${orientation}deg)` }}/></IconButton>}
                 {open && (
                     <Grid container spacing={1} columns={16}>
                         <Grid item xs={1}>
-                            <IconButton onClick={() => setOpen(false)}><ExpandMoreIcon style={{transform: "rotate(90deg)"}}/></IconButton>
+                            <IconButton onClick={() => setOpen(false)}><ExpandLessIcon style={{ transform: `rotate(-${orientation}deg)` }}/></IconButton>
                         </Grid>
                         <Grid item xs={15}>
                             <Typography variant="h5" sx={{mt: 1, ml: 1}}>{roadData.roadName}</Typography>
