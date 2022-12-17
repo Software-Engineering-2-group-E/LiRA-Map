@@ -27,6 +27,7 @@ import {
     Legend,
     Tooltip,
     LineController,
+    Decimation,
     ChartDataset,
     ChartOptions
 } from 'chart.js';
@@ -40,6 +41,7 @@ ChartJS.register(
     Legend,
     Tooltip,
     LineController,
+    Decimation,
 );
 
 const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: ActiveMeasProperties[];}> = ({paths, selectedMeasurements}): JSX.Element => {
@@ -83,12 +85,15 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
                 return Object.values(Object.values(paths[name])[0]).flatMap((trip: BoundedPath) => {
                     const data = trip.path.map((o: any) => ({x: Date.parse(o.metadata.timestamp), y: o.value ? o.value : 0, lat: o.lat, lng: o.lng}))
 
+                    //console.log(`${name} - ${data.length}`)
+
+                    const color = randomColor()
+
                     const dataset: ChartDataset<'line', Object[]> = {
                         label: name + ' (' + trip.type + ')',
                         data: data,
-                        showLine: true,
-                        fill: false,
-                        borderColor: randomColor()
+                        borderColor: color,
+                        pointBackgroundColor: color
                     }
 
                     return dataset
@@ -106,7 +111,7 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
             contents += dataset.label + '\n';
             contents += 'Timestamp, Value\n';
             dataset.data.forEach((o: any) => {
-                contents += o.x + ',' + o.y + '\n'
+                contents += new Date(o.x).toISOString() + ', ' + o.y + '\n'
             })
             contents += '\n'
         })
@@ -174,9 +179,15 @@ const options: ChartOptions<'line'> = {
     maintainAspectRatio: false,
     animation: false,
     parsing: false,
+    spanGaps: true,
     plugins: {
+        decimation: {
+            enabled: true,
+            algorithm: 'lttb',
+            samples: 200,
+            threshold: 200
+        },
         legend: {
-            position: 'top',
             align: 'end',
             labels: {
                 usePointStyle: true
@@ -193,7 +204,8 @@ const options: ChartOptions<'line'> = {
                 }
             },
             ticks: {
-                maxTicksLimit: 10
+                maxTicksLimit: 10,
+                maxRotation: 0
             }
         }
     }
