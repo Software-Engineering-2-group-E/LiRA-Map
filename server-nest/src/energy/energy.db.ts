@@ -25,7 +25,7 @@ export class EnergyDB {
 
     public async persist(data: MeasurementRow[]) {
         //console.log(`[${new Date().toLocaleString('da')}] Writing calculated power measurement ${data.MeasurementId} to database.`)
-        this.liradb.insert(data).into('measurements')
+        this.liradb.insert(data).into('Measurements')
             .then(() => {
                 //console.log(`${new Date().toLocaleString('da')}: Succesfully wrote calculated power measurement to database.`);
             })
