@@ -21,8 +21,8 @@ export interface Bounds {
     maxY?: number; 
 }
 
-// measurement name -> trip task id -> bounded path (used in Rides)
-export type MeasMetaPath = { [key: string]: {[key: number]: BoundedPath } }
+// measurement name -> trip task id -> value type -> bounded path (used in Rides)
+export type MeasMetaPath = { [key: string]: {[key: number]: { [key: string]: BoundedPath } } }
 
 // Props passed to the Path and EventPath components
 export interface PathProps {
@@ -35,6 +35,7 @@ export interface PathProps {
 
 // used for queries
 export interface BoundedPath {
+	type: string;
 	path: Path;
 	bounds?: Bounds;
 }

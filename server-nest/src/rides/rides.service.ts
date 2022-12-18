@@ -8,7 +8,9 @@ import { ApiTags } from '@nestjs/swagger';
 
 @Injectable()
 export class RidesService {
-    constructor(@InjectConnection('lira-main') private readonly knex: Knex) {}
+    constructor(
+        @InjectConnection('our-lira-db') private readonly ourDb: Knex,
+        @InjectConnection('lira-main') private readonly knex: Knex) {}
 
     async getRides(): Promise<RideMeta[]> {
         return this.knex
@@ -19,8 +21,10 @@ export class RidesService {
             .orderBy('TaskId');
     }
 
-    async getRide(tripId: string, dbName: string): Promise<BoundedPath> {
-        const res = await this.knex
+    async getRide(tripId: string, dbName: string): Promise<BoundedPath[]> {
+        // Look for power calculations in our database; every other measurement in LiRA core.
+        const db = dbName == 'gre.pwr' ? this.ourDb : this.knex;
+        const res = await db
             .select(['message', 'lat', 'lon', 'Created_Date'])
             .from({ public: 'Measurements' })
             .where({ FK_Trip: tripId, T: dbName })
@@ -31,29 +35,43 @@ export class RidesService {
         let minY = Number.MAX_SAFE_INTEGER;
         let maxY = Number.MIN_SAFE_INTEGER;
 
-        const path = res
-            .map((msg: any) => {
-                const json = JSON.parse(msg.message);
-                const value = json[dbName + '.value'];
-                const timestamp = new Date(msg.Created_Date);
+        if(!res.length || !res[0].hasOwnProperty('message')) return []
 
-                minX = Math.min(minX, timestamp.getTime());
-                maxX = Math.max(maxX, timestamp.getTime());
-                minY = Math.min(minY, value);
-                maxY = Math.max(maxY, value);
+        const initialMessage = res[0].message;
+        const valueRegex = '"(' + dbName + '[a-z.]+)":';
+        const matches: string[] = initialMessage.matchAll(valueRegex);
 
-                return {
-                    lat: msg.lat,
-                    lng: msg.lon,
-                    value,
-                    metadata: { timestamp },
-                } as PointData;
-            })
-            .sort(
-                (a: PointData, b: PointData) =>
-                    a.metadata.timestamp - b.metadata.timestamp,
-            );
+        if (matches.length == 0) return []
 
-        return { path, bounds: { minX, maxX, minY, maxY } };
+        const bps: BoundedPath[] = [];
+        for (const match of matches) {
+            const valueTag = match[1];
+            const path = res
+                .map((msg: any) => {
+                    const json = JSON.parse(msg.message);
+                    const value = json[valueTag];
+                    const timestamp = new Date(msg.Created_Date);
+
+                    minX = Math.min(minX, timestamp.getTime());
+                    maxX = Math.max(maxX, timestamp.getTime());
+                    minY = Math.min(minY, value);
+                    maxY = Math.max(maxY, value);
+
+                    return {
+                        lat: msg.lat,
+                        lng: msg.lon,
+                        value,
+                        metadata: { timestamp },
+                    } as PointData;
+                })
+                .sort(
+                    (a: PointData, b: PointData) =>
+                        a.metadata.timestamp - b.metadata.timestamp,
+                );
+
+            bps.push({ type: valueTag, path, bounds: { minX, maxX, minY, maxY } });
+        }
+
+        return bps;
     }
 }

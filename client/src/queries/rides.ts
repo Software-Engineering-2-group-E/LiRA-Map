@@ -22,14 +22,9 @@ export const getRide = async (
 
     // console.log('Querying measurement: ', name, '\nTaskId: ', taskId );
     
-    const { data } = await asyncPost<BoundedPath>( '/rides/ride', { tripId, dbName } )         
-        
-    const { path } = data;
+    const { data } = await asyncPost<BoundedPath[]>( '/rides/ride', { tripId, dbName } )
 
-    // console.log("Got data for ride: ", taskId, "\nLength: ", path.length, '\nMeasurement: ', name, '\nHasValue?: ', hasValue ); 
-
-    if ( path.length === 0 )
-    {
+    if (!data.length || data[0].path.length === 0) {
         popup( {
             icon: "warning",
             title: `This trip doesn't contain data for ${name}`,
