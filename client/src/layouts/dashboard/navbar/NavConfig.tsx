@@ -8,7 +8,7 @@ const navConfig = [
         subheader: 'My Lira',
         items: [
             {title: 'User dashboard', path: '/dashboard', icon: <Dashboard/>},
-            //{title: 'Managed roads', path: '/managed', icon: <Star/>}
+            {title: 'Managed roads', path: '/managed', icon: <Star/>}
         ],
     },
     {

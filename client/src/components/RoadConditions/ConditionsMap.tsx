@@ -3,10 +3,7 @@ import { ChartData } from "chart.js";
 import { Palette } from "react-leaflet-hotline";
 
 import MapWrapper from "../Map/MapWrapper";
-import PaletteEditor from "../Palette/PaletteEditor";
 import Ways from "./Ways";
-import RoadProfile from "../RoadProfiles/RoadProfile";
-import { FAKEROAD_DATA } from "../Map/constants";
 
 import useSize from "../../hooks/useSize";
 
