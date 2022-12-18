@@ -68,13 +68,13 @@ export default function RoadProfile({roadData, width, orientation = 0}: RoadProf
                             <TabList onChange={handleChange}>
                                 {taps.map((t, value) => {
                                     return (
-                                        <Tab label={t.name} value={(value + 1).toString()}/>
+                                        <Tab key={`${t.name}-${value}`} label={t.name} value={(value + 1).toString()}/>
                                     );
                                 })}
                             </TabList>
                             {taps.map((t, value) => {
                                 return (
-                                    <TabPanel value={(value + 1).toString()}>
+                                    <TabPanel key={`${t.name}-${value}`} value={(value + 1).toString()}>
                                         <Graph
                                             segments={roadData.segmentList.filter((segment, index) => checked[index])}
                                             name={t.name}
