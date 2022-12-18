@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, Knex } from 'nestjs-knex';
-//import { RideMeta } from '../rides/models.rides';
 import { getPreciseDistance } from 'geolib';
 import {
   EnergyResponse,
+  MappingPowerMeasToRelevant,
   MeasurementRow,
   PowerMessage,
 } from './energy.dto';
-//import { Measurement } from '../models';
 import * as Console from 'console';
 import {
   calcAcc,
@@ -21,10 +20,8 @@ import {
   calcEnergyInertia,
   getMeasVal,
 } from './energy.math';
-import { GeolibInputCoordinates } from 'geolib/es/types';
 import { EnergyDB } from './energy.db';
 import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
 
 @Injectable()
 export class EnergyService {
@@ -37,24 +34,27 @@ export class EnergyService {
   private readonly spdTag = 'obd.spd_veh';
   private readonly consTag = 'obd.trac_cons';
   private readonly whlTrqTag = 'obd.whl_trq_est';
-  private readonly brkTrqTag = 'obd.brk_trq_req_elec';
-  private readonly accYawTag = 'obd.acc_long';
-  private readonly gpsTag = 'track.pos';
   private readonly energyDB = new EnergyDB()
 
   private readonly measTypes = [this.accLongTag, this.spdTag, this.whlTrqTag];
 
-  public async get(tripId: string): Promise<string> {
+  public async getEnergy(tripId: string): Promise<string> {
 
-     if (await this.checkIfCalcExists(tripId)) {
+    // Get calculations for that trip id if they already exists
+    const [ exists, result ] = await this.getIfExists(tripId)
+    if (exists) {
       const msgObj : EnergyResponse = {
-        status: "fail",
-        data: {tripId: 'Calculation already exists for that trip id.'}
+        status: "success",
+        data: result
       }
 
       return JSON.stringify(msgObj)
-     }
+    } else {
+      return await this.calculateEnergy(tripId)
+    }
+  }
 
+  public async calculateEnergy(tripId: string): Promise<string> {
     // Get all measurements related to this trip id, whose tag is either obd.whl_trq_est, obd.trac_cons, obd.acc_long or obd.spd_veh.
     const relevantMeasurements: MeasurementRow[] = await this.getRelevantMeasurements(
       tripId,
@@ -72,10 +72,8 @@ export class EnergyService {
 
     // Group them into triplings, consisting of index of a obd.trac_cons measurement, the relevant measurements found before it and their indexes,
     // and the relevant measurements found after it and their indexes.
-    const assignments: Array<
-      [number, Map<string, number>, Map<string, number>]
-    > = await this.collectMeas(relevantMeasurements);
-    
+    const assignments: MappingPowerMeasToRelevant = await this.anchorMeasAroundPowerMeas(relevantMeasurements);
+
     // Calculate accumulated distance between start point and all other measurements,
     // using the geolib library to convert from latitude/longitude to distance. 
     const distancesGPS = new Array<number>(assignments.length);
@@ -194,14 +192,10 @@ export class EnergyService {
     });
 
     if (containsNaN) {
-      //this.energyDB.persist(data)
-
       const msgObj: EnergyResponse = {
         status: "error",
         message: 'Calculations contain NaN values.', 
       }
-
-
       return JSON.stringify(msgObj)
     } else {
       this.energyDB.persist(data)
@@ -215,10 +209,11 @@ export class EnergyService {
     }
   }
   
-  async checkIfCalcExists(tripId: string) {
-    const result = await this.ourDb.raw(`select exists(select 1 from "Measurements" m where "FK_Trip" = '${tripId}');`)
-    const exists : boolean = result.rows[0].exists
-    return exists
+  async getIfExists(tripId: string) {
+    const result = await this.ourDb.select('*').from("Measurements").where("FK_Trip", `${tripId}`);
+    const exists = result.length > 0 ? true : false
+    
+    return [ exists, result ] as const
   }
 
   private async getRelevantMeasurements(tripId: string) {
@@ -230,20 +225,20 @@ export class EnergyService {
       .orderBy('Created_Date')
   }
 
-  private async collectMeas(sortedMeasurements: MeasurementRow[]): Promise<any[]> {
+  private async anchorMeasAroundPowerMeas(sortedMeasurements: MeasurementRow[]): Promise<MappingPowerMeasToRelevant> {
     const powerIndex = sortedMeasurements.findIndex((m) => m.T == this.consTag);
     if (powerIndex == -1) {
       return [];
     }
 
-    const assigned: [number, Map<string, number>, Map<string, number>][] = [];
+    const assigned: MappingPowerMeasToRelevant = [];
     let measBefore: Map<string, number>;
     let measAfter: Map<string, number>;
     for (let i = powerIndex; i < sortedMeasurements.length; i++) {
       const curMeasType: string = sortedMeasurements[i].T;
       if (curMeasType == this.consTag) {
-        measBefore = this.findMeas(sortedMeasurements, i, 'before');
-        measAfter = this.findMeas(sortedMeasurements, i, 'after');
+        measBefore = this.findMeasInDirection(sortedMeasurements, i, 'before');
+        measAfter = this.findMeasInDirection(sortedMeasurements, i, 'after');
         if (measBefore && measAfter) {
           assigned.push([i, measBefore, measAfter]);
         }
@@ -253,7 +248,7 @@ export class EnergyService {
     return assigned;
   }
 
-  private findMeas(
+  private findMeasInDirection(
     meas: MeasurementRow[],
     index: number,
     direction: 'before' | 'after',

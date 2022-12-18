@@ -25,3 +25,5 @@ export class PowerMessage {
     'gre.pwr.inertia': number;
     'gre.pwr.aero': number;
 }
+
+export type MappingPowerMeasToRelevant = Array<[number, Map<string, number>, Map<string, number>]>
