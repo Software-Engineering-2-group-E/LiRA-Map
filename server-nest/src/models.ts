@@ -36,6 +36,8 @@ export class Bounds {
 // used for queries
 export class BoundedPath {
     @ApiProperty()
+    type: string;
+    @ApiProperty()
     path: Path;
     @ApiPropertyOptional()
     bounds?: Bounds;

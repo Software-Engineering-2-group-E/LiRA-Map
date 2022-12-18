@@ -13,7 +13,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import 'date-fns';
 import 'chartjs-adapter-date-fns';
 
-import {MeasMetaPath} from "../../models/path";
+import { BoundedPath, MeasMetaPath } from '../../models/path';
 import {ActiveMeasProperties} from "../../models/properties";
 
 import {useMarkerContext} from "../../context/MarkerContext";
@@ -52,10 +52,6 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
 
     const [ datasets, setDatasets ] = useState<ChartDataset<'line', Object[]>[]>([]);
 
-    const colorMap = new Map<string, string>([
-        ['Engine RPM', 'rgba(253, 59, 59, 1)'],
-    ]);
-
     useEffect(() => {
         const datasets: ChartDataset<'line', Object[]>[] = selectedMeasurements
             .filter(({hasValue, name}) => {
@@ -68,34 +64,36 @@ const RideGraphCard: React.FC<{paths: MeasMetaPath; selectedMeasurements: Active
                 // Make sure 1 or more trips have been selected
                 if(!(Object.keys(paths[name]).length > 0)) return false
 
+                //console.log(Object.values(Object.values(paths[name])[0])[0])
+
+                //let bps: BoundedPath[] = Object.values(Object.values(paths[name])[0])
+
                 // Make sure the trip has data (path property)
-                if(!Object.hasOwn(Object.values(paths[name])[0], 'path')) return false
+                // if(!Object.hasOwn(Object.values(paths[name])[0][0], 'path')) return false
 
                 // Make sure that each data point has a value (value property)
-                if(!Object.hasOwn(Object.values(paths[name])[0].path[0], 'value')) return false
+                //if(!Object.hasOwn(Object.values(paths[name])[0].path[0], 'value')) return false
 
                 //console.log(name)
                 //console.log(Object.values(paths[name])[0].path)
 
                 return true
             })
-            .map(({name}) => {
-            // Take the first trip
-            const trip = Object.values(paths[name])[0];
+            .flatMap(({name}) => {
+                return Object.values(Object.values(paths[name])[0]).flatMap((trip: BoundedPath) => {
+                    const data = trip.path.map((o: any) => ({x: o.metadata.timestamp, y: o.value ? o.value : 0, lat: o.lat, lng: o.lng}))
 
-            const data = trip.path.map(o => ({x: o.metadata.timestamp, y: o.value ? o.value : 0, lat: o.lat, lng: o.lng}))
+                    const dataset: ChartDataset<'line', Object[]> = {
+                        label: name + ' (' + trip.type + ')',
+                        data: data,
+                        showLine: true,
+                        fill: false,
+                        borderColor: randomColor()
+                    }
 
-            const dataset: ChartDataset<'line', Object[]> = {
-                label: name,
-                data: data,
-                showLine: true,
-                fill: false,
-                borderColor: colorMap.get(name) ?? randomColor()
-            }
-
-            return dataset
-        })
-
+                    return dataset
+                })
+            })
         //console.log("Mapped")
         //console.log(datasets)
 

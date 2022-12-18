@@ -20,7 +20,7 @@ export class RidesController {
     }
 
     @Get('/ride')
-    getRide(@Query() query: GetRideDTO): Promise<BoundedPath> {
+    getRide(@Query() query: GetRideDTO): Promise<BoundedPath[]> {
         const { tripId, dbName } = query;
         return this.service.getRide(tripId, dbName);
     }
