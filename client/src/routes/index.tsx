@@ -63,6 +63,8 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard" replace />, index: true },
         { path: "dashboard", element: <Dashboard /> },
+        { element: <Navigate to="/managed" replace />, index: true },
+        { path: "managed", element: <ManagedRoads /> },
         { element: <Navigate to="/settings" replace />, index: true },
         { path: "settings", element: <Settings /> },
       ],
@@ -108,3 +110,4 @@ const NotFound = Loadable(lazy(() => import("../pages/Page404")));
 const Signup = Loadable(lazy(() => import("../pages/Signup")));
 const Settings = Loadable(lazy(() => import("../pages/Settings")));
 const Dashboard = Loadable(lazy(() => import("../pages/Dashboard")));
+const ManagedRoads = Loadable(lazy(() => import("../pages/ManagedRoads")));

@@ -1,27 +1,35 @@
 import * as React from 'react';
+import { useState, SyntheticEvent, useRef} from "react";
+import useSize from "../../hooks/useSize";
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-
 import TabContext from '@mui/lab/TabContext';
 import Tab from "@mui/material/Tab";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import IconButton from "@mui/material/IconButton";
 
 import CheckboxList from "./CheckboxList";
 import Graph from "./Graph";
-import { useState, SyntheticEvent} from "react";
+
 import {RoadData} from "../../pages/RoadCondition";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import IconButton from "@mui/material/IconButton";
 
 export interface RoadProfileProps {
-    roadData: RoadData
+    roadData: RoadData,
+    width: string,
+    orientation?: number
 }
 
-export default function RoadProfile({roadData}: RoadProfileProps) {
+export default function RoadProfile({roadData, width, orientation = 0}: RoadProfileProps) {
+
+    const ref = useRef(null)
+    const [ _, height ] = useSize(ref)
 
     const [checked, setChecked] = useState<boolean[]>(new Array(roadData.segmentList.length).fill(true));
     const [value, setValue] = useState("1");
@@ -40,30 +48,22 @@ export default function RoadProfile({roadData}: RoadProfileProps) {
     const [ open, setOpen ] = useState<boolean>(true);
 
     return (
-        <Card sx={{
-            zIndex: 1000,
-            position: "absolute",
-            width: open ? 750 : "auto",
-            height: open ? 'auto' : "auto",
-            ml: 2,
-            mb: 2,
-            bottom: 0
-        }}>
+        <Card sx={{ width: open ? width : (width === '100%' ? width : 'auto') }}>
             <CardContent>
-                {!open && <IconButton onClick={() => setOpen(true)}><ExpandMoreIcon style={{transform: "rotate(-90deg)"}}/></IconButton>}
+                {!open && <IconButton onClick={() => setOpen(true)}><ExpandMoreIcon style={{ transform: `rotate(-${orientation}deg)` }}/></IconButton>}
                 {open && (
                     <Grid container spacing={1} columns={16}>
                         <Grid item xs={1}>
-                            <IconButton onClick={() => setOpen(false)}><ExpandMoreIcon style={{transform: "rotate(90deg)"}}/></IconButton>
+                            <IconButton onClick={() => setOpen(false)}><ExpandLessIcon style={{ transform: `rotate(-${orientation}deg)` }}/></IconButton>
                         </Grid>
                         <Grid item xs={15}>
                             <Typography variant="h5" sx={{mt: 1, ml: 1}}>{roadData.roadName}</Typography>
                         </Grid>
                     <Grid item xs={3}>
                         <Button variant="outlined">ADD TO LIST</Button>
-                        <CheckboxList checked={checked} setChecked={setChecked}/>
+                        <CheckboxList checked={checked} setChecked={setChecked} maxHeight={height}/>
                     </Grid>
-                    <Grid item xs={13}>
+                    <Grid item xs={13} ref={ref}>
                         <TabContext value={value}>
                             <TabList onChange={handleChange}>
                                 {taps.map((t, value) => {
@@ -85,8 +85,8 @@ export default function RoadProfile({roadData}: RoadProfileProps) {
                             })}
                         </TabContext>
                     </Grid>
-                </Grid>
-                )}
+                </Grid>)
+                }
             </CardContent>
         </Card>
     );

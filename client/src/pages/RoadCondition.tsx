@@ -1,16 +1,14 @@
-// @mui
-// hooks
-// components
+import * as React from "react";
+
 import Page from '../components/Page';
+import ConditionsMap from "../components/RoadConditions/ConditionsMap";
+import ConditionsGraph from "../components/RoadConditions/ConditionsGraph";
+import RoadProfile from "../components/RoadProfiles/RoadProfile";
+import { FAKE_ROAD_DATA, RENDERER_PALETTE } from "../components/Map/constants";
 
 import {useState} from "react";
 import {Palette} from "react-leaflet-hotline";
 import {ChartData} from "chart.js";
-import { FAKEROAD_DATA, RENDERER_PALETTE } from "../components/Map/constants";
-
-import ConditionsMap from "../components/RoadConditions/ConditionsMap";
-import ConditionsGraph from "../components/RoadConditions/ConditionsGraph";
-import RoadProfile from "../components/RoadProfiles/RoadProfile";
 
 import {ConditionType} from "../models/graph";
 
@@ -18,8 +16,6 @@ import {GraphProvider} from "../context/GraphContext";
 
 import "leaflet/dist/leaflet.css"
 import "../css/map.css"
-
-import * as React from "react";
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +46,15 @@ export default function RoadCondition() {
         <Page title="Road Condition">
             <GraphProvider>
                 <div className="road-conditions-wrapper">
-                    <RoadProfile roadData={FAKEROAD_DATA}/>
+                    <div style={{
+                        zIndex: 1000,
+                        position: 'absolute',
+                        marginLeft: 16,
+                        marginBottom: 16,
+                        bottom: 0
+                    }}>
+                        <RoadProfile roadData={FAKE_ROAD_DATA} width={'750px'} orientation={90}/>
+                    </div>
                     <ConditionsMap type={type} palette={palette} setPalette={setPalette} setWayData={setWayData}/>
                     <ConditionsGraph type={type} palette={palette} data={wayData}/>
                 </div>

@@ -40,7 +40,7 @@ function createData(
     };
 }
 
-const rows = [
+export const rows = [
     createData(0,   'Lyngbyvej',              39.7,   '...'),
     createData(1,   'Kongevejen',             25.0,   '...'),
     createData(2,   'Henrik Dams Allé',       100.0,  '...'),
