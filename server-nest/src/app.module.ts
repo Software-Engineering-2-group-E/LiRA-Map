@@ -28,8 +28,8 @@ import { SignupController } from './signup/SignupController';
 import { ConnectionController } from './connection/connection.controller';
 import { ConnectionService } from './connection/connection.service';
 
-import { EnergyController } from "./energy/EnergyController";
-import { EnergyService } from "./energy/EnergyService";
+import { EnergyController } from "./energy/energy.controller";
+import { EnergyService } from "./energy/energy.service";
 
 import {
     LIRA_DB_CONFIG,
