@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { EnergyService } from './EnergyService';
+import { EnergyService } from './energy.service';
 
 @Controller('/energy-consumption')
 export class EnergyController {
@@ -8,7 +8,7 @@ export class EnergyController {
   @Get()
   getTest(@Query('trip_id') trip_id) {
     if (trip_id) {
-      return this.service.get(
+      return this.service.getEnergy(
         trip_id,
       );
     }

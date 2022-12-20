@@ -29,7 +29,6 @@ export class MeasurementsController {
 
 	@Get('/types')
 	getMeasurementTypes(): Promise<MeasurementType[]> {
-		console.log('Hit /types endpoint');
 		return this.service.getMeasurementTypes();
 	}
 }
