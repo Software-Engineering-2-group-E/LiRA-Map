@@ -15,7 +15,7 @@ const ManagedRoads = () => {
     }
 
     function generateRoad(length: number): RoadData {
-        const index = Math.round(Math.random() * rows.length - 1);
+        const index = Math.floor(Math.random() * rows.length);
 
         const list = new Array(length)
         for(let i = 0; i < length; i++) {
@@ -32,8 +32,8 @@ const ManagedRoads = () => {
     return (
         <List>
             {
-                [...new Array(5)].map(() => (
-                    <ListItem>
+                [...new Array(5)].map((_, index) => (
+                    <ListItem key={index}>
                         <RoadProfile roadData={generateRoad(Math.round((Math.random() * (20 - 10)) + 10))} width={'100%'}/>
                     </ListItem>
                     )
