@@ -1,3 +1,4 @@
+//@Author(s) s204433
 
 import { LatLng } from 'leaflet'
 import { Palette } from 'react-leaflet-hotline';

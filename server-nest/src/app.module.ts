@@ -1,4 +1,4 @@
-//@Author s175182
+//@Author s175182, s204433
 
 import { Module } from '@nestjs/common';
 import { KnexModule } from 'nestjs-knex';

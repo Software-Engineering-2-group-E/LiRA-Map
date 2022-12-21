@@ -1,4 +1,4 @@
-//@Author(s) s204442
+//@Author(s) s204442, s204433
 
 import { Controller, Get } from '@nestjs/common';
 import { ConnectionService } from './connection.service';

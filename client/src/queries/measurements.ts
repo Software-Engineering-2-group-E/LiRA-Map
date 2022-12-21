@@ -1,4 +1,4 @@
-//@Author(s) s164420
+//@Author(s) s164420, s204433
 
 import { ActiveMeasProperties, MeasProperties } from '../models/properties';
 import { get, put } from './fetch';
