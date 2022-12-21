@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import {FC, useEffect} from "react"
 
 import GLine from "../../assets/graph/line"

@@ -1,3 +1,4 @@
+//@Author(s) s184230
 
 import {  WaysConditions, ValueLatLng } from "../models/path"
 import { get } from "./fetch"

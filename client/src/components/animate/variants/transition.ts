@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 // @types
 import { TranHoverType, TranEnterType, TranExitType } from '../type';
 

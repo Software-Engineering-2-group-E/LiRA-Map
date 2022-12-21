@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { PlanFreeIcon, PlanStarterIcon, PlanPremiumIcon } from '../assets';
 
 // ----------------------------------------------------------------------

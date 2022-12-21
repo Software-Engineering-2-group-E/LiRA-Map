@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { ApiProperty } from '@nestjs/swagger';
 import { DocumentData } from '@firebase/firestore';
 import { UserCredential } from '@firebase/auth';

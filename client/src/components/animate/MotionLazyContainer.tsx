@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { ReactNode } from 'react';
 import { LazyMotion } from 'framer-motion';
 

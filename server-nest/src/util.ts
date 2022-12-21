@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 export default function groupBy<T, Q>(
     arr: T[],
     key: string,

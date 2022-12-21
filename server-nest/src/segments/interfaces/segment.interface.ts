@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 export interface Segment {
     id: number;
     positionA: [number, number];

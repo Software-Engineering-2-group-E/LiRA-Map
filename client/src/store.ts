@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { init, RematchDispatch, RematchRootState } from "@rematch/core";
 import { models, RootModel } from "./models";
 import loadingPlugin, { ExtraModelsFromLoading } from "@rematch/loading"

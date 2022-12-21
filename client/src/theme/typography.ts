@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { pxToRem, responsiveFontSizes } from '../utils/getFontValue';
 
 // ----------------------------------------------------------------------

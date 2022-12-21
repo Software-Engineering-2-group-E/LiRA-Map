@@ -1,4 +1,4 @@
-//@Author(s) s204442
+//@Author(s) s204442, s184230
 
 import { Models } from "@rematch/core";
 import { rides } from "./ride";

@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import {FC} from "react";
 import {Palette} from "react-leaflet-hotline";
 import {LeafletEvent, LeafletEventHandlerFnMap} from 'leaflet';

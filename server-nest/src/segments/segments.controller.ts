@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { Controller, Get, Param, Inject, Query } from '@nestjs/common';
 import { SegmentsService } from './segments.service';
 import { ConfigService } from '@nestjs/config';

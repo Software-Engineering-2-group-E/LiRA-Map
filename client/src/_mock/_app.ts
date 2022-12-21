@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { noCase } from 'change-case';
 // _mock
 import _mock from './_mock';

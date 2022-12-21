@@ -1,4 +1,4 @@
-//@Author(s) s164420, s204433
+//@Author(s) s164420, s204433, s184230
 
 import { MapBounds } from "../models/map";
 import { Condition, WaysConditions } from "../models/path";

@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { TypesService } from './types.service';
 import { ApiTags } from '@nestjs/swagger';

@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import jwtDecode from 'jwt-decode';
 
 export const isValidToken = (accessToken: string | undefined) => {

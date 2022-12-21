@@ -1,4 +1,4 @@
-﻿//Author(s) s184234
+﻿//Author(s) s184234, s184230
 
 // Currently just a showcase of how to communicate w. Firestore
 
