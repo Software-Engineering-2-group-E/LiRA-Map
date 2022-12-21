@@ -1,3 +1,5 @@
+//@Author s175182
+
 import { Injectable } from '@nestjs/common';
 import { InjectConnection } from 'nestjs-knex';
 import { Knex } from 'knex';
@@ -11,7 +13,6 @@ export class RidesService {
     constructor(
         @InjectConnection('our-lira-db') private readonly ourDb: Knex,
         @InjectConnection('lira-main') private readonly knex: Knex) {}
-
     async getRides(): Promise<RideMeta[]> {
         return this.knex
             .select('*')

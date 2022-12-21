@@ -1,3 +1,5 @@
+//@Author s175182
+
 import {
     Body,
     Controller,
@@ -9,9 +11,7 @@ import {
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, firestore } from '../firebase';
 import { collection, doc, getDoc } from 'firebase/firestore';
-import { Login, LoginResponse } from './login.dto';
-import { UserCredential } from '@firebase/auth';
-import { DocumentData } from '@firebase/firestore';
+import { Login } from './login.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('/login')

@@ -1,3 +1,5 @@
+//@Author(s) s175182
+
 import React, { useState } from 'react';
 import { RideMeta, TripsOptions } from '../../models/models';
 import { useMetasCtx } from '../../context/MetasContext';
@@ -6,9 +8,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ArrowDownward, ArrowUpward } from '@mui/icons-material';
-import Chip from '@mui/material/Chip';
-import Paper from '@mui/material/Paper';
-import TagFacesIcon from '@mui/icons-material/TagFaces';
 
 
 const defaultOptions: TripsOptions = {
@@ -90,7 +89,6 @@ export default function OptionsSelector() {
 		};
 
 	};
-
 	return (
 		<div className='rides-options'>
 			<LocalizationProvider dateAdapter={AdapterDateFns}>
