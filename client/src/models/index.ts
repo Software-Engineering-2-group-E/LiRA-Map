@@ -1,3 +1,5 @@
+//@Author(s) s204442
+
 import { Models } from "@rematch/core";
 import { rides } from "./ride";
 import {access} from "./user";

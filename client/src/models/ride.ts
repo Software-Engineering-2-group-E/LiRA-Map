@@ -1,4 +1,4 @@
-//@Author s175182
+//@Author s175182, s204442
 
 import {createModel} from "@rematch/core";
 import {RootModel} from ".";

@@ -1,4 +1,4 @@
-//@Author s175182
+//@Author s175182, s204442
 
 import {List, ListItem, ListItemText} from "@mui/material";
 import {Ride} from "../../models/ride";

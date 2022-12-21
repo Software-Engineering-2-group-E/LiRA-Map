@@ -1,4 +1,4 @@
-//@Author(s) s164420
+//@Author(s) s164420, s204442
 
 import { get } from "./fetch";
 
