@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { FC } from "react";
 
 import Path from "../Map/Path";

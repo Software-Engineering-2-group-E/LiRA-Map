@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { Knex } from 'knex';
 
 interface Way {

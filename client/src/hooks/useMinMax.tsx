@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { useEffect, useState } from "react"
 import { MinMax } from "../assets/graph/types";
 

@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 // theme
 import palette from '../theme/palette';
 // @type

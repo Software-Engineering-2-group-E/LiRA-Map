@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { Controller, Get } from '@nestjs/common';
 import { ValueLatLng, WaysConditions } from 'src/models';
 import { AltitudeService } from './alt.service';

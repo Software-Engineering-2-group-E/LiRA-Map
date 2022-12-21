@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
 
 import { Condition, MapBounds, WaysConditions } from 'src/models';

@@ -1,3 +1,5 @@
+//@Author(s) s164420, s204433
+
 import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import { ChartData, Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ActiveElement, ChartEvent, ChartOptions, ChartTypeRegistry, Plugin  } from "chart.js";
 import { Color, Palette } from "react-leaflet-hotline";

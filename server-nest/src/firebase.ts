@@ -1,4 +1,6 @@
-﻿import * as firebase from 'firebase/app';
+﻿//Author(s) s184234, s184230
+
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
 import { FIREBASE_CONFIG } from './database';

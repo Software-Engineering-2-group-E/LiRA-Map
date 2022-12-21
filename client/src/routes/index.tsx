@@ -1,3 +1,5 @@
+//@Author s175182, s204442, s184230
+
 import { ElementType, lazy, Suspense, useEffect } from "react";
 import { Navigate, useLocation, useRoutes } from "react-router-dom";
 // layouts

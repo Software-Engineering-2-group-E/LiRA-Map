@@ -1,3 +1,5 @@
+//@Author(s) s204442, s204433, s184230
+
 import { Controller, Get } from '@nestjs/common';
 import { ConnectionService } from './connection.service';
 import { ApiTags } from '@nestjs/swagger';

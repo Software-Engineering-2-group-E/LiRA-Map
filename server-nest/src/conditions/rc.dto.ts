@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { ApiProperty } from '@nestjs/swagger';
 import { Condition, LatLonDist } from '../models';
 

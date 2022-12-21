@@ -1,3 +1,5 @@
+//@Author s183816, s164420, 204433
+
 import { Dispatch, SetStateAction } from "react"
 import { RideMeta } from "../models/models"
 import { BoundedPath, Metadata } from "../models/path"

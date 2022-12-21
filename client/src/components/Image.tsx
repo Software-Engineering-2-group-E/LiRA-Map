@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { LazyLoadImage, LazyLoadImageProps } from 'react-lazy-load-image-component';
 // @mui
 import { Theme } from '@mui/material/styles';

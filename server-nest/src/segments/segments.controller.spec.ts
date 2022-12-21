@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { SegmentsController } from './segments.controller';
 

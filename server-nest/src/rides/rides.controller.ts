@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { Controller, Get, Query } from '@nestjs/common';
 import { RidesService } from './rides.service';
 

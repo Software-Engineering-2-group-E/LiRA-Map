@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#Author s164420
 containers=$(docker ps | grep "lira-map" | cut -d " " -f1)
 
 if [[ ! -z $containers ]]; then                   # if the string <containers> is not null, then

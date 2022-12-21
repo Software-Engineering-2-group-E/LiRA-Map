@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 export * from './path';
 export * from './fade';
 export * from './zoom';

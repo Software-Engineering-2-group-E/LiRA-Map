@@ -1,3 +1,4 @@
+//@Author(s) s175182
 
 export interface RideMeta {
 	TripId: string,

@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import SimpleBarReact, { Props as ScrollbarProps } from 'simplebar-react';
 // @mui
 import { alpha, styled } from '@mui/material/styles';

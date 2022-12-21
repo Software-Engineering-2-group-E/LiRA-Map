@@ -1,3 +1,5 @@
+//@Author s183816
+
 import { MeasurementRow } from './energy.dto';
 
 // https://en.wikipedia.org/wiki/Linear_interpolation#Linear_interpolation_between_two_known_points

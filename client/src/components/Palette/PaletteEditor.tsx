@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { FC, MouseEvent, useState } from "react";
 import { Gradient } from "react-gradient-hook";
 import { CursorOptions } from "react-gradient-hook/lib/types";

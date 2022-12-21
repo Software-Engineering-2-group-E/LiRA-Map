@@ -1,3 +1,5 @@
+//@Author(s) s164420, s184230, s175182
+
 import * as dotenv from 'dotenv';
 
 dotenv.config();

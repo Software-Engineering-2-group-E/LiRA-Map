@@ -1,3 +1,5 @@
+//@Author(s) s164420
+
 import {RendererName} from "../models/renderers";
 import { JSONProps, PointData } from "../models/path";
 import { PathProperties } from "../models/properties";

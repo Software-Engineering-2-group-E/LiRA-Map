@@ -1,4 +1,4 @@
-
+//@Author(s) s184230
 
 import { FC, useRef, useState } from "react";
 import { Palette } from "react-leaflet-hotline";

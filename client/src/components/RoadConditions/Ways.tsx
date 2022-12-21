@@ -1,3 +1,4 @@
+//@Author(s) s164420
 
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { TRGB } from 'react-gradient-hook/lib/types';

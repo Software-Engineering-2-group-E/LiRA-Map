@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 export class SegmentsDTO {
     type: string;
     aggregation: string;

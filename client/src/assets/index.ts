@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 export { default as DocIllustration } from './illustration_doc';
 export { default as SeoIllustration } from './illustration_seo';
 export { default as UploadIllustration } from './illustration_upload';

@@ -1,3 +1,5 @@
+//@Author(s) s184230
+
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, Knex } from 'nestjs-knex';
 
