@@ -1,49 +1,53 @@
-import { useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { useState } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 // @mui
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { styled } from "@mui/material/styles";
+import { Box } from "@mui/material";
 // hooks
-import useCollapseDrawer from '../../hooks/useCollapseDrawer';
+import useCollapseDrawer from "../../hooks/useCollapseDrawer";
 // config
-import { NAVBAR } from '../../config';
-import NavbarVertical from './navbar/NavbarVertical';
-import { RootState } from '../../store';
-import { useSelector } from 'react-redux';
-import { isValidToken } from '../../utils/jwt';
+import { NAVBAR } from "../../config";
+import NavbarVertical from "./navbar/NavbarVertical";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import { isValidToken } from "../../utils/jwt";
+import LoadingIcon from "../../components/LoadingIcon";
 
 // ----------------------------------------------------------------------
 
 type MainStyleProps = {
-	collapseClick: boolean;
+  collapseClick: boolean;
 };
 
-const MainStyle = styled('main', {
-	shouldForwardProp: (prop) => prop !== 'collapseClick',
+const MainStyle = styled("main", {
+  shouldForwardProp: (prop) => prop !== "collapseClick",
 })<MainStyleProps>(({ collapseClick, theme }) => ({
-	flexGrow: 1,
+  flexGrow: 1,
 
-	// transition: theme.transitions.create(['margin-left'], {
-	// 	duration: theme.transitions.duration.shorter
-	// }),
+  // transition: theme.transitions.create(['margin-left'], {
+  // 	duration: theme.transitions.duration.shorter
+  // }),
 
-	...(collapseClick && {
-		marginLeft: NAVBAR.DASHBOARD_COLLAPSE_WIDTH,
-	}),
+  ...(collapseClick && {
+    marginLeft: NAVBAR.DASHBOARD_COLLAPSE_WIDTH,
+  }),
 }));
 
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout() {
-	const { userCredentials } = useSelector((state: RootState) => state.access);
-	const { collapseClick, isCollapsed } = useCollapseDrawer();
-	const [open, setOpen] = useState(true);
+  const { loading } = useSelector(
+    (rootState: RootState) => rootState.loading.global
+  );
+  const { userCredentials } = useSelector((state: RootState) => state.access);
+  const { collapseClick, isCollapsed } = useCollapseDrawer();
+  const [open, setOpen] = useState(true);
 
-	if (!isValidToken(userCredentials?.user?.stsTokenManager?.accessToken)) {
-		return <Navigate to='/login' />;
-	}
+  if (!isValidToken(userCredentials?.user?.stsTokenManager?.accessToken)) {
+    return <Navigate to="/login" />;
+  }
 
-	/*
+  /*
 	const { themeLayout } = useSettings();
 	const verticalLayout = themeLayout === 'vertical';
 	 if (verticalLayout) {
@@ -79,19 +83,23 @@ export default function DashboardLayout() {
 	 }
 	 console.log("HORIZONTAL")*/
 
-	return (
-		<Box
-			sx={{
-				display: 'flex',
-				// display: { lg: 'flex' },
-				// minHeight: { lg: 1 },
-			}}
-		>
-			<NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        // display: { lg: 'flex' },
+        // minHeight: { lg: 1 },
+      }}
+    >
+      {loading && <LoadingIcon />}
+      <NavbarVertical
+        isOpenSidebar={open}
+        onCloseSidebar={() => setOpen(false)}
+      />
 
-			<MainStyle collapseClick={collapseClick}>
-				<Outlet />
-			</MainStyle>
-		</Box>
-	);
+      <MainStyle collapseClick={collapseClick}>
+        <Outlet />
+      </MainStyle>
+    </Box>
+  );
 }
