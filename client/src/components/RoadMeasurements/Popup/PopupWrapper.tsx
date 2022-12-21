@@ -1,4 +1,4 @@
-//@Author(s) s184234
+//@Author(s) s184234, s164420
 
 import { FC, useEffect, useState } from 'react';
 import { TwitterPicker } from 'react-color';

@@ -1,3 +1,5 @@
+//@Author(s) s164420
+
 import { MapBounds } from "../models/map";
 import { Condition, WaysConditions } from "../models/path";
 import axios, { AxiosResponse } from "axios";

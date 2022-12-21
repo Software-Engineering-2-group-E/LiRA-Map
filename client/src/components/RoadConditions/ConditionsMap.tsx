@@ -1,3 +1,5 @@
+//@Author(s) s164420
+
 import { FC, useCallback, useRef } from "react";
 import { ChartData } from "chart.js";
 import { Palette } from "react-leaflet-hotline";

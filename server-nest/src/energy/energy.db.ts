@@ -1,3 +1,5 @@
+//@Author(s) s164420
+
 import { knex } from 'knex'
 import { MeasurementRow } from './energy.dto';
 import * as dotenv from 'dotenv';

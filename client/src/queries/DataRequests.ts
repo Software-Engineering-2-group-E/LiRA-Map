@@ -1,3 +1,5 @@
+//@Author(s) s164420
+
 import { LatLng } from "leaflet";
 import { Segment } from "../models/segment";
 

@@ -1,3 +1,5 @@
+//@Author(s) s164420
+
 import { Injectable } from '@nestjs/common';
 import { write } from 'fs';
 import { readFile, writeFile } from 'fs/promises';

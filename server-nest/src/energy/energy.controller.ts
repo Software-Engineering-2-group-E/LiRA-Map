@@ -1,4 +1,4 @@
-//@Author s175182
+//@Author s175182, s164420
 
 import { Controller, Get, Query } from '@nestjs/common';
 import { EnergyService } from './energy.service';

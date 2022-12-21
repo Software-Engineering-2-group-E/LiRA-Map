@@ -1,3 +1,5 @@
+//@Author(s) s164420
+
 import { ActiveMeasProperties } from '../../../models/properties';
 
 import PopupWrapper from './PopupWrapper';
