@@ -1,3 +1,5 @@
+//@Author s175182
+
 import { FC, useMemo } from 'react';
 
 import { ActiveMeasProperties, MeasProperties } from '../../models/properties';

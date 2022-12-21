@@ -1,3 +1,5 @@
+//@Author s175182
+
 import { Controller, Get, Query } from '@nestjs/common';
 import { EnergyService } from './energy.service';
 

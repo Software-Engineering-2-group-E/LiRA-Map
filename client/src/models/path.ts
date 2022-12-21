@@ -1,4 +1,6 @@
-// Represents a point containing (lat, lng) coordinates, 
+//@Author s175182
+
+// Represents a point containing (lat, lng) coordinates,
 import { LatLng } from "./models";
 import { MeasProperties, PathProperties } from "./properties";
 import { PathEventHandler } from "./renderers";
