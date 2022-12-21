@@ -1,3 +1,5 @@
+//Author(s) s204486
+
 import * as React from 'react';
 import { useState, SyntheticEvent, useRef} from "react";
 import useSize from "../../hooks/useSize";

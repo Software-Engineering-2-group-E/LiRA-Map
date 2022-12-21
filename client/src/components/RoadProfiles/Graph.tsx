@@ -1,3 +1,5 @@
+//Author(s) s204486
+
 import React from 'react';
 import {
     Chart as ChartJS,
