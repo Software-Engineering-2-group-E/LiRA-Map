@@ -29,6 +29,10 @@ export default function RoadAltitude() {
     (rootState: RootState) => rootState.altitude
   );
 
+  const { loading } = useSelector(
+    (rootState: RootState) => rootState.loading.models.altitude
+  );
+
   const [showHotline, setShowHotline] = useState<boolean>(false);
   const [showHeatmap, setShowHeatmap] = useState<boolean>(false);
 
@@ -53,7 +57,7 @@ export default function RoadAltitude() {
     <Page title="Road Altitude">
       <div className="altitude-wrapper">
         <MapWrapper>
-          <Panel options={options} />
+          {!loading && <Panel options={options} />}
           {showHotline && altitudes ? (
             <DistHotline
               way_ids={altitudes.way_ids}
