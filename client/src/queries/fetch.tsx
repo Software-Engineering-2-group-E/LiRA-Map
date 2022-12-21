@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 const development =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development";
 
-const devURL = "http://se2-e.compute.dtu.dk:3002";
+const devURL = "http://localhost:3002";
 const prodURL = "http://se2-e.compute.dtu.dk:3002";
 
 const getPath = (p: string) => (development ? devURL : prodURL) + p;
