@@ -1,4 +1,4 @@
-//@Author s175182
+//@Author s183816
 
 import { MeasurementRow } from './energy.dto';
 

@@ -1,4 +1,4 @@
-//@Author s175182
+//@Author s183816
 
 // Represents a point containing (lat, lng) coordinates,
 import { LatLng } from "./models";
