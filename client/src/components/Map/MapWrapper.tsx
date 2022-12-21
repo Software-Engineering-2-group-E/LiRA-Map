@@ -1,4 +1,4 @@
-//@Author(s) s184234, s204442, s204433, s184230
+//@Author(s) s184234, s204442, s204433, s184230, s175182
 
 import useSettings from "../../hooks/useSettings";
 import { MapContainer, ScaleControl, TileLayer } from "react-leaflet";
