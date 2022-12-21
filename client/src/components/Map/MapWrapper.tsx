@@ -1,3 +1,5 @@
+//@Author(s) s184234
+
 import useSettings from "../../hooks/useSettings";
 import { MapContainer, ScaleControl, TileLayer } from "react-leaflet";
 

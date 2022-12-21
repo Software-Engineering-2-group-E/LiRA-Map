@@ -1,4 +1,4 @@
-//@Author(s) s175182
+//@Author(s) s175182, s184234
 
 import React, { useState } from 'react';
 import { RideMeta, TripsOptions } from '../../models/models';

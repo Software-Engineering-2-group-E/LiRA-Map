@@ -1,3 +1,5 @@
+//@Author(s) s184234
+
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 
 import { ActiveMeasProperties } from '../models/properties';

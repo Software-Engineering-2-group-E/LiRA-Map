@@ -1,3 +1,5 @@
+//@Author(s) s184234
+
 import { FC, useEffect, useState } from 'react';
 import { TwitterPicker } from 'react-color';
 import { Gradient } from 'react-gradient-hook';

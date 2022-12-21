@@ -1,4 +1,6 @@
-﻿// Currently just a showcase of how to communicate w. Firestore
+﻿//Author(s) s184234
+
+// Currently just a showcase of how to communicate w. Firestore
 
 import { firestore } from './firebase';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
