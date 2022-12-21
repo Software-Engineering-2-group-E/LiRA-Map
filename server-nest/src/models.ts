@@ -1,3 +1,5 @@
+//@Author(s) s175182
+
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Measurement } from './measurements/measurements.dto';
 import { LatLng, PointData } from './rides/rides.dto';
