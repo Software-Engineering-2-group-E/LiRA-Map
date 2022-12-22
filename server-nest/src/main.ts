@@ -9,11 +9,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const {
-    OUR_DB_NAME,
-    OUR_DB_USER,
-    OUR_DB_PASSWORD,
-} = process.env;
+const { OUR_DB_NAME, OUR_DB_USER, OUR_DB_PASSWORD } = process.env;
 
 const pg = knex({
     client: 'pg',
@@ -26,7 +22,6 @@ const pg = knex({
     },
     searchPath: ['knex', 'public', 'lira'],
 });
-
 
 pg.raw('SELECT 1')
     .then(() => {

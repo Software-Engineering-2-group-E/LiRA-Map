@@ -27,7 +27,6 @@ export default function OptionsSelector() {
 	const { metas, selectedMetas, setShowMetas } = useMetasCtx();
 
 	const _onToggle = (key: string) => {
-		// TODO: Terrible temp solution lol
 		const optionsNew = { ...options } as any;
 		var currentValue = optionsNew[key];
 		optionsNew[key] = !currentValue;

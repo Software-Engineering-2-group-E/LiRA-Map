@@ -81,28 +81,28 @@ export const OUR_LIRA_DB_CONFIG = {
         password: OUR_DB_PASSWORD,
         database: OUR_DB_NAME,
     },
-}
+};
 
 export const VISUAL_DB_CONFIG = {
-  ...BASE_CONFIG,
-  connection: {
-    host: "liravisualization.postgres.database.azure.com",
-    port: 5432,
-    user: DB_USER_VIS,
-    password: DB_PASSWORD_VIS,
-    database: "postgres",
-    ssl: true,
-  },
+    ...BASE_CONFIG,
+    connection: {
+        host: 'liravisualization.postgres.database.azure.com',
+        port: 5432,
+        user: DB_USER_VIS,
+        password: DB_PASSWORD_VIS,
+        database: 'postgres',
+        ssl: true,
+    },
 };
 
 export const POSTGIS_DB_CONFIG = {
-  ...BASE_CONFIG,
-  connection: {
-    host: "liradb.postgres.database.azure.com",
-    port: 5432,
-    user: DB_USER_POSTGIS,
-    password: DB_PWD_POSTGIS,
-    database: "postgis",
-    ssl: true,
-  },
+    ...BASE_CONFIG,
+    connection: {
+        host: 'liradb.postgres.database.azure.com',
+        port: 5432,
+        user: DB_USER_POSTGIS,
+        password: DB_PWD_POSTGIS,
+        database: 'postgis',
+        ssl: true,
+    },
 };

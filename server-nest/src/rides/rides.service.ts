@@ -12,7 +12,8 @@ import { ApiTags } from '@nestjs/swagger';
 export class RidesService {
     constructor(
         @InjectConnection('our-lira-db') private readonly ourDb: Knex,
-        @InjectConnection('lira-main') private readonly knex: Knex) {}
+        @InjectConnection('lira-main') private readonly knex: Knex,
+    ) {}
     async getRides(): Promise<RideMeta[]> {
         return this.knex
             .select('*')
@@ -36,13 +37,13 @@ export class RidesService {
         let minY = Number.MAX_SAFE_INTEGER;
         let maxY = Number.MIN_SAFE_INTEGER;
 
-        if(!res.length || !res[0].hasOwnProperty('message')) return []
+        if (!res.length || !res[0].hasOwnProperty('message')) return [];
 
         const initialMessage = res[0].message;
         const valueRegex = '"(' + dbName + '[a-z.]+)":';
         const matches: string[] = initialMessage.matchAll(valueRegex);
 
-        if (matches.length == 0) return []
+        if (matches.length == 0) return [];
 
         const bps: BoundedPath[] = [];
         for (const match of matches) {
@@ -70,7 +71,11 @@ export class RidesService {
                         a.metadata.timestamp - b.metadata.timestamp,
                 );
 
-            bps.push({ type: valueTag, path, bounds: { minX, maxX, minY, maxY } });
+            bps.push({
+                type: valueTag,
+                path,
+                bounds: { minX, maxX, minY, maxY },
+            });
         }
 
         return bps;
