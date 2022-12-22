@@ -8,9 +8,9 @@ import { InjectConnection } from 'nestjs-knex';
 import { Measurement } from './measurements.dto';
 
 export class MeasurementType {
-    MeasurementTypeId: string
-    type: string
-    Created_Date: Date
+    MeasurementTypeId: string;
+    type: string;
+    Created_Date: Date;
 }
 
 @Injectable()
@@ -23,7 +23,6 @@ export class MeasurementsService {
     }
     */
 
-    
     constructor(@InjectConnection('our-lira-db') private readonly knex: Knex) {} // TODO: Change to use our db.
 
     async getMeasurementTypes(): Promise<MeasurementType[]> {

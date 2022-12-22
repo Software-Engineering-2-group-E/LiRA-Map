@@ -1,16 +1,12 @@
 //@Author(s) s164420
 
-import { knex } from 'knex'
+import { knex } from 'knex';
 import { MeasurementRow } from './energy.dto';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const {
-    OUR_DB_NAME,
-    OUR_DB_USER,
-    OUR_DB_PASSWORD,
-} = process.env;
+const { OUR_DB_NAME, OUR_DB_USER, OUR_DB_PASSWORD } = process.env;
 
 export class EnergyDB {
     private readonly liradb = knex({
@@ -27,7 +23,9 @@ export class EnergyDB {
 
     public async persist(data: MeasurementRow[]) {
         //console.log(`[${new Date().toLocaleString('da')}] Writing calculated power measurement ${data.MeasurementId} to database.`)
-        this.liradb.insert(data).into('Measurements')
+        this.liradb
+            .insert(data)
+            .into('Measurements')
             .then(() => {
                 //console.log(`${new Date().toLocaleString('da')}: Succesfully wrote calculated power measurement to database.`);
             })

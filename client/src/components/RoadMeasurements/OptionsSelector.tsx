@@ -21,28 +21,12 @@ interface SelectMeta extends RideMeta {
 	selected: boolean;
 }
 
-//
-// const useStyles = makeStyles(theme => ({
-// 	stretch: { height: "100%" },
-// 	item: { display: "flex", flexDirection: "column" } // KEY CHANGES
-// }));
-//
-// const Item = ({ title, content, ...rest }) => {
-// 	const classes = useStyles();
-//
-// 	return (
-// 		<Grid className={classes.item} item {...rest}>
-// 			{content}
-// 		</Grid>
-// 	);
-// };
 export default function OptionsSelector() {
 
 	const [options, setOptions] = useState<TripsOptions>(defaultOptions);
 	const { metas, selectedMetas, setShowMetas } = useMetasCtx();
 
 	const _onToggle = (key: string) => {
-		// TODO: Terrible temp solution lol
 		const optionsNew = { ...options } as any;
 		var currentValue = optionsNew[key];
 		optionsNew[key] = !currentValue;
@@ -98,7 +82,6 @@ export default function OptionsSelector() {
 									className='options-date-picker'
 									renderInput={(params: any) => <TextField variant='standard'
 																			 sx={{ maxWidth: 125 }}{...params} />}
-							// renderInput={(props) => <TextField {...props} />} 
 						/>
 					</Grid>
 
@@ -119,7 +102,6 @@ export default function OptionsSelector() {
 							size={'small'} />
 					</Grid>
 
-					{/*// onClick={_onToggle('reversed')}*/}
 					<Grid item xs={6}>
 						<IconButton
 							className='ride-sort-cb'
@@ -133,46 +115,4 @@ export default function OptionsSelector() {
 			</LocalizationProvider>
 		</div>
 	);
-}
-{/*<Stack justifyContent='space-between' direction='row'>*/
-}
-{/*	<LocalizationProvider dateAdapter={AdapterDateFns}>*/
-}
-{/*		<DatePicker*/
-}
-{/*			label='From'*/
-}
-{/*			value={startDate}*/
-}
-{/*			onChange={(x)=>_onChange(x)};*/
-}
-{/*			}}*/
-}
-{/*			renderInput={(params: any) => <TextField variant='standard'*/
-}
-{/*													 sx={{ maxWidth: 125 }}{...params} />}*/
-}
-{/*		/>*/
-}
-{/*		<DatePicker*/
-}
-{/*			label='To'*/
-}
-{/*			value={endDate}*/
-}
-{/*			onChange={(newDate) => {*/
-}
-{/*				setDateTo(newDate);*/
-}
-{/*			}}*/
-}
-{/*			renderInput={(params: any) => <TextField variant='standard'*/
-}
-{/*													 sx={{ maxWidth: 125 }}{...params} />}*/
-}
-{/*		/>*/
-}
-{/*	</LocalizationProvider>*/
-}
-{/*</Stack>*/
 }

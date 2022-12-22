@@ -50,8 +50,11 @@ const PopupWrapper: FC<IPopupWrapper> = ({ defaultOptions, setOptions }) => {
 
 	return (
 		<div className='popup-wrapper'>
-			<input id='sweetalert-input' className='sweetalert-input' placeholder='Name..' type='text' defaultValue={name}
-				   onChange={(enteredName) => {inputChange('name')(enteredName.target.value)}} />
+			<input id='sweetalert-input' className='sweetalert-input' placeholder='Name..' type='text'
+				   defaultValue={name}
+				   onChange={(enteredName) => {
+					   inputChange('name')(enteredName.target.value);
+				   }} />
 
 			<Select
 				labelId=''

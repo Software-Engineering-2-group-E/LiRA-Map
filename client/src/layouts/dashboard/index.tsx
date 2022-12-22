@@ -26,10 +26,6 @@ const MainStyle = styled("main", {
 })<MainStyleProps>(({ collapseClick, theme }) => ({
   flexGrow: 1,
 
-  // transition: theme.transitions.create(['margin-left'], {
-  // 	duration: theme.transitions.duration.shorter
-  // }),
-
   ...(collapseClick && {
     marginLeft: NAVBAR.DASHBOARD_COLLAPSE_WIDTH,
   }),
@@ -48,42 +44,6 @@ export default function DashboardLayout() {
   if (!isValidToken(userCredentials?.user?.stsTokenManager?.accessToken)) {
     return <Navigate to="/login" />;
   }
-
-  /*
-	const { themeLayout } = useSettings();
-	const verticalLayout = themeLayout === 'vertical';
-	 if (verticalLayout) {
-		 console.log("VERTICAL")
-	 return (
-	   <>
-		   {/!*<DashboardHeader onOpenSidebar={() => setOpen(true)} verticalLayout={verticalLayout}/>*!/}
- 
-				 {/!*{isDesktop ? (*!/}
-				 {/!*    <NavbarHorizontal/>*!/}
-				 {/!*) : (*!/}
-				 {/!*    <NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)}/>*!/}
-				 {/!*)}*!/}
- 
-				 <Box
-					 component="main"
-					 sx={{
-						 px: {lg: 2},
-						 pt: {
-							 xs: `${HEADER.MOBILE_HEIGHT + 24}px`,
-							 lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 80}px`,
-						 },
-						 pb: {
-							 xs: `${HEADER.MOBILE_HEIGHT + 24}px`,
-							 lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 24}px`,
-						 },
-					 }}
-				 >
-					 <Outlet/>
-				 </Box>
-			 </>
-		 );
-	 }
-	 console.log("HORIZONTAL")*/
 
   return (
     <Box
