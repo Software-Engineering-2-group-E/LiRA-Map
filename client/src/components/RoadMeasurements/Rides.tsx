@@ -5,7 +5,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useMeasurementsCtx } from '../../context/MeasurementsContext';
 import { GraphProvider } from '../../context/GraphContext';
 import { useMetasCtx } from '../../context/MetasContext';
-import { MarkerProvider } from "../../context/MarkerContext";
+import { MarkerProvider } from '../../context/MarkerContext';
 
 import { MeasMetaPath } from '../../models/path';
 
@@ -20,9 +20,9 @@ const Rides: FC = () => {
 	const { selectedMetas } = useMetasCtx();
 	const { selectedMeasurements } = useMeasurementsCtx();
 
-    const [ swal, popup ] = usePopup()
-	
-    const [ paths, setPaths ] = useState<MeasMetaPath>({});
+	const [swal, popup] = usePopup();
+
+	const [paths, setPaths] = useState<MeasMetaPath>({});
 
 	useEffect(() => {
 		const updatePaths = async () => {
@@ -42,7 +42,7 @@ const Rides: FC = () => {
 						}
 					} else {
 						const bps = await getRide(meas, meta, popup);
-						if(!bps) break;
+						if (!bps) break;
 
 						for (let bp of bps) {
 							if (!bp) break;

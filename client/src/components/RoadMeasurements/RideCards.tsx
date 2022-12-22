@@ -20,12 +20,6 @@ const Cards: FC<CardsProps> = ({ showMetas, onClick, height }) => {
 	const renderRow: ListRowRenderer = ({ index, key, style }): ReactNode => {
 		const meta = showMetas[index];
 		return <div key={key} style={style}>
-			{/*<ToggleButton value={meta.selected} onClick={(isChecked) => {*/}
-			{/*	onClick(meta, index, isChecked);*/}
-			{/*}}/>*/}
-		
-			{/*<ListItem onSelect={(isSelected) => onClick(<meta>index,isSelected)} />*/}
-			
 			<Checkbox
 				forceState={meta.selected}
 				// value={meta.selected} name={"hej"}
@@ -50,7 +44,7 @@ interface SelectMeta extends RideMeta {
 	selected: boolean;
 }
 
-const RideCards: FC<{height: number}> = ({height}) => {
+const RideCards: FC<{ height: number }> = ({ height }) => {
 	const { metas, setSelectedMetas, showMetas, setShowMetas } = useMetasCtx();
 
 	useEffect(() => {

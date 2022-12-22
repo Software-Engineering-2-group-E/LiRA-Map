@@ -9,11 +9,9 @@ import createPopup from '../../createPopup';
 const useMeasPopup = () => {
 
 	const [swal, popup] = createPopup<ActiveMeasProperties>();
-	// const [options, setOptions] = useState<ActiveMeasProperties>()
 
 	return (callback: (measurement: ActiveMeasProperties, shouldDelete: boolean) => void, editMode: boolean, defaultOptions: Required<ActiveMeasProperties>) => {
 
-		// setOptions( defaultOptions )
 		let options = { ...defaultOptions };
 
 		popup({
@@ -29,31 +27,31 @@ const useMeasPopup = () => {
 					options = opts;
 				}} />,
 			preConfirm() {
-				const nameInputElm = document.querySelector('#sweetalert-input') as HTMLInputElement
-				const tagSelector = document.querySelector('#select-tag-dropdown-menu') as HTMLInputElement
-				var errMsgArray : string[] = []
+				const nameInputElm = document.querySelector('#sweetalert-input') as HTMLInputElement;
+				const tagSelector = document.querySelector('#select-tag-dropdown-menu') as HTMLInputElement;
+				var errMsgArray: string[] = [];
 				if (!nameInputElm.value) {
-					errMsgArray.push("provide a name for your tag")
+					errMsgArray.push('provide a name for your tag');
 				}
-				if (tagSelector.outerText == "Tag..") {
-					errMsgArray.push("select a tag")
+				if (tagSelector.outerText == 'Tag..') {
+					errMsgArray.push('select a tag');
 				}
-				var errMsg : string = "Please "
-				var numErrs : number = 0
+				var errMsg: string = 'Please ';
+				var numErrs: number = 0;
 				if (errMsgArray.length == 1) {
-					errMsg += errMsgArray.pop()
-					numErrs += 1
+					errMsg += errMsgArray.pop();
+					numErrs += 1;
 				} else if (errMsgArray.length > 1) {
-					errMsg += errMsgArray.pop()
-					numErrs += 1
+					errMsg += errMsgArray.pop();
+					numErrs += 1;
 					for (var err of errMsgArray) {
-						errMsg += " and "
-						errMsg += err
-						numErrs += 1
+						errMsg += ' and ';
+						errMsg += err;
+						numErrs += 1;
 					}
-					errMsg += "."
+					errMsg += '.';
 				}
-				numErrs > 0 && (swal.showValidationMessage(errMsg)) 
+				numErrs > 0 && (swal.showValidationMessage(errMsg));
 			},
 		})
 			.then((result: any) => {
@@ -67,7 +65,7 @@ const useMeasPopup = () => {
 
 				callback(options, false);
 
-				const addOrMod = editMode ? 'updated' : 'added'
+				const addOrMod = editMode ? 'updated' : 'added';
 
 				popup({
 					title: <p>Measurement <b>{options.name}</b> {addOrMod}</p>,
